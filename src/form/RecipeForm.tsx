@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Form } from "react-router-dom";
-import Button from "./Button";
+import Timer from "./Timer";
 
 const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 const beanOptions = [
@@ -22,29 +22,6 @@ enum HotOrIced {
 export default function RecipeForm() {
   const [hot, setHot] = useState<HotOrIced>(HotOrIced.hot);
   const [temp, setTemp] = useState<number>(80);
-  const [sec, setSec] = useState(0);
-  const [active, setActive] = useState(false);
-  const intervalRef = useRef<number | null>(null);
-
-  function handleInterval() {
-    if (active && intervalRef.current) {
-      clearInterval(intervalRef.current);
-      setActive(false);
-    } else {
-      setActive(true);
-      intervalRef.current = setInterval(() => {
-        setSec((prevTime) => prevTime + 1);
-      }, 1000);
-    }
-  }
-
-  function handleReset() {
-    if (active && intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    setSec(0);
-    setActive(false);
-  }
 
   return (
     <div className="relative left-7 top-10 flex h-2/3 w-3/5 flex-col rounded-lg shadow-lg">
@@ -237,16 +214,8 @@ export default function RecipeForm() {
             </div>
           </div>
         </Form>
-        <div className="border-light-beige mt-4 flex w-full flex-col items-center justify-center">
-          <Button type="secondary" onClick={handleInterval}>
-            {active ? "Stop" : "Start Dripping"}
-          </Button>
-          <span className="py-2 text-lg font-medium tracking-wide">{sec}</span>
 
-          <Button onClick={handleReset} type="small">
-            Reset
-          </Button>
-        </div>
+        <Timer></Timer>
       </div>
     </div>
   );

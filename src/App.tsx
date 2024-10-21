@@ -1,4 +1,3 @@
-import "./App.scss";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import FormPage from "./pages/FormPage";

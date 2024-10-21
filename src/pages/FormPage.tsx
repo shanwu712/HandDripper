@@ -1,4 +1,4 @@
-import Form from "../components/RecipeForm";
+import Form from "../form/RecipeForm";
 
 export default function FormPage() {
   return (
