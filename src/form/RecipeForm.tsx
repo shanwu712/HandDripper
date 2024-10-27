@@ -14,6 +14,8 @@ const dripperOptions = [
   "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
 ];
 
+const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
+
 enum HotOrIced {
   hot = "Hot",
   iced = "Iced",
@@ -88,6 +90,31 @@ export default function RecipeForm() {
                   </option>
                 ))}
               </datalist>
+            </div>
+
+            <div className="flex space-x-2">
+              <label className="w-16 text-lg font-medium">Grinder</label>
+
+              <div className="flex grow rounded-lg focus-within:ring-2 focus-within:ring-blue-400/70">
+                <input
+                  name="grinder"
+                  list="grinderOptions"
+                  className="flex-grow rounded-l-lg px-2 py-1 focus:outline-none"
+                />
+                <datalist id="grinderOptions">
+                  {grinderOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </datalist>
+                <input
+                  name="grinderScale"
+                  type="text"
+                  placeholder="Scale"
+                  className="w-20 rounded-r-lg border-l px-2 py-1 text-center focus:outline-none"
+                />
+              </div>
             </div>
           </div>
 
