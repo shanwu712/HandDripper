@@ -24,14 +24,40 @@ export default function RecipeForm() {
   const [temp, setTemp] = useState<number>(80);
 
   return (
-    <div className="relative left-7 top-10 flex h-2/3 w-3/5 flex-col rounded-lg shadow-lg">
+    <div className="relative flex h-5/6 min-h-[40rem] w-screen min-w-[30rem] flex-col rounded-lg shadow-lg sm:w-1/2">
       <h2 className="bg-light-beige/50 flex justify-center rounded-t-lg p-2 text-2xl font-semibold italic tracking-wider">
         Today's recipe
       </h2>
 
-      <div className="bg-beige flex h-full flex-col items-center justify-center rounded-b-lg">
-        <Form>
-          <div className="space-y-3 px-1 py-4">
+      <div className="bg-beige flex h-full w-auto flex-col items-center justify-center gap-6 overflow-y-auto rounded-b-lg">
+        <Form className="space-y-5 sm:w-3/4 md:space-y-6">
+          <span className="absolute left-3 top-16">
+            <input
+              name="date"
+              type="date"
+              defaultValue={new Date().toISOString().substring(0, 10)}
+              className="rounded-lg px-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+            />
+          </span>
+
+          <div className="items-start space-y-4 px-1">
+            <div className="flex space-x-2">
+              <label className="w-16 text-lg font-medium">Bean</label>
+              <input
+                required
+                name="bean"
+                list="beanOptions"
+                className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+              />
+              <datalist id="beanOptions">
+                {beanOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </datalist>
+            </div>
+
             <div className="flex space-x-2">
               <label className="w-16 text-lg font-medium">Roaster</label>
               <input
@@ -41,22 +67,6 @@ export default function RecipeForm() {
               />
               <datalist id="roasterOptions">
                 {roasterOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </datalist>
-            </div>
-
-            <div className="flex space-x-2">
-              <label className="w-16 text-lg font-medium">Bean</label>
-              <input
-                name="bean"
-                list="beanOptions"
-                className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-              />
-              <datalist id="beanOptions">
-                {beanOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -81,19 +91,25 @@ export default function RecipeForm() {
             </div>
           </div>
 
-          <div className="border-light-beige flex items-center justify-between gap-2 border-t-2 border-dashed px-1 py-4">
+          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
+
+          <div className="border-light-beige flex items-center justify-between gap-2 px-1">
             <div className="space-y-2">
               <div className="flex gap-2">
                 <label className="text-nowrap text-lg font-semibold">
                   Hot / Iced:
                 </label>
                 <select
+                  required
                   name="hotOrIced"
                   onChange={(e) => setHot(e.target.value as HotOrIced)}
                   className="rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                 >
-                  <option value={HotOrIced.hot}>{HotOrIced.hot}</option>
-                  <option value={HotOrIced.iced}>{HotOrIced.iced}</option>
+                  {Object.values(HotOrIced).map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -102,6 +118,7 @@ export default function RecipeForm() {
                 <div className="relative flex items-center">
                   <input
                     name="beanWeight"
+                    maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                   />
                   <span className="absolute right-1">g</span>
@@ -164,29 +181,35 @@ export default function RecipeForm() {
             </div>
           </div>
 
-          <div className="border-light-beige flex items-center justify-between border-y-2 border-dashed px-1 py-4">
+          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
+
+          <div className="border-light-beige flex items-center justify-between gap-1 px-1">
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2 text-nowrap">
                 <label className="text-lg font-semibold">Water weight:</label>
                 <div className="relative flex items-center">
                   <input
                     name="waterWeight"
+                    maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                   />
                   <span className="absolute right-1">g</span>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 text-nowrap">
-                <label className="text-lg font-semibold">Ice weight:</label>
-                <div className="relative flex items-center">
-                  <input
-                    name="iceWeight"
-                    className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                  />
-                  <span className="absolute right-1">g</span>
+              {hot === HotOrIced.iced && (
+                <div className="flex items-center space-x-2 text-nowrap">
+                  <label className="text-lg font-semibold">Ice weight:</label>
+                  <div className="relative flex items-center">
+                    <input
+                      name="iceWeight"
+                      maxLength={3}
+                      className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    />
+                    <span className="absolute right-1">g</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="relative flex flex-col items-center">
@@ -213,6 +236,8 @@ export default function RecipeForm() {
               </div>
             </div>
           </div>
+
+          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
         </Form>
 
         <Timer></Timer>

@@ -47,7 +47,7 @@ export default function Homepage() {
           </form>
 
           <div className="mt-3 flex flex-col items-center">
-            <Button>Start Dripping</Button>
+            <Button type="primary">Start Dripping</Button>
             <a
               href="#"
               className="mt-1.5 text-sm font-normal text-indigo-600 hover:text-indigo-500 xl:mt-3"

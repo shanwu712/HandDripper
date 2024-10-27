@@ -5,13 +5,13 @@ interface BtnProp {
 }
 
 const baseStyle =
-  "transform rounded-3xl  font-medium  transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md ";
+  "transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm";
 
 export default function Button({ children, onClick, type }: BtnProp) {
   if (type === "primary") {
     return (
       <div
-        className={`${baseStyle} bg-amber-100 p-1.5 px-2 text-light-brown hover:text-dark-brown`}
+        className={`${baseStyle} bg-amber-100 p-1.5 px-2 text-center text-light-brown hover:text-dark-brown`}
       >
         <button onClick={onClick}>{children}</button>
       </div>
@@ -21,7 +21,7 @@ export default function Button({ children, onClick, type }: BtnProp) {
   if (type === "secondary") {
     return (
       <div
-        className={`${baseStyle} bg-sage text-light-beige px-2 py-1 hover:text-stone-50`}
+        className={`${baseStyle} bg-sage text-light-beige w-44 px-2 py-1 text-center hover:text-slate-50`}
       >
         <button onClick={onClick}>{children}</button>
       </div>
@@ -31,7 +31,7 @@ export default function Button({ children, onClick, type }: BtnProp) {
   if (type === "small") {
     return (
       <div
-        className={`${baseStyle} bg-stone-100 px-1 py-0.5 text-stone-500 hover:text-stone-800`}
+        className={`${baseStyle} absolute mt-28 bg-stone-100 px-2 py-0.5 text-stone-500 hover:text-stone-800`}
       >
         <button onClick={onClick}>{children}</button>
       </div>

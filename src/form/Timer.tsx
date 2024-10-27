@@ -43,7 +43,7 @@ export default function Timer() {
   }
 
   return (
-    <div className="border-light-beige mt-4 flex w-full flex-col items-center justify-center">
+    <div className="border-light-beige flex w-full flex-col items-center justify-center">
       <Button type="secondary" onClick={handleInterval}>
         {active ? "Stop" : "Start Dripping"}
       </Button>
