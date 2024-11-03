@@ -47,7 +47,7 @@ export default function Timer() {
       <Button type="secondary" onClick={handleInterval}>
         {active ? "Stop" : "Start Dripping"}
       </Button>
-      <span className="py-2 text-lg font-medium tracking-wide">
+      <span className="py-1 text-lg font-medium tracking-wide">
         {formatSec(sec)}
       </span>
 

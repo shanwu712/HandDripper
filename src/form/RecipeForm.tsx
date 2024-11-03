@@ -31,7 +31,7 @@ export default function RecipeForm() {
         Today's recipe
       </h2>
 
-      <div className="bg-beige flex h-full w-auto flex-col items-center justify-center gap-6 overflow-y-auto rounded-b-lg">
+      <div className="bg-beige flex h-full w-auto flex-col items-center justify-center gap-2 overflow-y-auto rounded-b-lg">
         <Form className="space-y-5 sm:w-3/4 md:space-y-6">
           <span className="absolute left-3 top-16">
             <input
