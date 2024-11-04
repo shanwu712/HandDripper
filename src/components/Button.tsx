@@ -8,15 +8,19 @@ interface BtnProp {
 }
 
 const baseStyle =
-  "transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm";
+  "h-fit transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm";
 
 export default function Button({ children, onClick, type, to }: BtnProp) {
-  const btnContent = <button onClick={onClick}>{children}</button>;
+  const btnContent = (
+    <button className="flex w-full justify-center" onClick={onClick}>
+      {children}
+    </button>
+  );
 
   if (type === "primary") {
     return (
       <div
-        className={`${baseStyle} bg-amber-100 p-1.5 px-2 text-center text-light-brown hover:text-dark-brown`}
+        className={`${baseStyle} w-full bg-amber-100 p-1.5 px-2 text-center font-semibold text-light-brown hover:text-dark-brown`}
       >
         {to ? <Link to={to}>{btnContent}</Link> : btnContent}
       </div>
@@ -26,7 +30,7 @@ export default function Button({ children, onClick, type, to }: BtnProp) {
   if (type === "secondary") {
     return (
       <div
-        className={`${baseStyle} bg-sage text-light-beige w-44 px-2 py-1 text-center hover:text-slate-50`}
+        className={`${baseStyle} bg-sage text-light-beige w-full px-2 py-1 text-center hover:text-slate-50`}
       >
         {btnContent}
       </div>

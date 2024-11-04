@@ -16,7 +16,7 @@ const formData = [
     method: "Continuous Pouring",
     star: "4",
     comment:
-      "Victor Hugo's tale of injustice, heroism and love follows the  to put his criminal past respected member of the community are constantly put under threat: by his own conscience, when, owing to a case of mistaken identity, another man is arrested in hinvestigations of the dogged Inspector Javert. It is not simply for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
+      "Victor Hugo's tale of injustice, heroism and love follows the  to put his are constantly put under threat: by his own conscience, when, owing to a case of mistaken identity, another man is arrested in hinvestigations of the dogged Inspector Javert. It is not simply for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
   },
   {
     date: "2024-10-12",
@@ -66,9 +66,9 @@ const formData = [
 
 export default function HistoryList() {
   return (
-    <div className="flex flex-col gap-3 px-3">
+    <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 lg:px-10">
       {formData.map((item) => (
-        <HistoryItem item={item} />
+        <HistoryItem item={item} key={item.comment} />
       ))}
     </div>
   );
