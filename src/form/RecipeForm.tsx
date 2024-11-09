@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
 
@@ -24,6 +24,28 @@ enum HotOrIced {
 export default function RecipeForm() {
   const [hot, setHot] = useState<HotOrIced>(HotOrIced.hot);
   const [temp, setTemp] = useState<number>(80);
+  const [beanWeight, setBeanWeight] = useState<string>("");
+  const [waterRatio, setWaterRatio] = useState<string>("");
+  const [waterWeight, setWaterWeight] = useState<number | string>("");
+  const [iceRatio, setIceRatio] = useState<string>("");
+  const [iceWeight, setIceWeight] = useState<number | string>("");
+  const [sec, setSec] = useState(0);
+
+  useEffect(() => {
+    setWaterWeight(
+      beanWeight && waterRatio
+        ? Math.round(Number(beanWeight) * Number(waterRatio))
+        : "",
+    );
+  }, [beanWeight, waterRatio]);
+
+  useEffect(() => {
+    setIceWeight(
+      beanWeight && iceRatio
+        ? Math.round(Number(beanWeight) * Number(iceRatio))
+        : "",
+    );
+  }, [beanWeight, iceRatio]);
 
   return (
     <div className="relative flex h-5/6 min-h-[40rem] w-screen min-w-[30rem] flex-col rounded-lg shadow-lg sm:w-1/2">
@@ -120,6 +142,7 @@ export default function RecipeForm() {
 
           <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
 
+          {/* Second section */}
           <div className="border-light-beige flex items-center justify-between gap-2 px-1">
             <div className="space-y-2">
               <div className="flex gap-2">
@@ -147,6 +170,12 @@ export default function RecipeForm() {
                     name="beanWeight"
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    value={beanWeight}
+                    onChange={(e) =>
+                      e.target.value === "" || !isNaN(Number(e.target.value))
+                        ? setBeanWeight(e.target.value)
+                        : null
+                    }
                   />
                   <span className="absolute right-1">g</span>
                 </div>
@@ -176,6 +205,13 @@ export default function RecipeForm() {
                     maxLength={4}
                     placeholder=" "
                     className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
+                    step="any"
+                    value={waterRatio}
+                    onChange={(e) =>
+                      e.target.value === "" || !isNaN(Number(e.target.value))
+                        ? setWaterRatio(e.target.value)
+                        : null
+                    }
                   />
                   <label
                     htmlFor="inputField"
@@ -194,6 +230,13 @@ export default function RecipeForm() {
                         maxLength={4}
                         placeholder=" "
                         className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
+                        value={iceRatio}
+                        onChange={(e) =>
+                          e.target.value === "" ||
+                          !isNaN(Number(e.target.value))
+                            ? setIceRatio(e.target.value)
+                            : null
+                        }
                       />
                       <label
                         htmlFor="iceRatio"
@@ -210,6 +253,7 @@ export default function RecipeForm() {
 
           <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
 
+          {/* Third section */}
           <div className="border-light-beige flex items-center justify-between gap-1 px-1">
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2 text-nowrap">
@@ -219,6 +263,8 @@ export default function RecipeForm() {
                     name="waterWeight"
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    value={waterWeight}
+                    onChange={(e) => setWaterWeight(Number(e.target.value))}
                   />
                   <span className="absolute right-1">g</span>
                 </div>
@@ -232,6 +278,8 @@ export default function RecipeForm() {
                       name="iceWeight"
                       maxLength={3}
                       className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                      value={iceWeight}
+                      onChange={(e) => setIceWeight(Number(e.target.value))}
                     />
                     <span className="absolute right-1">g</span>
                   </div>
@@ -267,7 +315,7 @@ export default function RecipeForm() {
           <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
         </Form>
 
-        <Timer></Timer>
+        <Timer sec={sec} setSec={setSec}></Timer>
       </div>
     </div>
   );

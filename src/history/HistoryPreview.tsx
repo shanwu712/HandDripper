@@ -4,10 +4,13 @@ import PreviewHistoryItem from "./PreviewHistoryItem";
 
 const formData = [
   {
+    id: 1,
     date: "2024-10-26",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
     dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
+    grinder: "Grinder 1",
+    scale: "8",
     hotOrIced: "Iced",
     beanWeight: "14",
     waterRatio: "12",
@@ -20,10 +23,13 @@ const formData = [
     comment: "so good",
   },
   {
+    id: 2,
     date: "2024-10-12",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
     dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
+    grinder: "Grinder 3",
+    scale: "7",
     hotOrIced: "Hot",
     beanWeight: "13",
     waterRatio: "14",
@@ -34,10 +40,13 @@ const formData = [
     comment: "fair",
   },
   {
+    id: 3,
     date: "2024-10-14",
     roaster: "Starbucks",
     bean: "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
     dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
+    grinder: "Grinder 1",
+    scale: "8",
     hotOrIced: "Iced",
     beanWeight: "13",
     waterRatio: "18",
@@ -50,10 +59,13 @@ const formData = [
     comment: "bad",
   },
   {
+    id: 4,
     date: "2024-10-26",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
     dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
+    grinder: "Grinder 3",
+    scale: "7",
     hotOrIced: "Hot",
     beanWeight: "14",
     waterRatio: "12",
@@ -76,7 +88,7 @@ export default function HistoryPreview() {
       </div>
       <div className="flex flex-col gap-1 overflow-y-auto">
         {formData.map((item) => (
-          <PreviewHistoryItem item={item}></PreviewHistoryItem>
+          <PreviewHistoryItem item={item} key={item.id}></PreviewHistoryItem>
         ))}
       </div>
     </div>

@@ -18,6 +18,8 @@ interface HistoryData {
   roaster?: string;
   bean: string;
   dripper: string;
+  grinder: string;
+  scale: string;
   hotOrIced: string;
   beanWeight: string;
   waterRatio: string;
@@ -70,9 +72,12 @@ export default function HistoryItem({ item }: HistoryItemProp) {
         </DisclosureButton>
 
         <DisclosurePanel className="flex w-full flex-col px-3 text-gray-500">
-          <div className="flex flex-col justify-between gap-1 whitespace-nowrap sm:flex-row">
-            <span>Roaster: {item.roaster}</span>
-            <span>Dripper: {item.dripper}</span>
+          <div className="flex flex-col flex-wrap justify-between gap-x-2 md:flex-row">
+            <span className="text-nowrap">Roaster: {item.roaster}</span>
+            <span className="text-nowrap">Dripper: {item.dripper}</span>
+            <span className="text-nowrap">
+              Grinder: {item.grinder} / {item.scale}
+            </span>
           </div>
 
           <div className="flex justify-between">

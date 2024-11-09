@@ -3,6 +3,8 @@ interface HistoryData {
   roaster?: string;
   bean: string;
   dripper: string;
+  grinder: string;
+  scale: string;
   hotOrIced: string;
   beanWeight: string;
   waterRatio: string;
@@ -44,12 +46,15 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
           </div>
 
           <div className="flex flex-col">
-            <div className="flex gap-6">
+            <div className="flex justify-between gap-6">
               <span className="flex items-center gap-1">
                 Bean weight: <p className="font-medium">{item.beanWeight}</p>
               </span>
               <span className="flex items-center gap-1">
                 Temp: <p className="font-medium">{item.temp}</p>
+              </span>
+              <span>
+                Grinder: {item.grinder} / {item.scale}
               </span>
             </div>
 

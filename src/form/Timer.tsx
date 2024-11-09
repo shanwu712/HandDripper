@@ -1,8 +1,12 @@
 import { useRef, useState } from "react";
 import Button from "../components/Button";
 
-export default function Timer() {
-  const [sec, setSec] = useState(0);
+interface TimerProps {
+  sec: number;
+  setSec: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function Timer({ sec, setSec }: TimerProps) {
   const [active, setActive] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
