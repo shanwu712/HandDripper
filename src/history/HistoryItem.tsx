@@ -86,20 +86,19 @@ export default function HistoryItem({ item }: HistoryItemProp) {
             <span>Temperature: {item.temp}°C</span>
           </div>
 
-          <div className="flex flex-col">
-            <span>Method: {item.method}</span>
+          <div className="flex justify-between">
+            <div className="flex w-2/3 flex-col">
+              <span>Method: {item.method}</span>
+              <span>Comment: {item.comment}</span>
+            </div>
 
-            <div className="flex justify-between">
-              <span className="w-2/3">Comment: {item.comment}</span>
-
-              <div className="flex w-32 flex-col justify-end gap-3 sm:w-40">
-                <Button type="primary" onClick={() => setPined(!pined)}>
-                  Pin this recipe
-                </Button>
-                <Button type="secondary" onClick={() => setIsOpen(!isOpen)}>
-                  Delete
-                </Button>
-              </div>
+            <div className="flex w-32 flex-col justify-end gap-2 pt-2 sm:w-40">
+              <Button type="primary" onClick={() => setPined(!pined)}>
+                Pin this recipe
+              </Button>
+              <Button type="secondary" onClick={() => setIsOpen(!isOpen)}>
+                Delete
+              </Button>
             </div>
           </div>
         </DisclosurePanel>

@@ -161,7 +161,7 @@ export default function RecipeForm() {
                   <input
                     readOnly
                     value="1"
-                    className="pointer-events-none w-10 rounded-lg border px-2 py-0.5"
+                    className="pointer-events-none w-10 rounded-lg px-2 py-0.5"
                   />
                   <label className="absolute bottom-5 left-0 text-sm font-medium italic text-black">
                     Bean
@@ -175,7 +175,7 @@ export default function RecipeForm() {
                     id="waterRatio"
                     maxLength={4}
                     placeholder=" "
-                    className="peer w-14 rounded-lg border px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
                   />
                   <label
                     htmlFor="inputField"
@@ -193,7 +193,7 @@ export default function RecipeForm() {
                         id="iceRatio"
                         maxLength={4}
                         placeholder=" "
-                        className="peer w-14 rounded-lg border px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                        className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
                       />
                       <label
                         htmlFor="iceRatio"

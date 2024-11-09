@@ -8,7 +8,7 @@ interface BtnProp {
 }
 
 const baseStyle =
-  "h-fit transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm";
+  "h-fit transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm text-nowrap";
 
 export default function Button({ children, onClick, type, to }: BtnProp) {
   const btnContent = (
