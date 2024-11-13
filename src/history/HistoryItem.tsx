@@ -49,7 +49,7 @@ export default function HistoryItem({ item }: HistoryItemProp) {
   return (
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
       <Disclosure>
-        <DisclosureButton className="relative w-full rounded-md pb-1 pl-4 pt-3 text-left">
+        <DisclosureButton className="relative w-full rounded-md px-0.5 py-1 text-left md:px-2">
           <div className="bg-sage absolute -left-2 -top-8 flex gap-1 rounded-t-md px-2 py-2 text-xs font-bold text-white">
             <span>{item.date.slice(5).split("-").join("/")}</span>
             <span>{item.hotOrIced}</span>
@@ -62,8 +62,10 @@ export default function HistoryItem({ item }: HistoryItemProp) {
               </span>
             </div>
           )}
-          <div className="flex justify-between">
-            {item.bean}
+          <div className="flex min-w-0 justify-between whitespace-nowrap">
+            <span className="flex-1 overflow-hidden text-ellipsis lg:tracking-wider">
+              {item.bean}
+            </span>
             <span className="flex items-center font-semibold">
               <p>{item.star}</p>
               <FullStar />

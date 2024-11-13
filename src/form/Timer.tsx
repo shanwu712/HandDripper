@@ -1,14 +1,53 @@
-import { useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 
-interface TimerProps {
+enum HotOrIced {
+  hot = "Hot",
+  iced = "Iced",
+}
+interface FormState {
+  date: string;
+  bean: string;
+  roaster: string;
+  dripper: string;
+  grinder: string;
+  scale: string;
+  hot: HotOrIced;
+  temp: number;
+  beanWeight: string;
+  waterRatio: string;
+  waterWeight: number | string;
+  iceRatio: string;
+  iceWeight: number | string;
   sec: number;
-  setSec: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Timer({ sec, setSec }: TimerProps) {
+type FormAction =
+  | { type: "SET_DATE"; payload: string }
+  | { type: "SET_BEAN"; payload: string }
+  | { type: "SET_ROASTER"; payload: string }
+  | { type: "SET_DRIPPER"; payload: string }
+  | { type: "SET_GRINDER"; payload: string }
+  | { type: "SET_SCALE"; payload: string }
+  | { type: "SET_HOT"; payload: HotOrIced }
+  | { type: "SET_TEMP"; payload: number }
+  | { type: "SET_BEAN_WEIGHT"; payload: string }
+  | { type: "SET_WATER_RATIO"; payload: string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_RATIO"; payload: string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_SEC"; payload: number };
+
+interface TimerProps {
+  state: FormState;
+  dispatch: Dispatch<FormAction>;
+}
+
+export default function Timer({ state, dispatch }: TimerProps) {
   const [active, setActive] = useState(false);
   const intervalRef = useRef<number | null>(null);
+
+  const secRef = useRef(state.sec);
 
   function formatSec(seconds: number) {
     const min = Math.floor(seconds / 60);
@@ -19,6 +58,10 @@ export default function Timer({ sec, setSec }: TimerProps) {
     return `${min} : ${formattedSecs}`;
   }
 
+  useEffect(() => {
+    secRef.current = state.sec;
+  }, [state.sec]);
+
   function handleInterval() {
     if (active && intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -26,14 +69,13 @@ export default function Timer({ sec, setSec }: TimerProps) {
     } else {
       setActive(true);
       intervalRef.current = setInterval(() => {
-        setSec((prevTime) => {
-          if (prevTime > 359 && intervalRef.current !== null) {
-            clearInterval(intervalRef.current);
+        if (secRef.current >= 359 && intervalRef.current !== null) {
+          clearInterval(intervalRef.current);
+        } else {
+          secRef.current += 1;
 
-            return prevTime;
-          }
-          return prevTime + 1;
-        });
+          dispatch({ type: "SET_SEC", payload: secRef.current });
+        }
       }, 1000);
     }
   }
@@ -42,7 +84,7 @@ export default function Timer({ sec, setSec }: TimerProps) {
     if (active && intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-    setSec(0);
+    dispatch({ type: "SET_SEC", payload: 0 });
     setActive(false);
   }
 
@@ -52,10 +94,10 @@ export default function Timer({ sec, setSec }: TimerProps) {
         {active ? "Stop" : "Start Dripping"}
       </Button>
       <span className="py-1 text-lg font-medium tracking-wide">
-        {formatSec(sec)}
+        {formatSec(state.sec)}
       </span>
 
-      {sec !== 0 && (
+      {state.sec !== 0 && (
         <Button onClick={handleReset} type="small">
           Reset
         </Button>

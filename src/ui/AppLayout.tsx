@@ -32,7 +32,7 @@ export default function AppLayout() {
               <li className="relative flex">
                 <button
                   className="font-bold text-light-brown transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:text-dark-brown"
-                  onClick={() => setShowManual(true)}
+                  onClick={() => setShowManual(!showManual)}
                 >
                   {currentMatch?.handle.navBtn[0]}
                 </button>
@@ -51,7 +51,7 @@ export default function AppLayout() {
           onClick={() => setShowManual(false)}
         >
           <div
-            className="fixed right-4 top-16 h-[85vh] w-[45vw] max-w-lg rounded border bg-white p-3 shadow-lg"
+            className="fixed right-3 top-16 mt-3 h-[85vh] w-[45vw] max-w-lg rounded border bg-slate-100 p-3 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col">

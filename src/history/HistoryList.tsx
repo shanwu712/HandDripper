@@ -74,7 +74,7 @@ const formData = [
 
 export default function HistoryList() {
   return (
-    <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10">
+    <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 xl:px-16">
       {formData.map((item) => (
         <HistoryItem item={item} key={item.comment} />
       ))}

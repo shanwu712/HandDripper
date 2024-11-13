@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
 
@@ -20,32 +20,66 @@ enum HotOrIced {
   hot = "Hot",
   iced = "Iced",
 }
+interface FormState {
+  date: string;
+  bean: string;
+  roaster: string;
+  dripper: string;
+  grinder: string;
+  scale: string;
+  hot: HotOrIced;
+  temp: number;
+  beanWeight: string;
+  waterRatio: string;
+  waterWeight: number | string;
+  iceRatio: string;
+  iceWeight: number | string;
+  sec: number;
+}
 
-export default function RecipeForm() {
-  const [hot, setHot] = useState<HotOrIced>(HotOrIced.hot);
-  const [temp, setTemp] = useState<number>(80);
-  const [beanWeight, setBeanWeight] = useState<string>("");
-  const [waterRatio, setWaterRatio] = useState<string>("");
-  const [waterWeight, setWaterWeight] = useState<number | string>("");
-  const [iceRatio, setIceRatio] = useState<string>("");
-  const [iceWeight, setIceWeight] = useState<number | string>("");
-  const [sec, setSec] = useState(0);
+type FormAction =
+  | { type: "SET_DATE"; payload: string }
+  | { type: "SET_BEAN"; payload: string }
+  | { type: "SET_ROASTER"; payload: string }
+  | { type: "SET_DRIPPER"; payload: string }
+  | { type: "SET_GRINDER"; payload: string }
+  | { type: "SET_SCALE"; payload: string }
+  | { type: "SET_HOT"; payload: HotOrIced }
+  | { type: "SET_TEMP"; payload: number }
+  | { type: "SET_BEAN_WEIGHT"; payload: string }
+  | { type: "SET_WATER_RATIO"; payload: string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_RATIO"; payload: string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_SEC"; payload: number }
+  | { type: "SET_RATING"; payload: number };
+interface RecipeFormProps {
+  state: FormState;
+  dispatch: Dispatch<FormAction>;
+}
+
+export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
+  useEffect(() => {
+    if (state.beanWeight && state.iceRatio) {
+      const calculatedIceWeight = Math.round(
+        Number(state.beanWeight) * Number(state.iceRatio),
+      );
+      dispatch({ type: "SET_ICE_WEIGHT", payload: calculatedIceWeight });
+    } else {
+      dispatch({ type: "SET_ICE_WEIGHT", payload: "" });
+    }
+  }, [state.beanWeight, state.iceRatio, dispatch]);
 
   useEffect(() => {
-    setWaterWeight(
-      beanWeight && waterRatio
-        ? Math.round(Number(beanWeight) * Number(waterRatio))
-        : "",
-    );
-  }, [beanWeight, waterRatio]);
-
-  useEffect(() => {
-    setIceWeight(
-      beanWeight && iceRatio
-        ? Math.round(Number(beanWeight) * Number(iceRatio))
-        : "",
-    );
-  }, [beanWeight, iceRatio]);
+    if (state.beanWeight && state.waterRatio) {
+      const calculatedWaterWeight = Math.round(
+        Number(state.beanWeight) * Number(state.waterRatio),
+      );
+      dispatch({ type: "SET_WATER_WEIGHT", payload: calculatedWaterWeight });
+    } else {
+      dispatch({ type: "SET_WATER_WEIGHT", payload: "" });
+    }
+  }, [state.beanWeight, state.waterRatio, dispatch]);
 
   return (
     <div className="relative flex h-5/6 min-h-[40rem] w-screen min-w-[30rem] flex-col rounded-lg shadow-lg sm:w-1/2">
@@ -59,7 +93,10 @@ export default function RecipeForm() {
             <input
               name="date"
               type="date"
-              defaultValue={new Date().toISOString().substring(0, 10)}
+              value={state.date}
+              onChange={(e) =>
+                dispatch({ type: "SET_DATE", payload: e.target.value })
+              }
               className="rounded-lg px-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
             />
           </span>
@@ -71,6 +108,10 @@ export default function RecipeForm() {
                 required
                 name="bean"
                 list="beanOptions"
+                value={state.bean}
+                onChange={(e) =>
+                  dispatch({ type: "SET_BEAN", payload: e.target.value })
+                }
                 className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="beanOptions">
@@ -87,6 +128,10 @@ export default function RecipeForm() {
               <input
                 name="roaster"
                 list="roasterOptions"
+                value={state.roaster}
+                onChange={(e) =>
+                  dispatch({ type: "SET_ROASTER", payload: e.target.value })
+                }
                 className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="roasterOptions">
@@ -103,6 +148,10 @@ export default function RecipeForm() {
               <input
                 name="dripper"
                 list="dripperOptions"
+                value={state.dripper}
+                onChange={(e) =>
+                  dispatch({ type: "SET_DRIPPER", payload: e.target.value })
+                }
                 className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="dripperOptions">
@@ -121,6 +170,10 @@ export default function RecipeForm() {
                 <input
                   name="grinder"
                   list="grinderOptions"
+                  value={state.grinder}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_GRINDER", payload: e.target.value })
+                  }
                   className="flex-grow rounded-l-lg px-2 py-1 focus:outline-none"
                 />
                 <datalist id="grinderOptions">
@@ -133,6 +186,10 @@ export default function RecipeForm() {
                 <input
                   name="grinderScale"
                   type="text"
+                  value={state.scale}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_SCALE", payload: e.target.value })
+                  }
                   placeholder="Scale"
                   className="w-20 rounded-r-lg border-l px-2 py-1 text-center focus:outline-none"
                 />
@@ -152,7 +209,12 @@ export default function RecipeForm() {
                 <select
                   required
                   name="hotOrIced"
-                  onChange={(e) => setHot(e.target.value as HotOrIced)}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_HOT",
+                      payload: e.target.value as HotOrIced,
+                    })
+                  }
                   className="rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                 >
                   {Object.values(HotOrIced).map((option) => (
@@ -170,10 +232,13 @@ export default function RecipeForm() {
                     name="beanWeight"
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                    value={beanWeight}
+                    value={state.beanWeight}
                     onChange={(e) =>
                       e.target.value === "" || !isNaN(Number(e.target.value))
-                        ? setBeanWeight(e.target.value)
+                        ? dispatch({
+                            type: "SET_BEAN_WEIGHT",
+                            payload: e.target.value,
+                          })
                         : null
                     }
                   />
@@ -206,10 +271,13 @@ export default function RecipeForm() {
                     placeholder=" "
                     className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
                     step="any"
-                    value={waterRatio}
+                    value={state.waterRatio}
                     onChange={(e) =>
                       e.target.value === "" || !isNaN(Number(e.target.value))
-                        ? setWaterRatio(e.target.value)
+                        ? dispatch({
+                            type: "SET_WATER_RATIO",
+                            payload: e.target.value,
+                          })
                         : null
                     }
                   />
@@ -221,7 +289,7 @@ export default function RecipeForm() {
                   </label>
                 </div>
 
-                {hot === HotOrIced.iced && (
+                {state.hot === HotOrIced.iced && (
                   <>
                     <span className="font-semibold">:</span>
                     <div className="relative">
@@ -230,11 +298,14 @@ export default function RecipeForm() {
                         maxLength={4}
                         placeholder=" "
                         className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
-                        value={iceRatio}
+                        value={state.iceRatio}
                         onChange={(e) =>
                           e.target.value === "" ||
                           !isNaN(Number(e.target.value))
-                            ? setIceRatio(e.target.value)
+                            ? dispatch({
+                                type: "SET_ICE_RATIO",
+                                payload: e.target.value,
+                              })
                             : null
                         }
                       />
@@ -263,14 +334,19 @@ export default function RecipeForm() {
                     name="waterWeight"
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                    value={waterWeight}
-                    onChange={(e) => setWaterWeight(Number(e.target.value))}
+                    value={state.waterWeight}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "SET_WATER_WEIGHT",
+                        payload: Number(e.target.value),
+                      })
+                    }
                   />
                   <span className="absolute right-1">g</span>
                 </div>
               </div>
 
-              {hot === HotOrIced.iced && (
+              {state.hot === HotOrIced.iced && (
                 <div className="flex items-center space-x-2 text-nowrap">
                   <label className="text-lg font-semibold">Ice weight:</label>
                   <div className="relative flex items-center">
@@ -278,8 +354,13 @@ export default function RecipeForm() {
                       name="iceWeight"
                       maxLength={3}
                       className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                      value={iceWeight}
-                      onChange={(e) => setIceWeight(Number(e.target.value))}
+                      value={state.iceWeight}
+                      onChange={(e) =>
+                        dispatch({
+                          type: "SET_ICE_WEIGHT",
+                          payload: Number(e.target.value),
+                        })
+                      }
                     />
                     <span className="absolute right-1">g</span>
                   </div>
@@ -292,7 +373,7 @@ export default function RecipeForm() {
                 <label htmlFor="temp" className="text-lg font-semibold">
                   Water temp:
                 </label>
-                <span>{temp}</span>
+                <span>{state.temp}</span>
                 <span>°C</span>
               </div>
 
@@ -303,8 +384,13 @@ export default function RecipeForm() {
                   min={80}
                   max={100}
                   type="range"
-                  value={temp}
-                  onChange={(e) => setTemp(Number(e.target.value))}
+                  value={state.temp}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_TEMP",
+                      payload: Number(e.target.value),
+                    })
+                  }
                   className="[&::-webkit-slider-thumb]:bg-sage appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-50 [&::-webkit-slider-thumb]:h-[1rem] [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full"
                 />
                 <span>100</span>
@@ -315,7 +401,7 @@ export default function RecipeForm() {
           <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
         </Form>
 
-        <Timer sec={sec} setSec={setSec}></Timer>
+        <Timer state={state} dispatch={dispatch}></Timer>
       </div>
     </div>
   );

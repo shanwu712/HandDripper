@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 
 const FullStar = () => (
   <svg height={24} viewBox="0 0 24 24" fill="#d8a427">
@@ -28,12 +28,55 @@ const EmptyStar = () => (
   </svg>
 );
 
-const StarRating = () => {
-  const [rating, setRating] = useState(0);
+enum HotOrIced {
+  hot = "Hot",
+  iced = "Iced",
+}
+interface FormState {
+  date: string;
+  bean: string;
+  roaster: string;
+  dripper: string;
+  grinder: string;
+  scale: string;
+  hot: HotOrIced;
+  temp: number;
+  beanWeight: string;
+  waterRatio: string;
+  waterWeight: number | string;
+  iceRatio: string;
+  iceWeight: number | string;
+  sec: number;
+  rating: number;
+}
+
+type FormAction =
+  | { type: "SET_DATE"; payload: string }
+  | { type: "SET_BEAN"; payload: string }
+  | { type: "SET_ROASTER"; payload: string }
+  | { type: "SET_DRIPPER"; payload: string }
+  | { type: "SET_GRINDER"; payload: string }
+  | { type: "SET_SCALE"; payload: string }
+  | { type: "SET_HOT"; payload: HotOrIced }
+  | { type: "SET_TEMP"; payload: number }
+  | { type: "SET_BEAN_WEIGHT"; payload: string }
+  | { type: "SET_WATER_RATIO"; payload: string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_RATIO"; payload: string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_SEC"; payload: number }
+  | { type: "SET_RATING"; payload: number };
+interface StarRatingProps {
+  state: FormState;
+  dispatch: Dispatch<FormAction>;
+}
+
+function StarRating({ state, dispatch }: StarRatingProps) {
   const [hoverRating, setHoverRating] = useState(0);
   const [isHalfStar, setIsHalfStar] = useState(false);
 
-  const handleClick = (value: number) => setRating(value);
+  const handleClick = (value: number) =>
+    dispatch({ type: "SET_RATING", payload: value });
   const handleMouseEnter = (value: number) => setHoverRating(value);
   const handleMouseLeave = () => {
     setHoverRating(0);
@@ -51,7 +94,7 @@ const StarRating = () => {
   };
 
   const renderStar = (index: number) => {
-    const displayRating = hoverRating || rating;
+    const displayRating = hoverRating || state.rating;
     if (displayRating >= index + 1) return <FullStar key={index} />;
     if (displayRating >= index + 0.5) return <HalfStar key={index} />;
     return <EmptyStar key={index} />;
@@ -78,10 +121,10 @@ const StarRating = () => {
           </div>
         ))}
 
-        <span className="text-sm font-semibold">({rating})</span>
+        <span className="text-sm font-semibold">({state.rating})</span>
       </div>
     </div>
   );
-};
+}
 
 export default StarRating;
