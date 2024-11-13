@@ -13,6 +13,11 @@ enum DateOptions {
   OLDEST = "Oldest",
 }
 
+enum RatingOptions {
+  HIGHEST = "Highest",
+  LOWEST = "Lowest",
+}
+
 const mockFormData = [
   {
     date: "2024-10-26",
@@ -110,13 +115,25 @@ interface FormData {
 }
 
 export default function HistoryPage() {
-  const [searchByPin, setSearchByPin] = useState(false);
+  const [pined, setPined] = useState(false);
   const [sortByDate, setSortByDate] = useState(DateOptions.NEWEST);
 
   const [formData, setFormData] = useState<FormData[]>([]);
   const [sortedData, setSortedData] = useState<FormData[]>([]);
+  const [sortByRating, setSortByRating] = useState<RatingOptions | null>(null);
 
   useEffect(() => {
+    if (sortByRating !== null) {
+      const dataSortedByRating = [...formData].sort((a: any, b: any) => {
+        if (sortByRating === RatingOptions.HIGHEST) {
+          return b.rating - a.rating;
+        } else {
+          return a.rating - b.rating;
+        }
+      });
+      setSortedData(dataSortedByRating);
+      return;
+    }
     const sortedFormData = [...formData].sort((a: any, b: any) => {
       if (sortByDate === DateOptions.NEWEST) {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -125,7 +142,7 @@ export default function HistoryPage() {
       }
     });
     setSortedData(sortedFormData);
-  }, [sortByDate, formData]);
+  }, [sortByDate, sortByRating, formData]);
 
   useEffect(() => {
     setFormData(mockFormData);
@@ -133,10 +150,11 @@ export default function HistoryPage() {
   return (
     <div className="flex flex-col">
       <Sorting
-        setSearchByPin={setSearchByPin}
-        searchByPin={searchByPin}
+        pined={pined}
+        setPined={setPined}
         sortByDate={sortByDate}
         setSortByDate={setSortByDate}
+        setSortByRating={setSortByRating}
       />
 
       <div className="mt-10">

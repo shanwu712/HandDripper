@@ -19,17 +19,19 @@ enum RatingOptions {
 }
 
 interface SortingProps {
-  searchByPin: boolean;
-  setSearchByPin: (v: boolean) => void;
+  pined: boolean;
+  setPined: (v: boolean) => void;
   sortByDate: DateOptions;
   setSortByDate: (option: DateOptions) => void;
+  setSortByRating: (option: RatingOptions) => void;
 }
 
 export default function Sorting({
-  searchByPin,
-  setSearchByPin,
+  pined,
+  setPined,
 
   setSortByDate,
+  setSortByRating,
 }: SortingProps) {
   return (
     <div className="fixed z-30 flex w-full items-center justify-between bg-white/95 px-3 py-2">
@@ -100,6 +102,14 @@ export default function Sorting({
             {Object.values(RatingOptions).map((item) => (
               <div
                 key={item}
+                data-value={item}
+                onClick={(e) => {
+                  setSortByRating(
+                    (e.target as HTMLDivElement).getAttribute(
+                      "data-value",
+                    ) as RatingOptions,
+                  );
+                }}
                 className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
               >
                 {item}
@@ -107,11 +117,8 @@ export default function Sorting({
             ))}
           </PopoverPanel>
         </Popover>
-        <div
-          onClick={() => setSearchByPin(!searchByPin)}
-          className="cursor-pointer"
-        >
-          {searchByPin ? (
+        <div onClick={() => setPined(!pined)} className="cursor-pointer">
+          {pined ? (
             <TagIcon className="h-6 w-6 text-dark-brown" />
           ) : (
             <OutlineTagIcon className="h-6 w-6 text-dark-brown" />
