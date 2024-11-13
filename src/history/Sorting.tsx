@@ -1,7 +1,6 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon, TagIcon } from "@heroicons/react/24/solid";
 import { TagIcon as OutlineTagIcon } from "@heroicons/react/24/outline";
-import { useEffect } from "react";
 
 const beanOptions = [
   "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
@@ -22,10 +21,16 @@ enum RatingOptions {
 interface SortingProps {
   searchByPin: boolean;
   setSearchByPin: (v: boolean) => void;
+  sortByDate: DateOptions;
+  setSortByDate: (option: DateOptions) => void;
 }
 
-export default function Sorting({ searchByPin, setSearchByPin }: SortingProps) {
-  useEffect(() => {}, []);
+export default function Sorting({
+  searchByPin,
+  setSearchByPin,
+
+  setSortByDate,
+}: SortingProps) {
   return (
     <div className="fixed z-30 flex w-full items-center justify-between bg-white/95 px-3 py-2">
       <h2 className="text-2xl font-bold italic tracking-wide">
@@ -47,6 +52,14 @@ export default function Sorting({ searchByPin, setSearchByPin }: SortingProps) {
             {Object.values(DateOptions).map((item) => (
               <div
                 key={item}
+                data-value={item}
+                onClick={(e) => {
+                  setSortByDate(
+                    (e.target as HTMLDivElement).getAttribute(
+                      "data-value",
+                    ) as DateOptions,
+                  );
+                }}
                 className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
               >
                 {item}

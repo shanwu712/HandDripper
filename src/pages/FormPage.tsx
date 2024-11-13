@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import { useReducer, useRef } from "react";
 import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
 import HistoryPreview from "../history/HistoryPreview";

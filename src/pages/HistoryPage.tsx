@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import HistoryList from "../history/HistoryList";
 import Sorting from "../history/Sorting";
 
@@ -7,7 +8,12 @@ enum HotOrIced {
   ICED = "Iced",
 }
 
-const formData = [
+enum DateOptions {
+  NEWEST = "Newest",
+  OLDEST = "Oldest",
+}
+
+const mockFormData = [
   {
     date: "2024-10-26",
     roaster: "Come True Coffee",
@@ -83,14 +89,58 @@ const formData = [
   },
 ];
 
+interface FormData {
+  date: string;
+  bean: string;
+  roaster: string;
+  dripper: string;
+  grinder: string;
+  scale: string;
+  hotOrIced: HotOrIced;
+  temp: number;
+  beanWeight: string;
+  waterRatio: string;
+  waterWeight: number | string;
+  iceRatio?: string;
+  iceWeight?: number | string;
+  sec: number;
+  rating: number;
+  method: string;
+  comment: string;
+}
+
 export default function HistoryPage() {
   const [searchByPin, setSearchByPin] = useState(false);
+  const [sortByDate, setSortByDate] = useState(DateOptions.NEWEST);
+
+  const [formData, setFormData] = useState<FormData[]>([]);
+  const [sortedData, setSortedData] = useState<FormData[]>([]);
+
+  useEffect(() => {
+    const sortedFormData = [...formData].sort((a: any, b: any) => {
+      if (sortByDate === DateOptions.NEWEST) {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      } else {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+    });
+    setSortedData(sortedFormData);
+  }, [sortByDate, formData]);
+
+  useEffect(() => {
+    setFormData(mockFormData);
+  }, []);
   return (
     <div className="flex flex-col">
-      <Sorting setSearchByPin={setSearchByPin} searchByPin={searchByPin} />
+      <Sorting
+        setSearchByPin={setSearchByPin}
+        searchByPin={searchByPin}
+        sortByDate={sortByDate}
+        setSortByDate={setSortByDate}
+      />
 
       <div className="mt-10">
-        <HistoryList formData={formData} />
+        <HistoryList formData={sortedData} />
       </div>
     </div>
   );
