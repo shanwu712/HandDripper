@@ -2,17 +2,17 @@ import { Dispatch, useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 
 enum HotOrIced {
-  hot = "Hot",
-  iced = "Iced",
+  HOT = "Hot",
+  ICED = "Iced",
 }
-interface FormState {
+interface RecipeFormAndRatingState {
   date: string;
   bean: string;
   roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hot: HotOrIced;
+  hotOrIced: HotOrIced;
   temp: number;
   beanWeight: string;
   waterRatio: string;
@@ -20,6 +20,7 @@ interface FormState {
   iceRatio: string;
   iceWeight: number | string;
   sec: number;
+  rating: number;
 }
 
 type FormAction =
@@ -39,7 +40,7 @@ type FormAction =
   | { type: "SET_SEC"; payload: number };
 
 interface TimerProps {
-  state: FormState;
+  state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
 }
 

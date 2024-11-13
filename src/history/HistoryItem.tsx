@@ -13,27 +13,32 @@ import { useState } from "react";
 
 import { TagIcon } from "@heroicons/react/16/solid";
 
-interface HistoryData {
+enum HotOrIced {
+  HOT = "Hot",
+  ICED = "Iced",
+}
+interface FormData {
   date: string;
-  roaster?: string;
   bean: string;
+  roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hotOrIced: string;
+  hotOrIced: HotOrIced;
+  temp: number;
   beanWeight: string;
   waterRatio: string;
+  waterWeight: number | string;
   iceRatio?: string;
-  waterWeight: string;
-  iceWeight?: string;
-  temp: string;
-  method?: string;
-  star?: string;
-  comment?: string;
+  iceWeight?: number | string;
+  sec: number;
+  rating: number;
+  method: string;
+  comment: string;
 }
 
 interface HistoryItemProp {
-  item: HistoryData;
+  item: FormData;
 }
 
 const FullStar = () => (
@@ -67,7 +72,7 @@ export default function HistoryItem({ item }: HistoryItemProp) {
               {item.bean}
             </span>
             <span className="flex items-center font-semibold">
-              <p>{item.star}</p>
+              <p>{item.rating}</p>
               <FullStar />
             </span>
           </div>

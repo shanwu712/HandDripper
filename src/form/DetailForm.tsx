@@ -6,17 +6,18 @@ import { Dispatch, RefObject } from "react";
 const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
 
 enum HotOrIced {
-  hot = "Hot",
-  iced = "Iced",
+  HOT = "Hot",
+  ICED = "Iced",
 }
-interface FormState {
+
+interface RecipeFormAndRatingState {
   date: string;
   bean: string;
   roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hot: HotOrIced;
+  hotOrIced: HotOrIced;
   temp: number;
   beanWeight: string;
   waterRatio: string;
@@ -44,7 +45,7 @@ type FormAction =
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 interface DetailFormProps {
-  state: FormState;
+  state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
   detailFormRef: RefObject<HTMLFormElement>;
   handleSubmitCombinedData: (data: Record<string, FormDataEntryValue>) => void;

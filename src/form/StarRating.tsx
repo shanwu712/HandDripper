@@ -29,17 +29,18 @@ const EmptyStar = () => (
 );
 
 enum HotOrIced {
-  hot = "Hot",
-  iced = "Iced",
+  HOT = "Hot",
+  ICED = "Iced",
 }
-interface FormState {
+
+interface RecipeFormAndRatingState {
   date: string;
   bean: string;
   roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hot: HotOrIced;
+  hotOrIced: HotOrIced;
   temp: number;
   beanWeight: string;
   waterRatio: string;
@@ -66,8 +67,9 @@ type FormAction =
   | { type: "SET_ICE_WEIGHT"; payload: number | string }
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
+
 interface StarRatingProps {
-  state: FormState;
+  state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
 }
 

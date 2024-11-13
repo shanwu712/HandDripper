@@ -1,24 +1,29 @@
-interface HistoryData {
+enum HotOrIced {
+  HOT = "Hot",
+  ICED = "Iced",
+}
+interface FormData {
   date: string;
-  roaster?: string;
   bean: string;
+  roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hotOrIced: string;
+  hotOrIced: HotOrIced;
+  temp: number;
   beanWeight: string;
   waterRatio: string;
+  waterWeight: number | string;
   iceRatio?: string;
-  waterWeight: string;
-  iceWeight?: string;
-  temp: string;
-  method?: string;
-  star?: string;
-  comment?: string;
+  iceWeight?: number | string;
+  sec: number;
+  rating: number;
+  method: string;
+  comment: string;
 }
 
 interface PreviewHistoryItemProp {
-  item: HistoryData;
+  item: FormData;
 }
 
 export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
@@ -42,7 +47,7 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
             <svg height={24} width={24} viewBox="0 0 24 24" fill="#d8a427">
               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <p className="text-sm font-semibold">{item.star}</p>
+            <p className="text-sm font-semibold">{item.rating}</p>
           </div>
 
           <div className="flex flex-col">

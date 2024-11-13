@@ -1,78 +1,33 @@
 import HistoryItem from "./HistoryItem";
 
-const formData = [
-  {
-    date: "2024-10-26",
-    roaster: "Come True Coffee",
-    bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-    dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
-    grinder: "grinder 1",
-    scale: "7",
-    hotOrIced: "Iced",
-    beanWeight: "14",
-    waterRatio: "12",
-    iceRatio: "16",
-    waterWeight: "168",
-    iceWeight: "172",
-    temp: "90",
-    method: "Continuous Pouring",
-    star: "4",
-    comment:
-      "Victor Hugo's tale of injustice, heroism and love follows the  to put his are constantly put under threat: by his own conscience, when, owing to a case of mistaken identity, another man is arrested in hinvestigations of the dogged Inspector Javert. It is not simply for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
-  },
-  {
-    date: "2024-10-12",
-    roaster: "Come True Coffee",
-    bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-    dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
-    grinder: "grinder 2",
-    scale: "8",
-    hotOrIced: "Hot",
-    beanWeight: "13",
-    waterRatio: "14",
-    waterWeight: "168",
-    temp: "90",
-    method: "Continuous Pouring",
-    star: "3.5",
-    comment: "fair",
-  },
-  {
-    date: "2024-10-14",
-    roaster: "Starbucks",
-    bean: "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
-    dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
-    grinder: "grinder 3",
-    scale: "6",
-    hotOrIced: "Iced",
-    beanWeight: "13",
-    waterRatio: "18",
-    iceRatio: "15",
-    waterWeight: "168",
-    iceWeight: "172",
-    temp: "90",
-    method: "Continuous Pouring",
-    star: "1",
-    comment: "bad",
-  },
-  {
-    date: "2024-10-26",
-    roaster: "Come True Coffee",
-    bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-    dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
-    grinder: "grinder 2",
-    scale: "8",
-    hotOrIced: "Hot",
-    beanWeight: "14",
-    waterRatio: "12",
-    waterWeight: "168",
-    temp: "90",
-    method: "Continuous Pouring",
-    star: "4",
-    comment: "so good",
-  },
-];
+enum HotOrIced {
+  HOT = "Hot",
+  ICED = "Iced",
+}
+interface FormData {
+  date: string;
+  bean: string;
+  roaster: string;
+  dripper: string;
+  grinder: string;
+  scale: string;
+  hotOrIced: HotOrIced;
+  temp: number;
+  beanWeight: string;
+  waterRatio: string;
+  waterWeight: number | string;
+  iceRatio?: string;
+  iceWeight?: number | string;
+  sec: number;
+  rating: number;
+  method: string;
+  comment: string;
+}
+interface HistoryListProps {
+  formData: FormData[];
+}
 
-export default function HistoryList() {
+export default function HistoryList({ formData }: HistoryListProps) {
   return (
     <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 xl:px-16">
       {formData.map((item) => (

@@ -17,17 +17,17 @@ const dripperOptions = [
 const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
 
 enum HotOrIced {
-  hot = "Hot",
-  iced = "Iced",
+  HOT = "Hot",
+  ICED = "Iced",
 }
-interface FormState {
+interface RecipeFormAndRatingState {
   date: string;
   bean: string;
   roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hot: HotOrIced;
+  hotOrIced: HotOrIced;
   temp: number;
   beanWeight: string;
   waterRatio: string;
@@ -35,6 +35,7 @@ interface FormState {
   iceRatio: string;
   iceWeight: number | string;
   sec: number;
+  rating: number;
 }
 
 type FormAction =
@@ -54,7 +55,7 @@ type FormAction =
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 interface RecipeFormProps {
-  state: FormState;
+  state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
 }
 
@@ -289,7 +290,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                   </label>
                 </div>
 
-                {state.hot === HotOrIced.iced && (
+                {state.hotOrIced === HotOrIced.ICED && (
                   <>
                     <span className="font-semibold">:</span>
                     <div className="relative">
@@ -346,7 +347,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                 </div>
               </div>
 
-              {state.hot === HotOrIced.iced && (
+              {state.hotOrIced === HotOrIced.ICED && (
                 <div className="flex items-center space-x-2 text-nowrap">
                   <label className="text-lg font-semibold">Ice weight:</label>
                   <div className="relative flex items-center">

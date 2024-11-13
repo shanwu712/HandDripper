@@ -4,18 +4,18 @@ import RecipeForm from "../form/RecipeForm";
 import HistoryPreview from "../history/HistoryPreview";
 
 enum HotOrIced {
-  hot = "Hot",
-  iced = "Iced",
+  HOT = "Hot",
+  ICED = "Iced",
 }
 
-interface FormState {
+interface RecipeFormAndRatingState {
   date: string;
   bean: string;
   roaster: string;
   dripper: string;
   grinder: string;
   scale: string;
-  hot: HotOrIced;
+  hotOrIced: HotOrIced;
   temp: number;
   beanWeight: string;
   waterRatio: string;
@@ -43,14 +43,14 @@ type FormAction =
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 
-const initialState: FormState = {
+const initialState: RecipeFormAndRatingState = {
   date: new Date().toISOString().substring(0, 10),
   bean: "",
   roaster: "",
   dripper: "",
   grinder: "",
   scale: "",
-  hot: HotOrIced.hot,
+  hotOrIced: HotOrIced.HOT,
   temp: 80,
   beanWeight: "",
   waterRatio: "",
@@ -62,9 +62,9 @@ const initialState: FormState = {
 };
 
 const recipeFormDataReducer = (
-  recipeAndRatingState: FormState,
+  recipeAndRatingState: RecipeFormAndRatingState,
   action: FormAction,
-): FormState => {
+): RecipeFormAndRatingState => {
   switch (action.type) {
     case "SET_DATE":
       return { ...recipeAndRatingState, date: action.payload };
@@ -79,7 +79,7 @@ const recipeFormDataReducer = (
     case "SET_SCALE":
       return { ...recipeAndRatingState, scale: action.payload };
     case "SET_HOT":
-      return { ...recipeAndRatingState, hot: action.payload };
+      return { ...recipeAndRatingState, hotOrIced: action.payload };
     case "SET_TEMP":
       return { ...recipeAndRatingState, temp: action.payload };
     case "SET_BEAN_WEIGHT":

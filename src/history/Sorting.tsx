@@ -1,15 +1,23 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon, TagIcon } from "@heroicons/react/24/solid";
 import { TagIcon as OutlineTagIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
 
 const beanOptions = [
   "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
   "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
   "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
 ];
-const dateOptions = ["Newest", "Oldest"];
 
-const ratingOptions = ["Highest", "Lowest"];
+enum DateOptions {
+  NEWEST = "Newest",
+  OLDEST = "Oldest",
+}
+
+enum RatingOptions {
+  HIGHEST = "Highest",
+  LOWEST = "Lowest",
+}
 
 interface SortingProps {
   searchByPin: boolean;
@@ -17,6 +25,7 @@ interface SortingProps {
 }
 
 export default function Sorting({ searchByPin, setSearchByPin }: SortingProps) {
+  useEffect(() => {}, []);
   return (
     <div className="fixed z-30 flex w-full items-center justify-between bg-white/95 px-3 py-2">
       <h2 className="text-2xl font-bold italic tracking-wide">
@@ -35,7 +44,7 @@ export default function Sorting({ searchByPin, setSearchByPin }: SortingProps) {
             transition
             className="flex w-auto flex-col items-center divide-y rounded-md shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
           >
-            {dateOptions.map((item) => (
+            {Object.values(DateOptions).map((item) => (
               <div
                 key={item}
                 className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
@@ -75,7 +84,7 @@ export default function Sorting({ searchByPin, setSearchByPin }: SortingProps) {
             anchor="bottom"
             className="flex w-auto flex-col items-center divide-y rounded-md shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
           >
-            {ratingOptions.map((item) => (
+            {Object.values(RatingOptions).map((item) => (
               <div
                 key={item}
                 className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
