@@ -126,7 +126,7 @@ interface FormData {
 }
 
 export default function HistoryPage() {
-  const [pined, setPined] = useState(false);
+  const [sortByPin, setSortByPin] = useState(false);
 
   const [formData, setFormData] = useState<FormData[]>([]);
   const [sortedData, setSortedData] = useState<FormData[]>([]);
@@ -185,8 +185,8 @@ export default function HistoryPage() {
   return (
     <div className="flex flex-col">
       <Sorting
-        pined={pined}
-        setPined={setPined}
+        sortByPin={sortByPin}
+        setSortByPin={setSortByPin}
         setSortingMethod={setSortingMethod}
       />
 

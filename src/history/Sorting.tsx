@@ -19,8 +19,8 @@ enum RatingOptions {
 }
 
 interface SortingProps {
-  pined: boolean;
-  setPined: (v: boolean) => void;
+  sortByPin: boolean;
+  setSortByPin: (v: boolean) => void;
 
   setSortingMethod: (
     option: RatingOptions | DateOptions | string | null,
@@ -28,8 +28,8 @@ interface SortingProps {
 }
 
 export default function Sorting({
-  pined,
-  setPined,
+  sortByPin,
+  setSortByPin,
 
   setSortingMethod,
 }: SortingProps) {
@@ -125,8 +125,11 @@ export default function Sorting({
             ))}
           </PopoverPanel>
         </Popover>
-        <div onClick={() => setPined(!pined)} className="cursor-pointer">
-          {pined ? (
+        <div
+          onClick={() => setSortByPin(!sortByPin)}
+          className="cursor-pointer"
+        >
+          {sortByPin ? (
             <TagIcon className="h-6 w-6 text-dark-brown" />
           ) : (
             <OutlineTagIcon className="h-6 w-6 text-dark-brown" />
