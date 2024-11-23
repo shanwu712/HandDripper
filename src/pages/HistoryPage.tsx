@@ -18,6 +18,12 @@ enum RatingOptions {
   LOWEST = "Lowest",
 }
 
+const beanOptions = [
+  "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
+  "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
+  "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
+];
+
 const mockFormData = [
   {
     date: "2024-10-26",
@@ -116,45 +122,68 @@ interface FormData {
 
 export default function HistoryPage() {
   const [pined, setPined] = useState(false);
-  const [sortByDate, setSortByDate] = useState(DateOptions.NEWEST);
 
   const [formData, setFormData] = useState<FormData[]>([]);
   const [sortedData, setSortedData] = useState<FormData[]>([]);
-  const [sortByRating, setSortByRating] = useState<RatingOptions | null>(null);
 
-  useEffect(() => {
-    if (sortByRating !== null) {
-      const dataSortedByRating = [...formData].sort((a: any, b: any) => {
-        if (sortByRating === RatingOptions.HIGHEST) {
-          return b.rating - a.rating;
-        } else {
-          return a.rating - b.rating;
-        }
-      });
-      setSortedData(dataSortedByRating);
-      return;
-    }
-    const sortedFormData = [...formData].sort((a: any, b: any) => {
-      if (sortByDate === DateOptions.NEWEST) {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      } else {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-      }
-    });
-    setSortedData(sortedFormData);
-  }, [sortByDate, sortByRating, formData]);
+  const [sortingMethod, setSortingMethod] = useState<
+    DateOptions | RatingOptions | string | null
+  >(null);
 
   useEffect(() => {
     setFormData(mockFormData);
   }, []);
+
+  useEffect(() => {
+    if (
+      sortingMethod === RatingOptions.HIGHEST ||
+      sortingMethod === RatingOptions.LOWEST
+    ) {
+      const dataSortedByRating = [...formData].sort((a: any, b: any) => {
+        return sortingMethod === RatingOptions.HIGHEST
+          ? b.rating - a.rating
+          : a.rating - b.rating;
+      });
+      setSortedData(dataSortedByRating);
+      return;
+    }
+
+    if (beanOptions.includes(sortingMethod as string)) {
+      const dataSortedByBean = [...formData].filter(
+        (item) => item.bean === sortingMethod,
+      );
+      setSortedData(dataSortedByBean);
+      return;
+    }
+
+    if (
+      sortingMethod === DateOptions.NEWEST ||
+      sortingMethod === DateOptions.OLDEST
+    ) {
+      const dataSortedByDate = [...formData].sort((a: any, b: any) => {
+        return sortingMethod === DateOptions.NEWEST
+          ? new Date(b.date).getTime() - new Date(a.date).getTime()
+          : new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
+
+      setSortedData(dataSortedByDate);
+      return;
+    }
+
+    setSortedData(
+      [...formData].sort((a: any, b: any) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }),
+    );
+  }, [sortingMethod, formData]);
+
   return (
     <div className="flex flex-col">
       <Sorting
         pined={pined}
         setPined={setPined}
-        sortByDate={sortByDate}
-        setSortByDate={setSortByDate}
-        setSortByRating={setSortByRating}
+        sortingMethod={sortingMethod}
+        setSortingMethod={setSortingMethod}
       />
 
       <div className="mt-10">

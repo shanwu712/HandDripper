@@ -21,17 +21,17 @@ enum RatingOptions {
 interface SortingProps {
   pined: boolean;
   setPined: (v: boolean) => void;
-  sortByDate: DateOptions;
-  setSortByDate: (option: DateOptions) => void;
-  setSortByRating: (option: RatingOptions) => void;
+  sortingMethod: DateOptions | RatingOptions | string | null;
+  setSortingMethod: (
+    option: RatingOptions | DateOptions | string | null,
+  ) => void;
 }
 
 export default function Sorting({
   pined,
   setPined,
-
-  setSortByDate,
-  setSortByRating,
+  sortingMethod,
+  setSortingMethod,
 }: SortingProps) {
   return (
     <div className="fixed z-30 flex w-full items-center justify-between bg-white/95 px-3 py-2">
@@ -56,7 +56,7 @@ export default function Sorting({
                 key={item}
                 data-value={item}
                 onClick={(e) => {
-                  setSortByDate(
+                  setSortingMethod(
                     (e.target as HTMLDivElement).getAttribute(
                       "data-value",
                     ) as DateOptions,
@@ -82,6 +82,14 @@ export default function Sorting({
             {beanOptions.map((item) => (
               <div
                 key={item}
+                data-value={item}
+                onClick={(e) => {
+                  setSortingMethod(
+                    (e.target as HTMLDivElement).getAttribute(
+                      "data-value",
+                    ) as string,
+                  );
+                }}
                 className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
               >
                 {item}
@@ -104,7 +112,7 @@ export default function Sorting({
                 key={item}
                 data-value={item}
                 onClick={(e) => {
-                  setSortByRating(
+                  setSortingMethod(
                     (e.target as HTMLDivElement).getAttribute(
                       "data-value",
                     ) as RatingOptions,
