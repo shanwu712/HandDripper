@@ -40,6 +40,8 @@ interface FormData {
 
 interface HistoryItemProp {
   item: FormData;
+  pinedStates: Record<string, boolean>;
+  togglePined: (id: string) => void;
 }
 
 const FullStar = () => (
@@ -48,8 +50,11 @@ const FullStar = () => (
   </svg>
 );
 
-export default function HistoryItem({ item }: HistoryItemProp) {
-  const [pined, setPined] = useState(false);
+export default function HistoryItem({
+  item,
+  pinedStates,
+  togglePined,
+}: HistoryItemProp) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -61,7 +66,7 @@ export default function HistoryItem({ item }: HistoryItemProp) {
             <span>{item.hotOrIced}</span>
           </div>
 
-          {pined && (
+          {pinedStates[item.id] && (
             <div className="absolute -top-8 left-16 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
               <span>
                 <TagIcon className="h-4 w-4 text-dark-brown" />
@@ -106,7 +111,7 @@ export default function HistoryItem({ item }: HistoryItemProp) {
             </div>
 
             <div className="flex w-32 flex-col justify-end gap-2 pt-2 sm:w-40">
-              <Button type="primary" onClick={() => setPined(!pined)}>
+              <Button type="primary" onClick={() => togglePined(item.id)}>
                 Pin this recipe
               </Button>
               <Button type="secondary" onClick={() => setIsOpen(!isOpen)}>

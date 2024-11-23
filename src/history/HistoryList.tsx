@@ -26,13 +26,24 @@ interface FormData {
 }
 interface HistoryListProps {
   formData: FormData[];
+  pinedStates: Record<string, boolean>;
+  togglePined: (id: string) => void;
 }
 
-export default function HistoryList({ formData }: HistoryListProps) {
+export default function HistoryList({
+  formData,
+  pinedStates,
+  togglePined,
+}: HistoryListProps) {
   return (
     <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
       {formData.map((item) => (
-        <HistoryItem item={item} key={item.comment} />
+        <HistoryItem
+          item={item}
+          key={item.comment}
+          pinedStates={pinedStates}
+          togglePined={togglePined}
+        />
       ))}
     </div>
   );

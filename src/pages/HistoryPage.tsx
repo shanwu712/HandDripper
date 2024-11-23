@@ -126,6 +126,7 @@ interface FormData {
 }
 
 export default function HistoryPage() {
+  const [pinedStates, setPinedStates] = useState<Record<string, boolean>>({});
   const [sortByPin, setSortByPin] = useState(false);
 
   const [formData, setFormData] = useState<FormData[]>([]);
@@ -133,18 +134,50 @@ export default function HistoryPage() {
 
   const [sortingMethod, setSortingMethod] = useState<
     DateOptions | RatingOptions | string | null
-  >(null);
+  >(DateOptions.NEWEST);
 
+  function togglePined(id: string) {
+    setPinedStates((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }
   useEffect(() => {
     setFormData(mockFormData);
   }, []);
 
   useEffect(() => {
+    const initialPinedStates = [...formData].reduce(
+      (acc, item) => {
+        acc[item.id] = false;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
+
+    setPinedStates(initialPinedStates);
+  }, [formData]);
+
+  useEffect(() => {
+    const pinedId = Object.entries(pinedStates).reduce((acc, [key, value]) => {
+      if (value) acc.push(key);
+      return acc;
+    }, [] as string[]);
+
+    let dataToSort = [...formData];
+
+    if (sortByPin) {
+      const dataSortedByPined = dataToSort.filter((item) =>
+        pinedId.includes(item.id),
+      );
+      dataToSort = dataSortedByPined;
+    }
+
     if (
       sortingMethod === RatingOptions.HIGHEST ||
       sortingMethod === RatingOptions.LOWEST
     ) {
-      const dataSortedByRating = [...formData].sort((a: any, b: any) => {
+      const dataSortedByRating = dataToSort.sort((a: any, b: any) => {
         return sortingMethod === RatingOptions.HIGHEST
           ? b.rating - a.rating
           : a.rating - b.rating;
@@ -154,10 +187,14 @@ export default function HistoryPage() {
     }
 
     if (beanOptions.includes(sortingMethod as string)) {
-      const dataSortedByBean = [...formData].filter(
+      const dataSortedByBean = dataToSort.filter(
         (item) => item.bean === sortingMethod,
       );
-      setSortedData(dataSortedByBean);
+      const dataSortedByBeanAndDate = dataSortedByBean.sort(
+        (a: any, b: any) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+      setSortedData(dataSortedByBeanAndDate);
       return;
     }
 
@@ -165,7 +202,7 @@ export default function HistoryPage() {
       sortingMethod === DateOptions.NEWEST ||
       sortingMethod === DateOptions.OLDEST
     ) {
-      const dataSortedByDate = [...formData].sort((a: any, b: any) => {
+      const dataSortedByDate = dataToSort.sort((a: any, b: any) => {
         return sortingMethod === DateOptions.NEWEST
           ? new Date(b.date).getTime() - new Date(a.date).getTime()
           : new Date(a.date).getTime() - new Date(b.date).getTime();
@@ -174,13 +211,7 @@ export default function HistoryPage() {
       setSortedData(dataSortedByDate);
       return;
     }
-
-    setSortedData(
-      [...formData].sort((a: any, b: any) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }),
-    );
-  }, [sortingMethod, formData]);
+  }, [formData, sortByPin, sortingMethod, pinedStates]);
 
   return (
     <div className="flex flex-col">
@@ -191,7 +222,11 @@ export default function HistoryPage() {
       />
 
       <div className="mt-10">
-        <HistoryList formData={sortedData} />
+        <HistoryList
+          formData={sortedData}
+          pinedStates={pinedStates}
+          togglePined={togglePined}
+        />
       </div>
     </div>
   );
