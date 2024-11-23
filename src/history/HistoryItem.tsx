@@ -18,6 +18,7 @@ enum HotOrIced {
   ICED = "Iced",
 }
 interface FormData {
+  id: string;
   date: string;
   bean: string;
   roaster: string;
@@ -55,13 +56,13 @@ export default function HistoryItem({ item }: HistoryItemProp) {
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
       <Disclosure>
         <DisclosureButton className="relative w-full rounded-md px-0.5 py-1 text-left md:px-2">
-          <div className="bg-sage absolute -left-2 -top-8 flex gap-1 rounded-t-md px-2 py-2 text-xs font-bold text-white">
+          <div className="absolute -left-2 -top-8 flex gap-1 rounded-t-md bg-sage px-2 py-2 text-xs font-bold text-white">
             <span>{item.date.slice(5).split("-").join("/")}</span>
             <span>{item.hotOrIced}</span>
           </div>
 
           {pined && (
-            <div className="bg-light-beige absolute -top-8 left-16 flex gap-1 rounded-t-md px-2 py-2 text-xs font-bold">
+            <div className="absolute -top-8 left-16 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
               <span>
                 <TagIcon className="h-4 w-4 text-dark-brown" />
               </span>

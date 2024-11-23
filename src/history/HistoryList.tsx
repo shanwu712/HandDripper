@@ -5,6 +5,7 @@ enum HotOrIced {
   ICED = "Iced",
 }
 interface FormData {
+  id: string;
   date: string;
   bean: string;
   roaster: string;

@@ -21,7 +21,7 @@ enum RatingOptions {
 interface SortingProps {
   pined: boolean;
   setPined: (v: boolean) => void;
-  sortingMethod: DateOptions | RatingOptions | string | null;
+
   setSortingMethod: (
     option: RatingOptions | DateOptions | string | null,
   ) => void;
@@ -30,7 +30,7 @@ interface SortingProps {
 export default function Sorting({
   pined,
   setPined,
-  sortingMethod,
+
   setSortingMethod,
 }: SortingProps) {
   return (

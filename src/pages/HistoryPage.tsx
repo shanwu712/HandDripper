@@ -26,6 +26,7 @@ const beanOptions = [
 
 const mockFormData = [
   {
+    id: "6789",
     date: "2024-10-26",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
@@ -46,6 +47,7 @@ const mockFormData = [
       "Victor Hugo's tale of injustice, heroism and love follows the  to put his are constantly put under threat: by his own conscience, when, owing to a case of mistaken identity, another man is arrested in hinvestigations of the dogged Inspector Javert. It is not simply for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
   },
   {
+    id: "6729",
     date: "2024-10-12",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
@@ -63,6 +65,7 @@ const mockFormData = [
     comment: "fair",
   },
   {
+    id: "7233",
     date: "2024-10-14",
     roaster: "Starbucks",
     bean: "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
@@ -82,6 +85,7 @@ const mockFormData = [
     comment: "bad",
   },
   {
+    id: "5743",
     date: "2024-10-26",
     roaster: "Come True Coffee",
     bean: "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
@@ -101,6 +105,7 @@ const mockFormData = [
 ];
 
 interface FormData {
+  id: string;
   date: string;
   bean: string;
   roaster: string;
@@ -182,7 +187,6 @@ export default function HistoryPage() {
       <Sorting
         pined={pined}
         setPined={setPined}
-        sortingMethod={sortingMethod}
         setSortingMethod={setSortingMethod}
       />
 

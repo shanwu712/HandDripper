@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useReducer, useRef } from "react";
 import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
@@ -112,7 +113,11 @@ export default function FormPage() {
   function handleSubmitCombinedData(
     detailData: Record<string, FormDataEntryValue>,
   ) {
-    const combinedData = { ...recipeAndRatingState, ...detailData };
+    const combinedData = {
+      id: uuidv4(),
+      ...recipeAndRatingState,
+      ...detailData,
+    };
     console.log(combinedData);
   }
 
