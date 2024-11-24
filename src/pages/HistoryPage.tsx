@@ -170,6 +170,7 @@ export default function HistoryPage() {
       const dataSortedByPined = dataToSort.filter((item) =>
         pinedId.includes(item.id),
       );
+
       dataToSort = dataSortedByPined;
     }
 
@@ -223,7 +224,8 @@ export default function HistoryPage() {
 
       <div className="mt-10">
         <HistoryList
-          formData={sortedData}
+          formData={formData}
+          sortedData={sortedData}
           pinedStates={pinedStates}
           togglePined={togglePined}
         />
