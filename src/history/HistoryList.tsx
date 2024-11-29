@@ -62,7 +62,7 @@ export default function HistoryList({
   }
   return (
     <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
-      {formData.map((item) => (
+      {sortedData.map((item) => (
         <HistoryItem
           item={item}
           key={item.comment}

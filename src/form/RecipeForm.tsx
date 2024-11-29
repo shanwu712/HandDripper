@@ -84,11 +84,11 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
 
   return (
     <div className="relative flex h-5/6 min-h-[40rem] w-screen min-w-[30rem] flex-col rounded-lg shadow-lg sm:w-1/2">
-      <h2 className="bg-light-beige/50 flex justify-center rounded-t-lg p-2 text-2xl font-semibold italic tracking-wider">
+      <h2 className="flex justify-center rounded-t-lg bg-light-beige/50 p-2 text-2xl font-semibold italic tracking-wider">
         Today's recipe
       </h2>
 
-      <div className="bg-beige flex h-full w-auto flex-col items-center justify-center gap-2 overflow-y-auto rounded-b-lg">
+      <div className="flex h-full w-auto flex-col items-center justify-center gap-2 overflow-y-auto rounded-b-lg bg-beige">
         <Form className="space-y-5 sm:w-3/4 md:space-y-6">
           <span className="absolute left-3 top-16">
             <input
@@ -198,10 +198,10 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
             </div>
           </div>
 
-          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
+          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
 
           {/* Second section */}
-          <div className="border-light-beige flex items-center justify-between gap-2 px-1">
+          <div className="flex items-center justify-between gap-2 border-light-beige px-1">
             <div className="space-y-2">
               <div className="flex gap-2">
                 <label className="text-nowrap text-lg font-semibold">
@@ -323,10 +323,10 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
             </div>
           </div>
 
-          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
+          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
 
           {/* Third section */}
-          <div className="border-light-beige flex items-center justify-between gap-1 px-1">
+          <div className="flex items-center justify-between gap-1 border-light-beige px-1">
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2 text-nowrap">
                 <label className="text-lg font-semibold">Water weight:</label>
@@ -392,14 +392,14 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                       payload: Number(e.target.value),
                     })
                   }
-                  className="[&::-webkit-slider-thumb]:bg-sage appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-50 [&::-webkit-slider-thumb]:h-[1rem] [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full"
+                  className="[&::-webkit-slider-thumb]: cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-50 [&::-webkit-slider-thumb]:h-[1rem] [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-sage [&::-webkit-slider-thumb]:shadow-md"
                 />
                 <span>100</span>
               </div>
             </div>
           </div>
 
-          <hr className="border-light-beige h-0 border-t-[3px] border-dotted bg-none" />
+          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
         </Form>
 
         <Timer state={state} dispatch={dispatch}></Timer>

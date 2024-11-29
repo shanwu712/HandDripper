@@ -47,6 +47,12 @@ interface TimerProps {
 export default function Timer({ state, dispatch }: TimerProps) {
   const [active, setActive] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const [manualInput, setManualInput] = useState(false);
+  const [editingSec, setEditingSec] = useState(false);
+  const [manualSec, setManualSec] = useState<{ min: number; sec: number }>({
+    min: 0,
+    sec: 0,
+  });
 
   const secRef = useRef(state.sec);
 
@@ -56,7 +62,7 @@ export default function Timer({ state, dispatch }: TimerProps) {
 
     const formattedSecs = secs < 10 ? `0${secs}` : secs;
 
-    return `${min} : ${formattedSecs}`;
+    return `${min} ： ${formattedSecs}`;
   }
 
   useEffect(() => {
@@ -85,20 +91,75 @@ export default function Timer({ state, dispatch }: TimerProps) {
     if (active && intervalRef.current) {
       clearInterval(intervalRef.current);
     }
+    intervalRef.current = null;
+    setManualSec({ min: 0, sec: 0 });
     dispatch({ type: "SET_SEC", payload: 0 });
     setActive(false);
   }
 
+  function convertFormattedSec(secObj: { min: number; sec: number }) {
+    if (secObj.min !== 0 || secObj.sec !== 0) {
+      return secObj.min * 60 + secObj.sec;
+    }
+  }
+
+  function handleManualInput(e: React.MouseEvent<HTMLButtonElement>) {
+    setManualInput(!manualInput);
+    const convertedSec = convertFormattedSec(manualSec) ?? 0;
+    if (e.currentTarget.textContent === "Done") {
+      dispatch({ type: "SET_SEC", payload: convertedSec });
+
+      setEditingSec(false);
+    } else {
+      setEditingSec(true);
+    }
+  }
+
   return (
-    <div className="border-light-beige flex w-40 flex-col items-center justify-center">
-      <Button type="secondary" onClick={handleInterval}>
+    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige">
+      <Button
+        type="secondary"
+        onClick={handleInterval}
+        disabled={editingSec || manualSec.min !== 0 || manualSec.sec !== 0}
+      >
         {active ? "Stop" : "Start Dripping"}
       </Button>
-      <span className="py-1 text-lg font-medium tracking-wide">
-        {formatSec(state.sec)}
-      </span>
 
-      {state.sec !== 0 && (
+      {manualInput ? (
+        <div className="flex gap-1 pb-2">
+          <input
+            maxLength={1}
+            defaultValue={manualSec.min}
+            onChange={(e) =>
+              setManualSec({ ...manualSec, min: Number(e.target.value) })
+            }
+            className="w-5 rounded-md px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+          />
+          <span>:</span>
+          <input
+            maxLength={2}
+            defaultValue={manualSec.sec}
+            onChange={(e) =>
+              setManualSec({ ...manualSec, sec: Number(e.target.value) })
+            }
+            className="w-7 rounded-md px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+          />
+        </div>
+      ) : (
+        <span className="pb-2 text-lg font-medium tracking-wide">
+          {manualSec.min !== 0 || manualSec.sec !== 0
+            ? `${manualSec.min} : ${manualSec.sec > 9 ? manualSec.sec : `0${manualSec.sec}`}`
+            : formatSec(state.sec)}
+        </span>
+      )}
+
+      {(editingSec || !intervalRef.current) && (
+        <Button type="small" onClick={handleManualInput}>
+          {manualInput ? "Done" : "Input manually"}
+        </Button>
+      )}
+
+      {intervalRef.current && (
         <Button onClick={handleReset} type="small">
           Reset
         </Button>

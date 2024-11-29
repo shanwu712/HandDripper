@@ -2,17 +2,28 @@ import { Link } from "react-router-dom";
 
 interface BtnProp {
   children: string;
-  onClick?: () => void;
+  onClick?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   type: string;
   to?: string;
+  disabled?: boolean;
 }
 
 const baseStyle =
   "h-fit transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5  hover:shadow-md tracking-wider shadow-sm text-nowrap";
 
-export default function Button({ children, onClick, type, to }: BtnProp) {
+export default function Button({
+  children,
+  onClick,
+  type,
+  to,
+  disabled,
+}: BtnProp) {
   const btnContent = (
-    <button className="flex w-full justify-center" onClick={onClick}>
+    <button
+      className={`flex w-full justify-center ${disabled && "cursor-not-allowed text-gray-300"}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
@@ -30,7 +41,7 @@ export default function Button({ children, onClick, type, to }: BtnProp) {
   if (type === "secondary") {
     return (
       <div
-        className={`${baseStyle} bg-sage text-light-beige w-full px-2 py-1 text-center hover:text-slate-50`}
+        className={`${baseStyle} w-full bg-sage px-2 py-1 text-center text-light-beige hover:text-slate-50`}
       >
         {btnContent}
       </div>
