@@ -83,7 +83,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
   return (
-    <div className="relative flex h-5/6 min-h-[40rem] w-screen min-w-[30rem] flex-col rounded-lg shadow-lg sm:w-1/2">
+    <div className="relative flex h-5/6 min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem]">
       <h2 className="flex justify-center rounded-t-lg bg-light-beige/50 p-2 text-2xl font-semibold italic tracking-wider">
         Today's recipe
       </h2>

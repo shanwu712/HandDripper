@@ -34,12 +34,12 @@ export default function Sorting({
   setSortingMethod,
 }: SortingProps) {
   return (
-    <div className="fixed z-30 flex w-full items-center justify-between bg-white/95 px-3 py-2">
+    <div className="fixed z-30 flex w-full flex-col items-center justify-between bg-white/95 px-3 sm:flex-row sm:py-2">
       <h2 className="text-2xl font-bold italic tracking-wide">
         Brewing History
       </h2>
       <div className="flex items-center justify-end gap-2">
-        <p className="text-lg font-semibold italic">Sort By:</p>
+        <p className="text-nowrap text-lg font-semibold italic">Sort By:</p>
 
         <Popover className="relative">
           <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-gray-900 hover:text-slate-500 focus:outline-none">

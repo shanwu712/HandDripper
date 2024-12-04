@@ -66,7 +66,7 @@ export default function DetailForm({
   }
 
   return (
-    <div className="bg-light-beige/50 flex h-fit w-screen min-w-[30rem] flex-col rounded-lg px-2 py-2 shadow-lg sm:w-full">
+    <div className="flex h-fit w-screen flex-col rounded-lg bg-light-beige/50 px-2 py-2 shadow-lg sm:w-full sm:min-w-[30rem]">
       <Form className="space-y-2" ref={detailFormRef} onSubmit={handleSubmit}>
         <div className="flex w-full gap-2">
           <label className="text-nowrap text-lg font-medium">

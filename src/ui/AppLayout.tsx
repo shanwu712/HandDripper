@@ -22,7 +22,7 @@ export default function AppLayout() {
     currentMatch?.handle.navBtn[0] === "How to use HandDripper";
 
   return (
-    <div>
+    <div className="relative">
       {isLoading && <Loader />}
 
       <NavBar>
@@ -51,7 +51,7 @@ export default function AppLayout() {
           onClick={() => setShowManual(false)}
         >
           <div
-            className="fixed right-3 top-16 mt-3 h-[85vh] w-[45vw] max-w-lg rounded border bg-slate-100 p-3 shadow-lg"
+            className="fixed top-16 mt-3 h-[55vh] w-[85vw] max-w-lg rounded border bg-slate-100 p-3 shadow-lg sm:right-3 sm:w-[45vw]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col">

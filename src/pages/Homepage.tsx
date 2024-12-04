@@ -2,22 +2,24 @@ import Button from "../components/Button";
 
 export default function Homepage() {
   return (
-    <div className="h-[92vh] overflow-hidden bg-gray-300 bg-opacity-30 p-3">
+    <div className="h-[93vh] overflow-hidden bg-gray-300 bg-opacity-30 p-3">
       <div
         style={{ backgroundImage: "url(/home-bg.png)" }}
-        className="h-full w-full bg-cover bg-center"
+        className="flex h-full w-full justify-center bg-cover bg-center"
       >
-        <div className="relative left-20 top-14 flex h-96 w-80 flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg xl:h-[50vh] xl:w-[30vw]">
+        <div className=":w-[30vw] relative top-20 flex h-96 w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-8">
           <div className="space-y-2 xl:space-y-6">
             <img
               className="m-auto h-20 rounded-full"
               src="/logo.png"
               alt="HandDripper"
             />
-            <h2 className="text-2xl font-semibold">Sign in your account</h2>
+            <h2 className="xl:text-4xls text-2xl font-semibold">
+              Sign in your account
+            </h2>
           </div>
 
-          <form className="mt-2 flex flex-col space-y-3 p-3 font-medium xl:w-[50%]">
+          <form className="mt-2 flex flex-col space-y-3 p-3 font-medium md:w-[50%]">
             <div className="flex flex-col">
               <label htmlFor="email">Email address</label>
               <input
@@ -46,7 +48,7 @@ export default function Homepage() {
             </div>
           </form>
 
-          <div className="mt-3 flex flex-col items-center">
+          <div className="mt-3 flex w-3/5 flex-col items-center tracking-wider">
             <Button type="primary" to="/form">
               Start Dripping
             </Button>

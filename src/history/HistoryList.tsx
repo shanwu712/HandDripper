@@ -55,7 +55,7 @@ export default function HistoryList({
 
   if (!sortedData.length) {
     return (
-      <h3 className="flex h-screen w-auto justify-center pt-20 text-xl font-semibold">
+      <h3 className="flex h-screen w-auto justify-center bg-slate-50 pt-20 text-xl font-semibold">
         No brewing history matches this filter condition!
       </h3>
     );

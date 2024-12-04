@@ -122,10 +122,10 @@ export default function FormPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-start gap-4 px-6 py-4 sm:flex-row sm:items-start sm:space-x-5 sm:overflow-x-auto md:flex-row md:space-x-8">
+    <div className="flex h-[92vh] w-screen flex-col items-center justify-start overflow-x-hidden px-6 sm:flex-row sm:space-x-5 sm:overflow-x-auto sm:overflow-y-hidden md:space-x-8 lg:px-16">
       <RecipeForm state={recipeAndRatingState} dispatch={dispatch} />
 
-      <div className="flex h-5/6 min-h-[40rem] flex-col items-center gap-3 sm:w-1/2 sm:min-w-[30rem]">
+      <div className="flex h-5/6 flex-col items-center gap-3 sm:w-1/2 sm:min-w-[30rem]">
         <DetailForm
           detailFormRef={detailFormRef}
           handleSubmitCombinedData={handleSubmitCombinedData}

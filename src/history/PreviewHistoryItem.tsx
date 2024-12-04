@@ -28,7 +28,7 @@ interface PreviewHistoryItemProp {
 
 export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
   return (
-    <div className="bg-sage/85 flex min-h-16 max-w-full rounded-lg shadow-md">
+    <div className="flex min-h-16 max-w-full rounded-lg bg-sage/85 shadow-md">
       <div className="flex w-12 flex-col items-center justify-center px-1 font-semibold">
         <span className="text-white">
           {item.date.slice(5).split("-").join("/")}
@@ -42,7 +42,7 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
           {item.bean}
         </p>
 
-        <div className="absolute -bottom-0.5 left-0 flex gap-3">
+        <div className="absolute -bottom-0.5 left-0 flex h-fit gap-3">
           <div className="flex flex-col items-center justify-center">
             <svg height={24} width={24} viewBox="0 0 24 24" fill="#d8a427">
               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -50,22 +50,20 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
             <p className="text-sm font-semibold">{item.rating}</p>
           </div>
 
-          <div className="flex flex-col">
-            <div className="flex justify-between gap-6">
-              <span className="flex items-center gap-1">
-                Bean weight: <p className="font-medium">{item.beanWeight}</p>
-              </span>
-              <span className="flex items-center gap-1">
-                Temp: <p className="font-medium">{item.temp}</p>
-              </span>
-              <span>
-                Grinder: {item.grinder} / {item.scale}
-              </span>
-            </div>
+          <div className="flex max-h-full flex-wrap items-center justify-between gap-x-2 pr-4 font-medium md:gap-x-4">
+            <span className="flex items-center gap-1 text-nowrap">
+              Bean weight: <p>{item.beanWeight}</p>
+            </span>
+            <span className="flex items-center gap-1 text-nowrap">
+              Temp: <p>{item.temp}</p>
+            </span>
+            <span className="text-nowrap">
+              Grinder: {item.grinder} / {item.scale}
+            </span>
 
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-nowrap">
               Ratio:{" "}
-              <p className="font-medium">
+              <p>
                 1 : {item.waterRatio} {item.iceRatio && `: ${item.iceRatio}`}
               </p>
             </span>

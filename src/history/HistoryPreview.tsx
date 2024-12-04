@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import PreviewHistoryItem from "./PreviewHistoryItem";
 
+enum HotOrIced {
+  HOT = "Hot",
+  ICED = "Iced",
+}
+
 const formData = [
   {
     id: 1,
@@ -11,16 +16,18 @@ const formData = [
     dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
     grinder: "Grinder 1",
     scale: "8",
-    hotOrIced: "Iced",
+    hotOrIced: HotOrIced.ICED,
     beanWeight: "14",
     waterRatio: "12",
     iceRatio: "16",
     waterWeight: "168",
     iceWeight: "172",
-    temp: "90",
+    temp: 90,
     method: "Continuous Pouring",
-    star: "4",
+
     comment: "so good",
+    sec: 0,
+    rating: 3,
   },
   {
     id: 2,
@@ -30,14 +37,16 @@ const formData = [
     dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
     grinder: "Grinder 3",
     scale: "7",
-    hotOrIced: "Hot",
+    hotOrIced: HotOrIced.HOT,
     beanWeight: "13",
     waterRatio: "14",
     waterWeight: "168",
-    temp: "90",
+    temp: 90,
     method: "Continuous Pouring",
-    star: "3.5",
+
     comment: "fair",
+    sec: 90,
+    rating: 4,
   },
   {
     id: 3,
@@ -47,16 +56,18 @@ const formData = [
     dripper: "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
     grinder: "Grinder 1",
     scale: "8",
-    hotOrIced: "Iced",
+    hotOrIced: HotOrIced.ICED,
     beanWeight: "13",
     waterRatio: "18",
     iceRatio: "15",
     waterWeight: "168",
     iceWeight: "172",
-    temp: "90",
+    temp: 90,
     method: "Continuous Pouring",
-    star: "1",
+
     comment: "bad",
+    sec: 70,
+    rating: 1,
   },
   {
     id: 4,
@@ -66,20 +77,21 @@ const formData = [
     dripper: "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
     grinder: "Grinder 3",
     scale: "7",
-    hotOrIced: "Hot",
+    hotOrIced: HotOrIced.HOT,
     beanWeight: "14",
     waterRatio: "12",
     waterWeight: "168",
-    temp: "90",
+    temp: 90,
     method: "Continuous Pouring",
-    star: "4",
     comment: "so good",
+    sec: 80,
+    rating: 5,
   },
 ];
 
 export default function HistoryPreview() {
   return (
-    <div className="bg-beige flex h-full w-screen flex-col overflow-y-auto rounded-lg p-3 shadow-lg sm:w-full">
+    <div className="flex h-full w-screen flex-col overflow-y-auto rounded-lg bg-beige p-3 shadow-lg sm:w-full">
       <div className="sticky top-0 z-20 mb-2 flex justify-between text-nowrap">
         <p className="text-xl font-semibold">Brewing History Preview</p>
         <Link to="/history">

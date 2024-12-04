@@ -222,7 +222,7 @@ export default function HistoryPage() {
         setSortingMethod={setSortingMethod}
       />
 
-      <div className="mt-10">
+      <div className="mt-16 sm:mt-10">
         <HistoryList
           formData={formData}
           sortedData={sortedData}
