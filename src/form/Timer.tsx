@@ -126,7 +126,7 @@ export default function Timer({ state, dispatch }: TimerProps) {
       </Button>
 
       {manualInput ? (
-        <div className="flex gap-1 pb-2">
+        <div className="flex gap-2 pb-2">
           <input
             maxLength={1}
             defaultValue={manualSec.min}

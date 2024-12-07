@@ -44,7 +44,7 @@ const mockFormData = [
     method: "Continuous Pouring",
     rating: 4,
     comment:
-      "Victor Hugo's tale of injustice, heroism and love follows the  to put his are constantly put under threat: by his own conscience, when, owing to a case of mistaken identity, another man is arrested in hinvestigations of the dogged Inspector Javert. It is not simply for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
+      "Victor Hugo's tale of injustice, heroism and love follows the  to put his are constantly put under threat: by  for himself that Valjean must stay free, however, for he has sworn to protect the baby daughter of Fantine, driven to prostitution by poverty.",
   },
   {
     id: "6729",

@@ -24,7 +24,6 @@ const formData = [
     iceWeight: "172",
     temp: 90,
     method: "Continuous Pouring",
-
     comment: "so good",
     sec: 0,
     rating: 3,
@@ -43,7 +42,6 @@ const formData = [
     waterWeight: "168",
     temp: 90,
     method: "Continuous Pouring",
-
     comment: "fair",
     sec: 90,
     rating: 4,
@@ -64,7 +62,6 @@ const formData = [
     iceWeight: "172",
     temp: 90,
     method: "Continuous Pouring",
-
     comment: "bad",
     sec: 70,
     rating: 1,
@@ -99,9 +96,15 @@ export default function HistoryPreview() {
         </Link>
       </div>
       <div className="flex flex-col gap-1 overflow-y-auto">
-        {formData.map((item) => (
-          <PreviewHistoryItem item={item} key={item.id}></PreviewHistoryItem>
-        ))}
+        {formData.length ? (
+          formData.map((item) => (
+            <PreviewHistoryItem item={item} key={item.id}></PreviewHistoryItem>
+          ))
+        ) : (
+          <p className="mt-5 flex self-center text-lg text-gray-500">
+            You haven't created any brewing history!
+          </p>
+        )}
       </div>
     </div>
   );
