@@ -104,7 +104,11 @@ export default function HistoryItem({
             <span className="text-nowrap">Roaster: {item.roaster}</span>
             <span className="">Dripper: {item.dripper}</span>
             <span className="text-nowrap">
-              Grinder: {item.grinder} / {item.scale}
+              {item.grinder && item.scale
+                ? `Grinder: ${item.grinder} / ${item.scale}`
+                : item.grinder
+                  ? `Grinder: ${item.grinder}`
+                  : `Grinder Scale: ${item.scale}`}
             </span>
           </div>
 
@@ -142,6 +146,7 @@ export default function HistoryItem({
         </DisclosurePanel>
       </Disclosure>
 
+      {/* confirm deleting modal */}
       {isOpen && (
         <Dialog
           open={isOpen}
@@ -158,11 +163,11 @@ export default function HistoryItem({
               className="max-w-lg transform space-y-4 rounded-md bg-white p-9 opacity-0 duration-500 ease-in-out data-[open]:scale-100 data-[open]:opacity-100"
             >
               <DialogTitle className="text-lg font-bold">
-                Delete this brewing history from
+                Delete this brewing history from{" "}
                 {item.date.slice(5).split("-").join("/")}?
               </DialogTitle>
               <Description>
-                {item.hotOrIced} - {item.bean} from
+                {item.hotOrIced} - {item.bean} from{" "}
                 {item.date.slice(5).split("-").join("/")}
               </Description>
 

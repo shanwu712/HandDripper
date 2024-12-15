@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import HistoryItem from "./HistoryItem";
 import Button from "../components/Button";
+import Loader from "../ui/Loader";
 
 enum HotOrIced {
   HOT = "Hot",
@@ -27,6 +28,7 @@ interface FormData {
   comment: string;
 }
 interface HistoryListProps {
+  isLoading: boolean;
   formData: FormData[];
   sortedData: FormData[];
   pinedStates: Record<string, boolean>;
@@ -34,11 +36,13 @@ interface HistoryListProps {
 }
 
 export default function HistoryList({
+  isLoading,
   formData,
   sortedData,
   pinedStates,
   togglePined,
 }: HistoryListProps) {
+  if (isLoading) return <Loader />;
   if (!formData.length) {
     return (
       <div className="mx-auto flex h-screen w-fit flex-col items-center gap-3 pt-24">

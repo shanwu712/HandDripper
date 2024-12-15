@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { useReducer, useRef } from "react";
 import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
@@ -114,7 +113,6 @@ export default function FormPage() {
     detailData: Record<string, FormDataEntryValue>,
   ) {
     const combinedData = {
-      id: uuidv4(),
       ...recipeAndRatingState,
       ...detailData,
     };
@@ -125,7 +123,7 @@ export default function FormPage() {
     <div className="flex h-[92vh] w-screen flex-col items-center justify-start overflow-x-hidden px-6 sm:flex-row sm:space-x-5 sm:overflow-x-auto sm:overflow-y-hidden md:space-x-8 lg:px-16">
       <RecipeForm state={recipeAndRatingState} dispatch={dispatch} />
 
-      <div className="flex h-5/6 flex-col items-center gap-3 sm:w-1/2 sm:min-w-[30rem]">
+      <div className="flex h-5/6 min-h-[40rem] flex-col items-center justify-center gap-3 sm:w-1/2 sm:min-w-[30rem]">
         <DetailForm
           detailFormRef={detailFormRef}
           handleSubmitCombinedData={handleSubmitCombinedData}
