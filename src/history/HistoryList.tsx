@@ -69,7 +69,7 @@ export default function HistoryList({
       {sortedData.map((item) => (
         <HistoryItem
           item={item}
-          key={item.comment}
+          key={item.id}
           pinedStates={pinedStates}
           togglePined={togglePined}
         />

@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import { useState } from "react";
 
 import { TagIcon } from "@heroicons/react/16/solid";
+import { useDeleteHistory } from "../services/useDeleteHistory";
 
 const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 const beanOptions = [
@@ -71,6 +72,10 @@ export default function HistoryItem({
 }: HistoryItemProp) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
+  const [editingIceWeight, setEditingIceWeight] = useState(item.iceWeight);
+
+  const { isDeleting, deleteHistory } = useDeleteHistory();
 
   return (
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
@@ -112,15 +117,23 @@ export default function HistoryItem({
             </span>
           </div>
 
-          <div className="flex justify-between">
-            <span>Bean: {item.beanWeight} g</span>
+          <div className="flex flex-wrap justify-between gap-x-1">
+            <span className="text-nowrap">
+              Bean weight: {item.beanWeight} g
+            </span>
 
-            <span>
+            {item.iceWeight && (
+              <span className="text-nowrap">
+                Ice weight: {item.iceWeight} g
+              </span>
+            )}
+
+            <span className="text-nowrap">
               Ratio: 1 : {item.waterRatio}{" "}
               {item.iceRatio && `: ${item.iceRatio}`}
             </span>
 
-            <span>Temperature: {item.temp}°C</span>
+            <span className="text-nowrap">Temperature: {item.temp}°C</span>
           </div>
 
           <div className="flex flex-col justify-between sm:flex-row">
@@ -172,7 +185,9 @@ export default function HistoryItem({
               </Description>
 
               <div className="ml-auto flex w-1/3 gap-3">
-                <Button type="secondary">Yes</Button>
+                <Button type="secondary" onClick={() => deleteHistory(item.id)}>
+                  Yes
+                </Button>
 
                 <Button onClick={() => setIsOpen(false)} type="primary">
                   NO
@@ -187,7 +202,11 @@ export default function HistoryItem({
       {isEditing && (
         <Dialog
           open={isEditing}
-          onClose={() => setIsEditing(false)}
+          onClose={() => {
+            setIsEditing(false);
+            setEditingHotOrIced(item.hotOrIced);
+            setEditingIceWeight(item.iceWeight);
+          }}
           className="relative z-40"
         >
           <DialogBackdrop
@@ -220,6 +239,9 @@ export default function HistoryItem({
                     id="hotOrIced"
                     name="hotOrIced"
                     defaultValue={item.hotOrIced}
+                    onChange={(e) =>
+                      setEditingHotOrIced(e.target.value as HotOrIced)
+                    }
                     className="border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
                   >
                     {Object.values(HotOrIced).map((option) => (
@@ -345,6 +367,21 @@ export default function HistoryItem({
                   </div>
                 </div>
 
+                {editingHotOrIced === HotOrIced.ICED && (
+                  <div className="flex items-center space-x-2 text-nowrap">
+                    <label className="text-lg font-semibold">Ice weight:</label>
+                    <div className="relative flex items-center">
+                      <input
+                        name="iceWeight"
+                        maxLength={3}
+                        className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                        defaultValue={editingIceWeight}
+                      />
+                      <span className="absolute right-1">g</span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center gap-2">
                   <label
                     htmlFor="temp"
@@ -402,7 +439,7 @@ export default function HistoryItem({
                       </label>
                     </div>
 
-                    {item.hotOrIced === HotOrIced.ICED && (
+                    {editingHotOrIced === HotOrIced.ICED && (
                       <>
                         <span className="font-semibold">:</span>
                         <div className="relative">
@@ -486,7 +523,14 @@ export default function HistoryItem({
                 ></textarea>
               </div>
               <div className="flex w-96 justify-self-center lg:w-48 lg:justify-self-end">
-                <Button type="secondary" onClick={() => setIsEditing(false)}>
+                <Button
+                  type="secondary"
+                  onClick={() => {
+                    setIsEditing(false);
+                    setEditingHotOrIced(item.hotOrIced);
+                    setEditingIceWeight(item.iceWeight);
+                  }}
+                >
                   Done
                 </Button>
               </div>
