@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import HistoryList from "../history/HistoryList";
 import Sorting from "../history/Sorting";
 import { useHistories } from "../services/useHistories";
-
-enum HotOrIced {
-  HOT = "Hot",
-  ICED = "Iced",
-}
+import { FormData } from "../Type/FormData";
 
 enum DateOptions {
   NEWEST = "Newest",
@@ -24,27 +20,6 @@ const beanOptions = [
   "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
   "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
 ];
-
-interface FormData {
-  id: string;
-  date: string;
-  bean: string;
-  roaster: string;
-  dripper: string;
-  grinder: string;
-  scale: string;
-  hotOrIced: HotOrIced;
-  temp: number;
-  beanWeight: string;
-  waterRatio: string;
-  waterWeight: number | string;
-  iceRatio?: string;
-  iceWeight?: number | string;
-  sec: number;
-  rating: number;
-  method: string;
-  comment: string;
-}
 
 export default function HistoryPage() {
   const [pinedStates, setPinedStates] = useState<Record<string, boolean>>({});

@@ -2,31 +2,8 @@ import { Link } from "react-router-dom";
 import HistoryItem from "./HistoryItem";
 import Button from "../components/Button";
 import Loader from "../ui/Loader";
+import { FormData } from "../Type/FormData";
 
-enum HotOrIced {
-  HOT = "Hot",
-  ICED = "Iced",
-}
-interface FormData {
-  id: string;
-  date: string;
-  bean: string;
-  roaster: string;
-  dripper: string;
-  grinder: string;
-  scale: string;
-  hotOrIced: HotOrIced;
-  temp: number;
-  beanWeight: string;
-  waterRatio: string;
-  waterWeight: number | string;
-  iceRatio?: string;
-  iceWeight?: number | string;
-  sec: number;
-  rating: number;
-  method: string;
-  comment: string;
-}
 interface HistoryListProps {
   isLoading: boolean;
   formData: FormData[];

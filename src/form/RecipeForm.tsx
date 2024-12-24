@@ -31,9 +31,9 @@ interface RecipeFormAndRatingState {
   temp: number;
   beanWeight: string;
   waterRatio: string;
-  waterWeight: number | string;
+  waterWeight: number | null;
   iceRatio: string;
-  iceWeight: number | string;
+  iceWeight: number | null;
   sec: number;
   rating: number;
 }
@@ -49,9 +49,9 @@ type FormAction =
   | { type: "SET_TEMP"; payload: number }
   | { type: "SET_BEAN_WEIGHT"; payload: string }
   | { type: "SET_WATER_RATIO"; payload: string }
-  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | null }
   | { type: "SET_ICE_RATIO"; payload: string }
-  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | null }
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 interface RecipeFormProps {
@@ -67,7 +67,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
       );
       dispatch({ type: "SET_ICE_WEIGHT", payload: calculatedIceWeight });
     } else {
-      dispatch({ type: "SET_ICE_WEIGHT", payload: "" });
+      dispatch({ type: "SET_ICE_WEIGHT", payload: null });
     }
   }, [state.beanWeight, state.iceRatio, dispatch]);
 
@@ -78,7 +78,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
       );
       dispatch({ type: "SET_WATER_WEIGHT", payload: calculatedWaterWeight });
     } else {
-      dispatch({ type: "SET_WATER_WEIGHT", payload: "" });
+      dispatch({ type: "SET_WATER_WEIGHT", payload: null });
     }
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
@@ -335,7 +335,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                     name="waterWeight"
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                    value={state.waterWeight}
+                    value={state.waterWeight ?? ""}
                     onChange={(e) =>
                       dispatch({
                         type: "SET_WATER_WEIGHT",
@@ -355,7 +355,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                       name="iceWeight"
                       maxLength={3}
                       className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                      value={state.iceWeight}
+                      value={state.iceWeight ?? ""}
                       onChange={(e) =>
                         dispatch({
                           type: "SET_ICE_WEIGHT",

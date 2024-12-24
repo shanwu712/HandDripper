@@ -13,6 +13,7 @@ import { useState } from "react";
 
 import { TagIcon } from "@heroicons/react/16/solid";
 import { useDeleteHistory } from "../services/useDeleteHistory";
+import { FormData } from "../Type/FormData";
 
 const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 const beanOptions = [
@@ -30,27 +31,6 @@ const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
 enum HotOrIced {
   HOT = "Hot",
   ICED = "Iced",
-}
-
-interface FormData {
-  id: string;
-  date: string;
-  bean: string;
-  roaster: string;
-  dripper: string;
-  grinder: string;
-  scale: string;
-  hotOrIced: HotOrIced;
-  temp: number;
-  beanWeight: string;
-  waterRatio: string;
-  waterWeight: number | string;
-  iceRatio?: string;
-  iceWeight?: number | string;
-  sec: number;
-  rating: number;
-  method: string;
-  comment: string;
 }
 
 interface HistoryItemProp {
@@ -75,7 +55,7 @@ export default function HistoryItem({
   const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
   const [editingIceWeight, setEditingIceWeight] = useState(item.iceWeight);
 
-  const { isDeleting, deleteHistory } = useDeleteHistory();
+  const { deleteHistory } = useDeleteHistory();
 
   return (
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
@@ -375,7 +355,7 @@ export default function HistoryItem({
                         name="iceWeight"
                         maxLength={3}
                         className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                        defaultValue={editingIceWeight}
+                        defaultValue={editingIceWeight ?? undefined}
                       />
                       <span className="absolute right-1">g</span>
                     </div>

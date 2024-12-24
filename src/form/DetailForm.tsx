@@ -21,9 +21,9 @@ interface RecipeFormAndRatingState {
   temp: number;
   beanWeight: string;
   waterRatio: string;
-  waterWeight: number | string;
+  waterWeight: number | null;
   iceRatio: string;
-  iceWeight: number | string;
+  iceWeight: number | null;
   sec: number;
   rating: number;
 }
@@ -39,9 +39,9 @@ type FormAction =
   | { type: "SET_TEMP"; payload: number }
   | { type: "SET_BEAN_WEIGHT"; payload: string }
   | { type: "SET_WATER_RATIO"; payload: string }
-  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | null }
   | { type: "SET_ICE_RATIO"; payload: string }
-  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | null }
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 interface DetailFormProps {

@@ -2,6 +2,8 @@ import { useReducer, useRef } from "react";
 import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
 import HistoryPreview from "../history/HistoryPreview";
+import { useCreateHistory } from "../services/useCreateHistory";
+import { FormData } from "../Type/FormData";
 
 enum HotOrIced {
   HOT = "Hot",
@@ -19,9 +21,9 @@ interface RecipeFormAndRatingState {
   temp: number;
   beanWeight: string;
   waterRatio: string;
-  waterWeight: number | string;
+  waterWeight: number | null;
   iceRatio: string;
-  iceWeight: number | string;
+  iceWeight: number | null;
   sec: number;
   rating: number;
 }
@@ -37,9 +39,9 @@ type FormAction =
   | { type: "SET_TEMP"; payload: number }
   | { type: "SET_BEAN_WEIGHT"; payload: string }
   | { type: "SET_WATER_RATIO"; payload: string }
-  | { type: "SET_WATER_WEIGHT"; payload: number | string }
+  | { type: "SET_WATER_WEIGHT"; payload: number | null }
   | { type: "SET_ICE_RATIO"; payload: string }
-  | { type: "SET_ICE_WEIGHT"; payload: number | string }
+  | { type: "SET_ICE_WEIGHT"; payload: number | null }
   | { type: "SET_SEC"; payload: number }
   | { type: "SET_RATING"; payload: number };
 
@@ -54,9 +56,9 @@ const initialState: RecipeFormAndRatingState = {
   temp: 80,
   beanWeight: "",
   waterRatio: "",
-  waterWeight: "",
+  waterWeight: null,
   iceRatio: "",
-  iceWeight: "",
+  iceWeight: null,
   sec: 0,
   rating: 0,
 };
@@ -109,6 +111,8 @@ export default function FormPage() {
 
   const detailFormRef = useRef<HTMLFormElement>(null);
 
+  const { createHistory } = useCreateHistory();
+
   function handleSubmitCombinedData(
     detailData: Record<string, FormDataEntryValue>,
   ) {
@@ -117,6 +121,8 @@ export default function FormPage() {
       ...detailData,
     };
     console.log(combinedData);
+
+    createHistory(combinedData as FormData);
   }
 
   return (

@@ -1,3 +1,4 @@
+import { FormData } from "../Type/FormData";
 import supabase from "./supabase";
 
 export async function getHistories() {
@@ -17,4 +18,17 @@ export async function deleteHistory(id: string) {
   }
 
   return null;
+}
+
+export async function createAHistory(newHistory: FormData) {
+  const { data, error } = await supabase
+    .from("histories")
+    .insert([newHistory])
+    .select();
+
+  if (error) {
+    throw new Error("histories could not be created!");
+  }
+
+  return data;
 }
