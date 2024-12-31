@@ -199,7 +199,7 @@ export default function RecipeForm({
                     dispatch({ type: "SET_SCALE", payload: e.target.value })
                   }
                   placeholder="Scale"
-                  className="w-20 rounded-r-lg border-l px-2 py-1 text-center focus:outline-none"
+                  className="w-20 rounded-r-lg border-l px-2 py-0.5 text-center focus:outline-none"
                 />
               </div>
             </div>

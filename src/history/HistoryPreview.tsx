@@ -17,9 +17,15 @@ export default function HistoryPreview() {
       </div>
       <div className="flex h-[17rem] max-h-[24rem] flex-grow flex-col gap-1 overflow-y-scroll">
         {histories?.length ? (
-          histories.map((item) => (
-            <PreviewHistoryItem item={item} key={item.id}></PreviewHistoryItem>
-          ))
+          histories
+            .slice()
+            .reverse()
+            .map((item) => (
+              <PreviewHistoryItem
+                item={item}
+                key={item.id}
+              ></PreviewHistoryItem>
+            ))
         ) : isLoading ? (
           <Loader />
         ) : (

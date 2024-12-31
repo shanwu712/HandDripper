@@ -76,7 +76,7 @@ export default function HistoryPage() {
       sortingMethod === RatingOptions.HIGHEST ||
       sortingMethod === RatingOptions.LOWEST
     ) {
-      const dataSortedByRating = dataToSort.sort((a: any, b: any) => {
+      const dataSortedByRating = dataToSort.sort((a: FormData, b: FormData) => {
         return sortingMethod === RatingOptions.HIGHEST
           ? b.rating - a.rating
           : a.rating - b.rating;
@@ -101,7 +101,7 @@ export default function HistoryPage() {
       sortingMethod === DateOptions.NEWEST ||
       sortingMethod === DateOptions.OLDEST
     ) {
-      const dataSortedByDate = dataToSort.sort((a: any, b: any) => {
+      const dataSortedByDate = dataToSort.sort((a: FormData, b: FormData) => {
         return sortingMethod === DateOptions.NEWEST
           ? new Date(b.date).getTime() - new Date(a.date).getTime()
           : new Date(a.date).getTime() - new Date(b.date).getTime();

@@ -502,7 +502,7 @@ export default function HistoryItem({
                   className="h-fit grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
                 ></textarea>
               </div>
-              <div className="flex w-96 justify-self-center lg:w-48 lg:justify-self-end">
+              <div className="flex w-80 justify-self-center lg:w-96">
                 <Button
                   type="secondary"
                   onClick={() => {
