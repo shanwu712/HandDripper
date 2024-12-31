@@ -57,9 +57,16 @@ type FormAction =
 interface RecipeFormProps {
   state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
+  editingSec: boolean;
+  setEditingSec: (arg0: boolean) => void;
 }
 
-export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
+export default function RecipeForm({
+  state,
+  dispatch,
+  editingSec,
+  setEditingSec,
+}: RecipeFormProps) {
   useEffect(() => {
     if (state.beanWeight && state.iceRatio) {
       const calculatedIceWeight = Math.round(
@@ -83,7 +90,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
   return (
-    <div className="relative flex h-5/6 min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem]">
+    <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
       <h2 className="flex justify-center rounded-t-lg bg-light-beige/50 p-2 text-2xl font-semibold italic tracking-wider">
         Today's recipe
       </h2>
@@ -113,7 +120,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                 onChange={(e) =>
                   dispatch({ type: "SET_BEAN", payload: e.target.value })
                 }
-                className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="beanOptions">
                 {beanOptions.map((option) => (
@@ -133,7 +140,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                 onChange={(e) =>
                   dispatch({ type: "SET_ROASTER", payload: e.target.value })
                 }
-                className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="roasterOptions">
                 {roasterOptions.map((option) => (
@@ -153,7 +160,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                 onChange={(e) =>
                   dispatch({ type: "SET_DRIPPER", payload: e.target.value })
                 }
-                className="grow rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <datalist id="dripperOptions">
                 {dripperOptions.map((option) => (
@@ -175,7 +182,7 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
                   onChange={(e) =>
                     dispatch({ type: "SET_GRINDER", payload: e.target.value })
                   }
-                  className="flex-grow rounded-l-lg px-2 py-1 focus:outline-none"
+                  className="flex-grow rounded-l-lg px-2 py-0.5 focus:outline-none"
                 />
                 <datalist id="grinderOptions">
                   {grinderOptions.map((option) => (
@@ -402,7 +409,12 @@ export default function RecipeForm({ state, dispatch }: RecipeFormProps) {
           <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
         </Form>
 
-        <Timer state={state} dispatch={dispatch}></Timer>
+        <Timer
+          state={state}
+          dispatch={dispatch}
+          editingSec={editingSec}
+          setEditingSec={setEditingSec}
+        ></Timer>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
-import { useReducer, useRef } from "react";
+import { useReducer, useRef, useState } from "react";
 import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
 import HistoryPreview from "../history/HistoryPreview";
 import { useCreateHistory } from "../services/useCreateHistory";
 import { FormData } from "../Type/FormData";
+import toast from "react-hot-toast";
 
 enum HotOrIced {
   HOT = "Hot",
@@ -104,6 +105,7 @@ const recipeFormDataReducer = (
 };
 
 export default function FormPage() {
+  const [editingSec, setEditingSec] = useState(false);
   const [recipeAndRatingState, dispatch] = useReducer(
     recipeFormDataReducer,
     initialState,
@@ -116,20 +118,30 @@ export default function FormPage() {
   function handleSubmitCombinedData(
     detailData: Record<string, FormDataEntryValue>,
   ) {
+    if (editingSec) {
+      toast("You haven't saved your dripping time!", {
+        icon: "⚠️",
+      });
+      return;
+    }
     const combinedData = {
       ...recipeAndRatingState,
       ...detailData,
     };
-    console.log(combinedData);
 
     createHistory(combinedData as FormData);
   }
 
   return (
-    <div className="flex h-[92vh] w-screen flex-col items-center justify-start overflow-x-hidden px-6 sm:flex-row sm:space-x-5 sm:overflow-x-auto sm:overflow-y-hidden md:space-x-8 lg:px-16">
-      <RecipeForm state={recipeAndRatingState} dispatch={dispatch} />
+    <div className="flex h-[92vh] w-screen flex-col items-center justify-start gap-6 overflow-x-hidden px-6 sm:flex-row sm:justify-center sm:gap-0 sm:space-x-5 sm:overflow-x-auto sm:overflow-y-hidden md:space-x-8 lg:px-16">
+      <RecipeForm
+        state={recipeAndRatingState}
+        dispatch={dispatch}
+        editingSec={editingSec}
+        setEditingSec={setEditingSec}
+      />
 
-      <div className="flex h-5/6 min-h-[40rem] flex-col items-center justify-center gap-3 sm:w-1/2 sm:min-w-[30rem]">
+      <div className="flex h-[85%] min-h-[40rem] flex-col items-center justify-center gap-3 sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
         <DetailForm
           detailFormRef={detailFormRef}
           handleSubmitCombinedData={handleSubmitCombinedData}

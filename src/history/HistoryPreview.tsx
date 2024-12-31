@@ -8,14 +8,14 @@ export default function HistoryPreview() {
   const { isLoading, histories } = useHistories();
 
   return (
-    <div className="flex h-full flex-col rounded-lg bg-beige p-3 shadow-lg sm:w-full">
+    <div className="flex h-full w-screen flex-col rounded-lg bg-beige p-3 shadow-lg sm:w-full">
       <div className="sticky top-0 z-20 mb-2 flex justify-between text-nowrap">
         <p className="text-xl font-semibold">Brewing History Preview</p>
         <Link to="/history">
           <Button type="secondary">View All history</Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-1 overflow-y-auto">
+      <div className="flex h-[17rem] max-h-[24rem] flex-grow flex-col gap-1 overflow-y-scroll">
         {histories?.length ? (
           histories.map((item) => (
             <PreviewHistoryItem item={item} key={item.id}></PreviewHistoryItem>

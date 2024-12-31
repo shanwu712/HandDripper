@@ -42,13 +42,20 @@ type FormAction =
 interface TimerProps {
   state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
+  editingSec: boolean;
+  setEditingSec: (arg0: boolean) => void;
 }
 
-export default function Timer({ state, dispatch }: TimerProps) {
+export default function Timer({
+  state,
+  dispatch,
+  editingSec,
+  setEditingSec,
+}: TimerProps) {
   const [active, setActive] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [manualInput, setManualInput] = useState(false);
-  const [editingSec, setEditingSec] = useState(false);
+
   const [manualSec, setManualSec] = useState<{ min: number; sec: number }>({
     min: 0,
     sec: 0,
@@ -116,7 +123,7 @@ export default function Timer({ state, dispatch }: TimerProps) {
   }
 
   return (
-    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige">
+    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige pb-2 pt-1 xl:pt-6">
       <Button
         type="secondary"
         onClick={handleInterval}
@@ -126,10 +133,11 @@ export default function Timer({ state, dispatch }: TimerProps) {
       </Button>
 
       {manualInput ? (
-        <div className="flex gap-2 pb-2">
+        <div className="flex gap-2 pb-2.5">
           <input
             maxLength={1}
-            defaultValue={manualSec.min}
+            defaultValue={manualSec.min !== 0 ? manualSec.min : undefined}
+            autoFocus={editingSec}
             onChange={(e) =>
               setManualSec({ ...manualSec, min: Number(e.target.value) })
             }
@@ -138,7 +146,7 @@ export default function Timer({ state, dispatch }: TimerProps) {
           <span>:</span>
           <input
             maxLength={2}
-            defaultValue={manualSec.sec}
+            defaultValue={manualSec.sec !== 0 ? manualSec.sec : undefined}
             onChange={(e) =>
               setManualSec({ ...manualSec, sec: Number(e.target.value) })
             }
