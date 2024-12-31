@@ -101,11 +101,10 @@ export default function HistoryPage() {
       sortingMethod === DateOptions.NEWEST ||
       sortingMethod === DateOptions.OLDEST
     ) {
-      const dataSortedByDate = dataToSort.sort((a: FormData, b: FormData) => {
-        return sortingMethod === DateOptions.NEWEST
-          ? new Date(b.date).getTime() - new Date(a.date).getTime()
-          : new Date(a.date).getTime() - new Date(b.date).getTime();
-      });
+      const dataSortedByDate =
+        sortingMethod === DateOptions.NEWEST
+          ? dataToSort.reverse()
+          : dataToSort;
 
       setSortedData(dataSortedByDate);
       return;

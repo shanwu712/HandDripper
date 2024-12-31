@@ -110,20 +110,51 @@ export default function FormPage() {
     recipeFormDataReducer,
     initialState,
   );
-
+  const [errors, setErrors] = useState({});
   const detailFormRef = useRef<HTMLFormElement>(null);
 
   const { createHistory } = useCreateHistory();
 
+  const validate = () => {
+    const newErrors = {
+      beanRequiredMessage: "",
+      beanWeightRequiredMessage: "",
+      waterWeightRequiredMessage: "",
+    };
+    if (!recipeAndRatingState.bean) {
+      newErrors.beanRequiredMessage = "Bean name is required";
+    }
+    if (!recipeAndRatingState.beanWeight) {
+      newErrors.beanWeightRequiredMessage = "* Bean weight is required";
+    }
+    if (!recipeAndRatingState.waterWeight) {
+      newErrors.waterWeightRequiredMessage = "* Water weight is required";
+    }
+    setErrors(newErrors);
+  };
+
   function handleSubmitCombinedData(
     detailData: Record<string, FormDataEntryValue>,
   ) {
+    validate();
+
+    if (
+      !recipeAndRatingState.bean ||
+      !recipeAndRatingState.beanWeight ||
+      !recipeAndRatingState.waterWeight
+    ) {
+      toast("Please complete all required fields!", {
+        icon: "⚠️",
+      });
+      return;
+    }
     if (editingSec) {
       toast("You haven't saved your dripping time!", {
         icon: "⚠️",
       });
       return;
     }
+
     const combinedData = {
       ...recipeAndRatingState,
       ...detailData,
@@ -139,6 +170,7 @@ export default function FormPage() {
         dispatch={dispatch}
         editingSec={editingSec}
         setEditingSec={setEditingSec}
+        errors={errors}
       />
 
       <div className="flex h-[85%] min-h-[40rem] flex-col items-center justify-center gap-3 sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
@@ -148,7 +180,7 @@ export default function FormPage() {
           state={recipeAndRatingState}
           dispatch={dispatch}
         />
-        <HistoryPreview></HistoryPreview>
+        <HistoryPreview />
       </div>
     </div>
   );

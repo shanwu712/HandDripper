@@ -35,16 +35,20 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
             <span className="flex items-center gap-1 text-nowrap">
               Temp: <p>{item.temp}</p>
             </span>
-            <span className="text-nowrap">
-              Grinder: {item.grinder} {item.scale && `/ ${item.scale}`}
-            </span>
+            {(item.grinder || item.scale) && (
+              <span className="text-nowrap">
+                Grinder: {item.grinder} {item.scale && `/ ${item.scale}`}
+              </span>
+            )}
 
-            <span className="flex items-center gap-1 text-nowrap">
-              Ratio:{" "}
-              <p>
-                1 : {item.waterRatio} {item.iceRatio && `: ${item.iceRatio}`}
-              </p>
-            </span>
+            {item.waterRatio && item.iceRatio && (
+              <span className="flex items-center gap-1 text-nowrap">
+                Ratio:{" "}
+                <p>
+                  1 : {item.waterRatio} {item.iceRatio && `: ${item.iceRatio}`}
+                </p>
+              </span>
+            )}
           </div>
         </div>
       </div>

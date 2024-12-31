@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
 
@@ -59,6 +59,11 @@ interface RecipeFormProps {
   dispatch: Dispatch<FormAction>;
   editingSec: boolean;
   setEditingSec: (arg0: boolean) => void;
+  errors: {
+    beanRequiredMessage?: string;
+    beanWeightRequiredMessage?: string;
+    waterWeightRequiredMessage?: string;
+  };
 }
 
 export default function RecipeForm({
@@ -66,7 +71,10 @@ export default function RecipeForm({
   dispatch,
   editingSec,
   setEditingSec,
+  errors,
 }: RecipeFormProps) {
+  const [isBeanFocus, setIsBeanFocus] = useState(false);
+
   useEffect(() => {
     if (state.beanWeight && state.iceRatio) {
       const calculatedIceWeight = Math.round(
@@ -88,6 +96,17 @@ export default function RecipeForm({
       dispatch({ type: "SET_WATER_WEIGHT", payload: null });
     }
   }, [state.beanWeight, state.waterRatio, dispatch]);
+
+  useEffect(() => {
+    console.log(`pnFocus ${!!errors.beanRequiredMessage}`);
+    if (!!errors.beanRequiredMessage && !!errors.beanRequiredMessage.length) {
+      setIsBeanFocus(true);
+      return;
+    }
+    setIsBeanFocus(false);
+  }, [errors]);
+
+  useEffect(() => console.log("bean Focus", isBeanFocus), [isBeanFocus]);
 
   return (
     <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
@@ -112,23 +131,35 @@ export default function RecipeForm({
           <div className="items-start space-y-4 px-1">
             <div className="flex space-x-2">
               <label className="w-16 text-lg font-medium">Bean</label>
-              <input
-                required
-                name="bean"
-                list="beanOptions"
-                value={state.bean}
-                onChange={(e) =>
-                  dispatch({ type: "SET_BEAN", payload: e.target.value })
-                }
-                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-              />
-              <datalist id="beanOptions">
-                {beanOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </datalist>
+              <div className="relative flex grow flex-col">
+                {errors.beanRequiredMessage && (
+                  <p className="absolute -left-3 top-1 text-red-500">*</p>
+                )}
+                <input
+                  required
+                  name="bean"
+                  type="text"
+                  list="beanOptions"
+                  value={state.bean}
+                  autoFocus={isBeanFocus}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_BEAN", payload: e.target.value })
+                  }
+                  className="rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                />
+                <datalist id="beanOptions">
+                  {beanOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </datalist>
+                {errors.beanRequiredMessage && (
+                  <p className="absolute -bottom-[18px] text-sm text-red-500">
+                    {errors.beanRequiredMessage}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="flex space-x-2">
@@ -344,10 +375,12 @@ export default function RecipeForm({
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                     value={state.waterWeight ?? ""}
                     onChange={(e) =>
-                      dispatch({
-                        type: "SET_WATER_WEIGHT",
-                        payload: Number(e.target.value),
-                      })
+                      e.target.value === "" || !isNaN(Number(e.target.value))
+                        ? dispatch({
+                            type: "SET_WATER_WEIGHT",
+                            payload: Number(e.target.value),
+                          })
+                        : null
                     }
                   />
                   <span className="absolute right-1">g</span>
@@ -364,10 +397,12 @@ export default function RecipeForm({
                       className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                       value={state.iceWeight ?? ""}
                       onChange={(e) =>
-                        dispatch({
-                          type: "SET_ICE_WEIGHT",
-                          payload: Number(e.target.value),
-                        })
+                        e.target.value === "" || !isNaN(Number(e.target.value))
+                          ? dispatch({
+                              type: "SET_ICE_WEIGHT",
+                              payload: Number(e.target.value),
+                            })
+                          : null
                       }
                     />
                     <span className="absolute right-1">g</span>

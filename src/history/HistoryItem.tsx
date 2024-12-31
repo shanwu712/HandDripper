@@ -86,15 +86,19 @@ export default function HistoryItem({
 
         <DisclosurePanel className="flex w-full flex-col px-3 text-gray-500">
           <div className="flex flex-col flex-wrap justify-between gap-x-2 md:flex-row">
-            <span className="text-nowrap">Roaster: {item.roaster}</span>
-            <span className="">Dripper: {item.dripper}</span>
-            <span className="text-nowrap">
-              {item.grinder && item.scale
-                ? `Grinder: ${item.grinder} / ${item.scale}`
-                : item.grinder
-                  ? `Grinder: ${item.grinder}`
-                  : `Grinder Scale: ${item.scale}`}
-            </span>
+            {item.roaster && (
+              <span className="text-nowrap">Roaster: {item.roaster}</span>
+            )}
+            {item.dripper && <span className="">Dripper: {item.dripper}</span>}
+            {(item.grinder || item.scale) && (
+              <span className="text-nowrap">
+                {item.grinder && item.scale
+                  ? `Grinder: ${item.grinder} / ${item.scale}`
+                  : item.grinder
+                    ? `Grinder: ${item.grinder}`
+                    : `Grinder Scale: ${item.scale}`}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-wrap justify-between gap-x-1">
@@ -108,18 +112,20 @@ export default function HistoryItem({
               </span>
             )}
 
-            <span className="text-nowrap">
-              Ratio: 1 : {item.waterRatio}{" "}
-              {item.iceRatio && `: ${item.iceRatio}`}
-            </span>
+            {(item.waterRatio || item.iceRatio) && (
+              <span className="text-nowrap">
+                Ratio: 1 : {item.waterRatio}{" "}
+                {item.iceRatio && `: ${item.iceRatio}`}
+              </span>
+            )}
 
             <span className="text-nowrap">Temperature: {item.temp}°C</span>
           </div>
 
           <div className="flex flex-col justify-between sm:flex-row">
             <div className="flex w-full flex-col sm:w-2/3">
-              <span>Method: {item.method}</span>
-              <span>Comment: {item.comment}</span>
+              {item.method && <span>Method: {item.method}</span>}
+              {item.comment && <span>Comment: {item.comment}</span>}
             </div>
 
             <div className="flex w-44 flex-col justify-end gap-2 self-end pt-2">
@@ -164,7 +170,7 @@ export default function HistoryItem({
                 {item.date.slice(5).split("-").join("/")}
               </Description>
 
-              <div className="ml-auto flex w-1/3 gap-3">
+              <div className="ml-auto flex w-2/5 gap-3">
                 <Button type="secondary" onClick={() => deleteHistory(item.id)}>
                   Yes
                 </Button>

@@ -31,7 +31,7 @@ export default function Button({
   if (type === "primary") {
     return (
       <div
-        className={`${baseStyle} w-full bg-amber-100 p-1.5 px-2 text-center font-semibold text-light-brown hover:text-dark-brown`}
+        className={`${baseStyle} w-full min-w-16 bg-amber-100 p-1.5 px-2 text-center font-semibold text-light-brown hover:text-dark-brown`}
       >
         {to ? <Link to={to}>{btnContent}</Link> : btnContent}
       </div>
@@ -41,7 +41,7 @@ export default function Button({
   if (type === "secondary") {
     return (
       <div
-        className={`${baseStyle} w-full bg-sage px-2 py-1 text-center text-light-beige hover:text-slate-50`}
+        className={`${baseStyle} w-full min-w-16 bg-sage px-2 py-1 text-center text-light-beige hover:text-slate-50`}
       >
         {btnContent}
       </div>
