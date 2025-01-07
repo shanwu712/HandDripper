@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
 
@@ -64,6 +64,9 @@ interface RecipeFormProps {
     beanWeightRequiredMessage?: string;
     waterWeightRequiredMessage?: string;
   };
+  beanInputRef: React.LegacyRef<HTMLInputElement>;
+  beanWeightInputRef: React.LegacyRef<HTMLInputElement>;
+  waterWeightInputRef: React.LegacyRef<HTMLInputElement>;
 }
 
 export default function RecipeForm({
@@ -72,9 +75,10 @@ export default function RecipeForm({
   editingSec,
   setEditingSec,
   errors,
+  beanInputRef,
+  beanWeightInputRef,
+  waterWeightInputRef,
 }: RecipeFormProps) {
-  const [isBeanFocus, setIsBeanFocus] = useState(false);
-
   useEffect(() => {
     if (state.beanWeight && state.iceRatio) {
       const calculatedIceWeight = Math.round(
@@ -97,16 +101,7 @@ export default function RecipeForm({
     }
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
-  useEffect(() => {
-    console.log(`pnFocus ${!!errors.beanRequiredMessage}`);
-    if (!!errors.beanRequiredMessage && !!errors.beanRequiredMessage.length) {
-      setIsBeanFocus(true);
-      return;
-    }
-    setIsBeanFocus(false);
-  }, [errors]);
-
-  useEffect(() => console.log("bean Focus", isBeanFocus), [isBeanFocus]);
+  console.log("a", errors.waterWeightRequiredMessage);
 
   return (
     <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
@@ -139,9 +134,9 @@ export default function RecipeForm({
                   required
                   name="bean"
                   type="text"
+                  ref={beanInputRef}
                   list="beanOptions"
                   value={state.bean}
-                  autoFocus={isBeanFocus}
                   onChange={(e) =>
                     dispatch({ type: "SET_BEAN", payload: e.target.value })
                   }
@@ -264,11 +259,15 @@ export default function RecipeForm({
                 </select>
               </div>
 
-              <div className="flex items-center space-x-2 text-nowrap">
+              <div className="relative flex items-center space-x-2 text-nowrap">
+                {errors.beanWeightRequiredMessage && (
+                  <p className="absolute top-1.5 text-sm text-red-500">*</p>
+                )}
                 <label className="text-lg font-semibold">Bean weight:</label>
                 <div className="relative flex items-center">
                   <input
                     name="beanWeight"
+                    ref={beanWeightInputRef}
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                     value={state.beanWeight}
@@ -282,6 +281,11 @@ export default function RecipeForm({
                     }
                   />
                   <span className="absolute right-1">g</span>
+                  {errors.beanWeightRequiredMessage && (
+                    <p className="absolute right-3 top-7 text-sm text-red-500">
+                      {errors.beanWeightRequiredMessage}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -366,11 +370,15 @@ export default function RecipeForm({
           {/* Third section */}
           <div className="flex items-center justify-between gap-1 border-light-beige px-1">
             <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2 text-nowrap">
+              <div className="relative flex items-center space-x-2 text-nowrap">
+                {errors.waterWeightRequiredMessage && (
+                  <p className="absolute top-1.5 text-sm text-red-500">*</p>
+                )}
                 <label className="text-lg font-semibold">Water weight:</label>
                 <div className="relative flex items-center">
                   <input
                     name="waterWeight"
+                    ref={waterWeightInputRef}
                     maxLength={3}
                     className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                     value={state.waterWeight ?? ""}
@@ -385,6 +393,11 @@ export default function RecipeForm({
                   />
                   <span className="absolute right-1">g</span>
                 </div>
+                {errors.waterWeightRequiredMessage && (
+                  <p className="absolute left-2 top-7 text-sm text-red-500">
+                    {errors.waterWeightRequiredMessage}
+                  </p>
+                )}
               </div>
 
               {state.hotOrIced === HotOrIced.ICED && (

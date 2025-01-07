@@ -112,6 +112,9 @@ export default function FormPage() {
   );
   const [errors, setErrors] = useState({});
   const detailFormRef = useRef<HTMLFormElement>(null);
+  const beanInputRef = useRef<HTMLInputElement>(null);
+  const beanWeightInputRef = useRef<HTMLInputElement>(null);
+  const waterWeightInputRef = useRef<HTMLInputElement>(null);
 
   const { createHistory } = useCreateHistory();
 
@@ -121,15 +124,30 @@ export default function FormPage() {
       beanWeightRequiredMessage: "",
       waterWeightRequiredMessage: "",
     };
+    let focusSet = false;
     if (!recipeAndRatingState.bean) {
       newErrors.beanRequiredMessage = "Bean name is required";
+
+      if (!focusSet) {
+        beanInputRef.current?.focus();
+        focusSet = true;
+      }
     }
     if (!recipeAndRatingState.beanWeight) {
-      newErrors.beanWeightRequiredMessage = "* Bean weight is required";
+      newErrors.beanWeightRequiredMessage = "Bean weight is required";
+      if (!focusSet) {
+        beanWeightInputRef.current?.focus();
+        focusSet = true;
+      }
     }
     if (!recipeAndRatingState.waterWeight) {
-      newErrors.waterWeightRequiredMessage = "* Water weight is required";
+      newErrors.waterWeightRequiredMessage = "Water weight is required";
+      if (!focusSet) {
+        waterWeightInputRef.current?.focus();
+        focusSet = true;
+      }
     }
+
     setErrors(newErrors);
   };
 
@@ -171,6 +189,9 @@ export default function FormPage() {
         editingSec={editingSec}
         setEditingSec={setEditingSec}
         errors={errors}
+        beanInputRef={beanInputRef}
+        beanWeightInputRef={beanWeightInputRef}
+        waterWeightInputRef={waterWeightInputRef}
       />
 
       <div className="flex h-[85%] min-h-[40rem] flex-col items-center justify-center gap-3 sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
