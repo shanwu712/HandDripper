@@ -101,8 +101,6 @@ export default function RecipeForm({
     }
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
-  console.log("a", errors.waterWeightRequiredMessage);
-
   return (
     <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
       <h2 className="flex justify-center rounded-t-lg bg-light-beige/50 p-2 text-2xl font-semibold italic tracking-wider">

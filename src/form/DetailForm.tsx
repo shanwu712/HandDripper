@@ -61,7 +61,7 @@ export default function DetailForm({
     e.preventDefault();
     const formData = new FormData(detailFormRef.current as HTMLFormElement);
     const data = Object.fromEntries(formData.entries());
-    console.log(detailFormRef.current);
+
     handleSubmitCombinedData(data);
   }
 

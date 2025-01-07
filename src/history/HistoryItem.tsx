@@ -84,46 +84,55 @@ export default function HistoryItem({
           </div>
         </DisclosureButton>
 
-        <DisclosurePanel className="flex w-full flex-col px-3 text-gray-500">
-          <div className="flex flex-col flex-wrap justify-between gap-x-2 md:flex-row">
-            {item.roaster && (
-              <span className="text-nowrap">Roaster: {item.roaster}</span>
-            )}
-            {item.dripper && <span className="">Dripper: {item.dripper}</span>}
-            {(item.grinder || item.scale) && (
+        <DisclosurePanel className="flex w-full flex-col px-3 pb-1 text-gray-500">
+          <div className="flex flex-col justify-between gap-0 sm:flex-row sm:gap-10">
+            <div className="flex flex-col">
+              {item.roaster && (
+                <span className="text-nowrap">Roaster: {item.roaster}</span>
+              )}
               <span className="text-nowrap">
-                {item.grinder && item.scale
-                  ? `Grinder: ${item.grinder} / ${item.scale}`
-                  : item.grinder
-                    ? `Grinder: ${item.grinder}`
-                    : `Grinder Scale: ${item.scale}`}
+                Bean weight: {item.beanWeight} g
               </span>
-            )}
-          </div>
-
-          <div className="flex flex-wrap justify-between gap-x-1">
-            <span className="text-nowrap">
-              Bean weight: {item.beanWeight} g
-            </span>
-
-            {item.iceWeight && (
+              {(item.waterRatio || item.iceRatio) && (
+                <span className="text-nowrap">
+                  Ratio: 1 : {item.waterRatio}{" "}
+                  {item.iceRatio && `: ${item.iceRatio}`}
+                </span>
+              )}
               <span className="text-nowrap">
-                Ice weight: {item.iceWeight} g
+                Water Weight: {item.waterWeight}
               </span>
-            )}
+              {item.iceWeight && (
+                <span className="text-nowrap">
+                  Ice weight: {item.iceWeight} g
+                </span>
+              )}
+            </div>
 
-            {(item.waterRatio || item.iceRatio) && (
-              <span className="text-nowrap">
-                Ratio: 1 : {item.waterRatio}{" "}
-                {item.iceRatio && `: ${item.iceRatio}`}
-              </span>
-            )}
-
-            <span className="text-nowrap">Temperature: {item.temp}°C</span>
-          </div>
-
-          <div className="flex flex-col justify-between sm:flex-row">
-            <div className="flex w-full flex-col sm:w-2/3">
+            <div className="flex flex-col">
+              {item.dripper && (
+                <span className="">Dripper: {item.dripper}</span>
+              )}
+              {(item.grinder || item.scale) && (
+                <span className="text-nowrap">
+                  {item.grinder && item.scale
+                    ? `Grinder: ${item.grinder} / ${item.scale}`
+                    : item.grinder
+                      ? `Grinder: ${item.grinder}`
+                      : `Grinder Scale: ${item.scale}`}
+                </span>
+              )}
+              <span className="text-nowrap">Temperature: {item.temp}°C</span>
+              {item.sec !== 0 && (
+                <span>
+                  Dripping time:{" "}
+                  {item.sec > 60 && item.sec % 60 !== 0
+                    ? `${Math.floor(item.sec / 60)}m${item.sec % 60}s`
+                    : item.sec % 60 === 0
+                      ? `${item.sec / 60}m`
+                      : `${item.sec}s`}
+                </span>
+              )}
               {item.method && <span>Method: {item.method}</span>}
               {item.comment && <span>Comment: {item.comment}</span>}
             </div>
