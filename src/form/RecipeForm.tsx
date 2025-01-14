@@ -259,7 +259,9 @@ export default function RecipeForm({
 
               <div className="relative flex items-center space-x-2 text-nowrap">
                 {errors.beanWeightRequiredMessage && (
-                  <p className="absolute top-1.5 text-sm text-red-500">*</p>
+                  <p className="absolute -left-0.5 top-1.5 text-sm text-red-500">
+                    *
+                  </p>
                 )}
                 <label className="text-lg font-semibold">Bean weight:</label>
                 <div className="relative flex items-center">

@@ -9,7 +9,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TagIcon } from "@heroicons/react/16/solid";
 import { useDeleteHistory } from "../services/useDeleteHistory";
@@ -54,8 +54,27 @@ export default function HistoryItem({
   const [isEditing, setIsEditing] = useState(false);
   const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
   const [editingIceWeight, setEditingIceWeight] = useState(item.iceWeight);
+  const [manualSec, setManualSec] = useState<{
+    min: number | string;
+    sec: number | string;
+  }>({
+    min: 0,
+    sec: 0,
+  });
 
   const { deleteHistory } = useDeleteHistory();
+
+  useEffect(() => {
+    if (item && item.sec !== undefined && item.sec >= 0) {
+      const minutes = Math.floor(item.sec / 60);
+      const seconds = item.sec % 60;
+
+      setManualSec({
+        min: minutes,
+        sec: seconds,
+      });
+    }
+  }, [item.sec]);
 
   return (
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
@@ -100,7 +119,7 @@ export default function HistoryItem({
                 </span>
               )}
               <span className="text-nowrap">
-                Water Weight: {item.waterWeight}
+                Water Weight: {item.waterWeight} g
               </span>
               {item.iceWeight && (
                 <span className="text-nowrap">
@@ -458,6 +477,54 @@ export default function HistoryItem({
                     )}
                   </div>
                 </div>
+              </div>
+
+              <div className="flex items-end gap-2">
+                <label
+                  htmlFor="sec"
+                  className="text-nowrap text-lg font-semibold"
+                >
+                  Dripping time
+                </label>
+                <input
+                  id="min"
+                  maxLength={1}
+                  value={manualSec.min}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.replace(/[^0-9]/g, "");
+                    setManualSec({
+                      ...manualSec,
+                      min: inputValue,
+                    });
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === "") {
+                      e.target.value = "0";
+                    }
+                  }}
+                  className="w-5 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
+                />
+                <span>min</span>
+                <input
+                  id="sec"
+                  name="sec"
+                  maxLength={2}
+                  defaultValue={manualSec.sec}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.replace(/[^0-9]/g, "");
+                    setManualSec({
+                      ...manualSec,
+                      sec: inputValue,
+                    });
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === "") {
+                      e.target.value = "0";
+                    }
+                  }}
+                  className="w-7 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
+                />
+                <span>s</span>
               </div>
 
               <div className="flex w-fit gap-2">
