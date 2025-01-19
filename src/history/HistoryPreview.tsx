@@ -18,8 +18,9 @@ export default function HistoryPreview() {
       <div className="flex h-[17rem] max-h-[24rem] flex-grow flex-col gap-1 overflow-y-scroll">
         {histories?.length ? (
           histories
-            .slice()
-            .reverse()
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            )
             .map((item) => (
               <PreviewHistoryItem
                 item={item}

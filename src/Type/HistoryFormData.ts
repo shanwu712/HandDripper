@@ -3,7 +3,7 @@ enum HotOrIced {
   ICED = "Iced",
 }
 
-export interface FormData {
+export interface HistoryFormData {
   id: string;
   date: string;
   bean: string;
@@ -19,7 +19,7 @@ export interface FormData {
   iceRatio?: string;
   iceWeight?: number | null;
   sec: number;
-  rating: number;
+  rating: number | string;
   method: string;
   comment: string;
 }

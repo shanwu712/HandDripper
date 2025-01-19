@@ -3,7 +3,7 @@ import DetailForm from "../form/DetailForm";
 import RecipeForm from "../form/RecipeForm";
 import HistoryPreview from "../history/HistoryPreview";
 import { useCreateHistory } from "../services/useCreateHistory";
-import { FormData } from "../Type/FormData";
+import { HistoryFormData } from "../Type/HistoryFormData";
 import toast from "react-hot-toast";
 
 enum HotOrIced {
@@ -178,7 +178,9 @@ export default function FormPage() {
       ...detailData,
     };
 
-    createHistory(combinedData as FormData);
+    console.log(combinedData);
+
+    createHistory(combinedData as HistoryFormData);
   }
 
   return (

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HistoryList from "../history/HistoryList";
 import Sorting from "../history/Sorting";
 import { useHistories } from "../services/useHistories";
-import { FormData } from "../Type/FormData";
+import { HistoryFormData } from "../Type/HistoryFormData";
 
 enum DateOptions {
   NEWEST = "Newest",
@@ -25,8 +25,8 @@ export default function HistoryPage() {
   const [pinedStates, setPinedStates] = useState<Record<string, boolean>>({});
   const [sortByPin, setSortByPin] = useState(false);
 
-  const [formData, setFormData] = useState<FormData[]>([]);
-  const [sortedData, setSortedData] = useState<FormData[]>([]);
+  const [formData, setFormData] = useState<HistoryFormData[]>([]);
+  const [sortedData, setSortedData] = useState<HistoryFormData[]>([]);
 
   const [sortingMethod, setSortingMethod] = useState<
     DateOptions | RatingOptions | string | null
@@ -41,7 +41,7 @@ export default function HistoryPage() {
     }));
   }
   useEffect(() => {
-    setFormData((histories as FormData[]) || []);
+    setFormData((histories as HistoryFormData[]) || []);
   }, [histories]);
 
   useEffect(() => {
@@ -76,11 +76,13 @@ export default function HistoryPage() {
       sortingMethod === RatingOptions.HIGHEST ||
       sortingMethod === RatingOptions.LOWEST
     ) {
-      const dataSortedByRating = dataToSort.sort((a: FormData, b: FormData) => {
-        return sortingMethod === RatingOptions.HIGHEST
-          ? b.rating - a.rating
-          : a.rating - b.rating;
-      });
+      const dataSortedByRating = dataToSort.sort(
+        (a: HistoryFormData, b: HistoryFormData) => {
+          return sortingMethod === RatingOptions.HIGHEST
+            ? Number(b.rating) - Number(a.rating)
+            : Number(a.rating) - Number(b.rating);
+        },
+      );
       setSortedData(dataSortedByRating);
       return;
     }
@@ -103,8 +105,12 @@ export default function HistoryPage() {
     ) {
       const dataSortedByDate =
         sortingMethod === DateOptions.NEWEST
-          ? dataToSort.reverse()
-          : dataToSort;
+          ? dataToSort.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            )
+          : dataToSort.sort(
+              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+            );
 
       setSortedData(dataSortedByDate);
       return;

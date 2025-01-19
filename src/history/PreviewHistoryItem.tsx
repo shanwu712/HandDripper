@@ -1,4 +1,4 @@
-import { FormData } from "../Type/FormData";
+import { FormData } from "../Type/HistoryFormData";
 
 interface PreviewHistoryItemProp {
   item: FormData;

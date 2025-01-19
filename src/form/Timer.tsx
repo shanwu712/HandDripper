@@ -123,7 +123,7 @@ export default function Timer({
   }
 
   return (
-    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige pb-2 pt-1 xl:pt-6">
+    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige pb-2 pt-1">
       <Button
         type="secondary"
         onClick={handleInterval}

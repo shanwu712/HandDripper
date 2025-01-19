@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import HistoryItem from "./HistoryItem";
 import Button from "../components/Button";
 import Loader from "../ui/Loader";
-import { FormData } from "../Type/FormData";
+import { HistoryFormData } from "../Type/HistoryFormData";
 
 interface HistoryListProps {
   isLoading: boolean;
-  formData: FormData[];
-  sortedData: FormData[];
+  formData: HistoryFormData[];
+  sortedData: HistoryFormData[];
   pinedStates: Record<string, boolean>;
   togglePined: (id: string) => void;
 }
