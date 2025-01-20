@@ -105,11 +105,17 @@ export default function HistoryPage() {
     ) {
       const dataSortedByDate =
         sortingMethod === DateOptions.NEWEST
-          ? dataToSort.sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          ? dataToSort.sort((a, b) =>
+              a.date !== b.date
+                ? new Date(b.date).getTime() - new Date(a.date).getTime()
+                : new Date(`1970-01-01T${b.added_time}Z`).getTime() -
+                  new Date(`1970-01-01T${a.added_time}Z`).getTime(),
             )
-          : dataToSort.sort(
-              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+          : dataToSort.sort((a, b) =>
+              a.date !== b.date
+                ? new Date(a.date).getTime() - new Date(b.date).getTime()
+                : new Date(`1970-01-01T${a.added_time}Z`).getTime() -
+                  new Date(`1970-01-01T${b.added_time}Z`).getTime(),
             );
 
       setSortedData(dataSortedByDate);

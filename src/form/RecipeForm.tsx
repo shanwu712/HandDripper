@@ -325,7 +325,7 @@ export default function RecipeForm({
                     }
                   />
                   <label
-                    htmlFor="inputField"
+                    htmlFor="waterRatio"
                     className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-black"
                   >
                     Water

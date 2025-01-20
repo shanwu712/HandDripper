@@ -4,6 +4,7 @@ enum HotOrIced {
 }
 
 export interface HistoryFormData {
+  added_time: string;
   id: string;
   date: string;
   bean: string;

@@ -1,7 +1,7 @@
-import { FormData } from "../Type/HistoryFormData";
+import { HistoryFormData } from "../Type/HistoryFormData";
 
 interface PreviewHistoryItemProp {
-  item: FormData;
+  item: HistoryFormData;
 }
 
 export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
@@ -41,7 +41,7 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
               </span>
             )}
 
-            {item.waterRatio && item.iceRatio && (
+            {(item.waterRatio || (item.waterRatio && item.iceRatio)) && (
               <span className="flex items-center gap-1 text-nowrap">
                 Ratio:{" "}
                 <p>
