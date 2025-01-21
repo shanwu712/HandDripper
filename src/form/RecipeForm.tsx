@@ -1,20 +1,21 @@
 import { Dispatch, useEffect } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
+import useOptions from "../services/useOptions";
 
-const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
-const beanOptions = [
-  "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
-  "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
-  "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-];
-const dripperOptions = [
-  "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
-  "Kalita Wave Kalita Wave 185 Stainless Steel Dripper",
-  "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
-];
+// const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
+// const beanOptions = [
+//   "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
+//   "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
+//   "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
+// ];
+// const dripperOptions = [
+//   "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
+//   "Kalita Wave Kalita Wave 185 Stainless Steel Dripper",
+//   "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
+// ];
 
-const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
+// const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
 
 enum HotOrIced {
   HOT = "Hot",
@@ -79,6 +80,11 @@ export default function RecipeForm({
   beanWeightInputRef,
   waterWeightInputRef,
 }: RecipeFormProps) {
+  const { options: beanOptions } = useOptions("bean");
+  const { options: roasterOptions } = useOptions("roaster");
+  const { options: dripperOptions } = useOptions("dripper");
+  const { options: grinderOptions } = useOptions("grinder");
+
   useEffect(() => {
     if (state.beanWeight && state.iceRatio) {
       const calculatedIceWeight = Math.round(
@@ -141,7 +147,7 @@ export default function RecipeForm({
                   className="rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
                 />
                 <datalist id="beanOptions">
-                  {beanOptions.map((option) => (
+                  {beanOptions?.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>

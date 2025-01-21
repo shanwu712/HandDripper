@@ -1,14 +1,14 @@
 import { HistoryFormData } from "../Type/HistoryFormData";
 import supabase from "./supabase";
 
-export async function getHistories() {
-  const { data, error } = await supabase.from("histories").select("*");
+export async function getHistories<T>(columnName: string = "*"): Promise<T[]> {
+  const { data, error } = await supabase.from("histories").select(columnName);
 
   if (error) {
     throw new Error("histories could not be loaded!");
   }
 
-  return data;
+  return data as T[];
 }
 
 export async function deleteHistory(id: string) {

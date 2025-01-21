@@ -8,7 +8,7 @@ export function useHistories() {
     error,
   } = useQuery({
     queryKey: ["histories"],
-    queryFn: getHistories,
+    queryFn: () => getHistories(),
   });
 
   return { isLoading, histories, error };

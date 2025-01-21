@@ -26,7 +26,7 @@ export default function Homepage() {
                 id="email"
                 name="email"
                 required
-                className="w-auto rounded"
+                className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
             </div>
 
@@ -37,7 +37,7 @@ export default function Homepage() {
                 id="password"
                 name="password"
                 required
-                className="w-auto rounded"
+                className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
               />
               <a
                 href="#"
