@@ -2,8 +2,9 @@ import { Form } from "react-router-dom";
 import Button from "../components/Button";
 import StarRating from "./StarRating";
 import { Dispatch, RefObject } from "react";
+import useOptions from "../services/useOptions";
 
-const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
+// const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
 
 enum HotOrIced {
   HOT = "Hot",
@@ -57,6 +58,8 @@ export default function DetailForm({
   detailFormRef,
   handleSubmitCombinedData,
 }: DetailFormProps) {
+  const { options: methodOptions } = useOptions("method");
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const formData = new FormData(detailFormRef.current as HTMLFormElement);

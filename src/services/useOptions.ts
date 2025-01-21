@@ -15,9 +15,9 @@ export default function useOptions(columnName: string) {
     queryFn: () => getHistories(columnName, true),
   });
 
-  const flattenedOptions = [
+  const flattenedLimitedOptions = [
     ...new Set(options?.map((option) => option[columnName]) || []),
   ].slice(0, 4);
 
-  return { options: flattenedOptions, error, isLoading };
+  return { options: flattenedLimitedOptions, error, isLoading };
 }
