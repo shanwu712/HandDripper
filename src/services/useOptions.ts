@@ -12,12 +12,12 @@ export default function useOptions(columnName: string) {
     isLoading,
   } = useQuery<Option[]>({
     queryKey: ["histories", columnName],
-    queryFn: () => getHistories(columnName),
+    queryFn: () => getHistories(columnName, true),
   });
 
   const flattenedOptions = [
     ...new Set(options?.map((option) => option[columnName]) || []),
-  ];
+  ].slice(0, 4);
 
   return { options: flattenedOptions, error, isLoading };
 }
