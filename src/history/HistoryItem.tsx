@@ -15,20 +15,21 @@ import { TagIcon } from "@heroicons/react/16/solid";
 import { useDeleteHistory } from "../services/useDeleteHistory";
 import { HistoryFormData } from "../Type/HistoryFormData";
 import { useUpdateHistory } from "../services/useUpdateHistory";
+import useOptions from "../services/useOptions";
 
-const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
-const beanOptions = [
-  "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
-  "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
-  "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-];
-const dripperOptions = [
-  "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
-  "Kalita Wave Kalita Wave 185 Stainless Steel Dripper",
-  "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
-];
-const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
-const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
+// const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
+// const beanOptions = [
+//   "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
+//   "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
+//   "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
+// ];
+// const dripperOptions = [
+//   "Hario V60 Hario V60-02 Ceramic Coffee Dripper",
+//   "Kalita Wave Kalita Wave 185 Stainless Steel Dripper",
+//   "Chemex Chemex Classic 6-Cup Glass Coffee Maker",
+// ];
+// const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
+// const grinderOptions = ["Grinder 1", "Grinder 2", "Grinder 3"];
 enum HotOrIced {
   HOT = "Hot",
   ICED = "Iced",
@@ -54,17 +55,22 @@ export default function HistoryItem({
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
-  const [editingIceWeight, setEditingIceWeight] = useState(item.iceWeight);
   const [manualSec, setManualSec] = useState<{
     min: number | string;
     sec: number | string;
   }>({
-    min: 0,
-    sec: 0,
+    min: "0",
+    sec: "0",
   });
 
   const { deleteHistory } = useDeleteHistory();
   const { editHistory } = useUpdateHistory();
+
+  const { options: beanOptions } = useOptions("bean");
+  const { options: roasterOptions } = useOptions("roaster");
+  const { options: dripperOptions } = useOptions("dripper");
+  const { options: grinderOptions } = useOptions("grinder");
+  const { options: methodOptions } = useOptions("method");
 
   function handleClick() {
     const editForm = document.getElementById("editForm") as HTMLFormElement;
@@ -76,7 +82,11 @@ export default function HistoryItem({
       id: item.id,
       newHistoryData: {
         ...data,
-        id: item.id,
+        temp: data.temp === "" ? 0 : data.temp,
+        waterWeight:
+          data.waterWeight === "" || data.waterWeight === "0"
+            ? 0
+            : data.waterWeight,
         sec: Number(manualSec.min) * 60 + Number(manualSec.sec),
       } as HistoryFormData,
     });
@@ -98,9 +108,9 @@ export default function HistoryItem({
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
       <Disclosure>
         <DisclosureButton className="relative w-full rounded-md px-0.5 py-1 text-left md:px-2">
-          <div className="absolute -left-2 -top-8 flex gap-1 rounded-t-md bg-sage px-2 py-2 text-xs font-bold text-white">
+          <div className="absolute -left-2 -top-8 flex w-20 justify-between rounded-t-md bg-sage px-2 py-2 text-xs font-bold text-white">
             <span>{item.date.slice(5).split("-").join("/")}</span>
-            <span>{item.hotOrIced}</span>
+            <span>{item.hotOrIced.toLocaleUpperCase()}</span>
           </div>
 
           {pinedStates[item.id] && (
@@ -127,19 +137,23 @@ export default function HistoryItem({
               {item.roaster && (
                 <span className="text-nowrap">Roaster: {item.roaster}</span>
               )}
-              <span className="text-nowrap">
-                Bean weight: {item.beanWeight} g
-              </span>
+              {item.beanWeight && item.beanWeight !== "0" && (
+                <span className="text-nowrap">
+                  Bean weight: {item.beanWeight} g
+                </span>
+              )}
               {(item.waterRatio || item.iceRatio) && (
                 <span className="text-nowrap">
                   Ratio: 1 : {item.waterRatio}{" "}
                   {item.iceRatio && `: ${item.iceRatio}`}
                 </span>
               )}
-              <span className="text-nowrap">
-                Water Weight: {item.waterWeight} g
-              </span>
-              {item.iceWeight && (
+              {item.waterWeight !== 0 && (
+                <span className="text-nowrap">
+                  Water Weight: {item.waterWeight} g
+                </span>
+              )}
+              {item.iceWeight && item.iceWeight !== "0" && (
                 <span className="text-nowrap">
                   Ice weight: {item.iceWeight} g
                 </span>
@@ -159,7 +173,9 @@ export default function HistoryItem({
                       : `Grinder Scale: ${item.scale}`}
                 </span>
               )}
-              <span className="text-nowrap">Temperature: {item.temp}°C</span>
+              {item.temp !== 0 && (
+                <span className="text-nowrap">Temperature: {item.temp}°C</span>
+              )}
               {item.sec !== 0 && (
                 <span>
                   Dripping time:{" "}
@@ -237,7 +253,6 @@ export default function HistoryItem({
           onClose={() => {
             setIsEditing(false);
             setEditingHotOrIced(item.hotOrIced);
-            setEditingIceWeight(item.iceWeight);
           }}
           className="relative z-40"
         >
@@ -405,29 +420,12 @@ export default function HistoryItem({
                         name="beanWeight"
                         maxLength={3}
                         className="w-12 border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
-                        defaultValue={item.beanWeight}
+                        defaultValue={item.beanWeight || "0"}
                         onBlur={() => {}}
                       />
                       <span className="absolute right-1">g</span>
                     </div>
                   </div>
-
-                  {editingHotOrIced === HotOrIced.ICED && (
-                    <div className="flex items-center space-x-2 text-nowrap">
-                      <label className="text-lg font-semibold">
-                        Ice weight:
-                      </label>
-                      <div className="relative flex items-center">
-                        <input
-                          name="iceWeight"
-                          maxLength={3}
-                          className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                          defaultValue={editingIceWeight ?? undefined}
-                        />
-                        <span className="absolute right-1">g</span>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="flex items-center gap-2">
                     <label
@@ -512,11 +510,40 @@ export default function HistoryItem({
                   </div>
                 </div>
 
+                <div className="flex items-center space-x-2 text-nowrap">
+                  <label className="text-lg font-semibold">Water weight:</label>
+                  <div className="relative flex items-center">
+                    <input
+                      name="waterWeight"
+                      maxLength={3}
+                      defaultValue={item.waterWeight ?? ""}
+                      className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    />
+                    <span className="absolute right-1">g</span>
+                  </div>
+                </div>
+
                 <div className="flex items-end gap-2">
-                  <label
-                    htmlFor="sec"
-                    className="text-nowrap text-lg font-semibold"
-                  >
+                  {editingHotOrIced === HotOrIced.ICED && (
+                    <div className="flex items-center space-x-2 text-nowrap">
+                      <label className="text-lg font-semibold">
+                        Ice weight:
+                      </label>
+                      <div className="relative flex items-center">
+                        <input
+                          name="iceWeight"
+                          maxLength={3}
+                          defaultValue={item.iceWeight || "0"}
+                          className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                        />
+                        <span className="absolute right-1">g</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-end gap-2">
+                  <label className="text-nowrap text-lg font-semibold">
                     Dripping time
                   </label>
                   <input
@@ -530,30 +557,19 @@ export default function HistoryItem({
                         min: inputValue,
                       });
                     }}
-                    onBlur={(e) => {
-                      if (e.target.value === "") {
-                        e.target.value = "0";
-                      }
-                    }}
                     className="w-5 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <span>min</span>
                   <input
-                    id="sec"
                     name="sec"
                     maxLength={2}
-                    defaultValue={manualSec.sec}
+                    value={manualSec.sec}
                     onChange={(e) => {
                       const inputValue = e.target.value.replace(/[^0-9]/g, "");
                       setManualSec({
                         ...manualSec,
                         sec: inputValue,
                       });
-                    }}
-                    onBlur={(e) => {
-                      if (e.target.value === "") {
-                        e.target.value = "0";
-                      }
                     }}
                     className="w-7 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
                   />
@@ -623,7 +639,7 @@ export default function HistoryItem({
                     onClick={() => {
                       setIsEditing(false);
                       setEditingHotOrIced(item.hotOrIced);
-                      setEditingIceWeight(item.iceWeight);
+
                       handleClick();
                     }}
                   >

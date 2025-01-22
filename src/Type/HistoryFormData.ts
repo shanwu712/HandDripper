@@ -18,7 +18,7 @@ export interface HistoryFormData {
   waterRatio: string;
   waterWeight: number | null;
   iceRatio?: string;
-  iceWeight?: number | null;
+  iceWeight?: number | string | null;
   sec: number;
   rating: number | string;
   method: string;
