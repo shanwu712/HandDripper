@@ -44,7 +44,8 @@ type FormAction =
   | { type: "SET_ICE_RATIO"; payload: string }
   | { type: "SET_ICE_WEIGHT"; payload: number | null }
   | { type: "SET_SEC"; payload: number }
-  | { type: "SET_RATING"; payload: number };
+  | { type: "SET_RATING"; payload: number }
+  | { type: "RESET" };
 
 const initialState: RecipeFormAndRatingState = {
   date: new Date().toISOString().substring(0, 10),
@@ -99,6 +100,8 @@ const recipeFormDataReducer = (
       return { ...recipeAndRatingState, sec: action.payload };
     case "SET_RATING":
       return { ...recipeAndRatingState, rating: action.payload };
+    case "RESET":
+      return initialState;
     default:
       return recipeAndRatingState;
   }
@@ -111,7 +114,13 @@ export default function FormPage() {
     initialState,
   );
   const [errors, setErrors] = useState({});
+  const [manualSec, setManualSec] = useState<{ min: number; sec: number }>({
+    min: 0,
+    sec: 0,
+  });
+
   const detailFormRef = useRef<HTMLFormElement>(null);
+
   const beanInputRef = useRef<HTMLInputElement>(null);
   const beanWeightInputRef = useRef<HTMLInputElement>(null);
   const waterWeightInputRef = useRef<HTMLInputElement>(null);
@@ -151,6 +160,13 @@ export default function FormPage() {
     setErrors(newErrors);
   };
 
+  function resetAllField() {
+    detailFormRef.current?.reset();
+    dispatch({ type: "RESET" });
+    setManualSec({ min: 0, sec: 0 });
+    dispatch({ type: "SET_RATING", payload: 0 });
+  }
+
   function handleSubmitCombinedData(
     detailData: Record<string, FormDataEntryValue>,
   ) {
@@ -177,10 +193,10 @@ export default function FormPage() {
       ...recipeAndRatingState,
       ...detailData,
     };
-
     console.log(combinedData);
 
     createHistory(combinedData as HistoryFormData);
+    resetAllField();
   }
 
   return (
@@ -191,6 +207,8 @@ export default function FormPage() {
         editingSec={editingSec}
         setEditingSec={setEditingSec}
         errors={errors}
+        manualSec={manualSec}
+        setManualSec={setManualSec}
         beanInputRef={beanInputRef}
         beanWeightInputRef={beanWeightInputRef}
         waterWeightInputRef={waterWeightInputRef}

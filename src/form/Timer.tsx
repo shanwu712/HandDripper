@@ -44,6 +44,8 @@ interface TimerProps {
   dispatch: Dispatch<FormAction>;
   editingSec: boolean;
   setEditingSec: (arg0: boolean) => void;
+  manualSec: { min: number; sec: number };
+  setManualSec: ({ min, sec }: { min: number; sec: number }) => void;
 }
 
 export default function Timer({
@@ -51,15 +53,12 @@ export default function Timer({
   dispatch,
   editingSec,
   setEditingSec,
+  manualSec,
+  setManualSec,
 }: TimerProps) {
   const [active, setActive] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [manualInput, setManualInput] = useState(false);
-
-  const [manualSec, setManualSec] = useState<{ min: number; sec: number }>({
-    min: 0,
-    sec: 0,
-  });
 
   const secRef = useRef(state.sec);
 

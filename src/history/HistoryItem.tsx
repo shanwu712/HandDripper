@@ -114,7 +114,7 @@ export default function HistoryItem({
           </div>
 
           {pinedStates[item.id] && (
-            <div className="absolute -top-8 left-16 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
+            <div className="absolute -top-8 left-20 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
               <span>
                 <TagIcon className="h-4 w-4 text-dark-brown" />
               </span>

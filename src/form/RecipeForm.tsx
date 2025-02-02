@@ -54,7 +54,8 @@ type FormAction =
   | { type: "SET_ICE_RATIO"; payload: string }
   | { type: "SET_ICE_WEIGHT"; payload: number | null }
   | { type: "SET_SEC"; payload: number }
-  | { type: "SET_RATING"; payload: number };
+  | { type: "SET_RATING"; payload: number }
+  | { type: "RESET" };
 interface RecipeFormProps {
   state: RecipeFormAndRatingState;
   dispatch: Dispatch<FormAction>;
@@ -65,12 +66,16 @@ interface RecipeFormProps {
     beanWeightRequiredMessage?: string;
     waterWeightRequiredMessage?: string;
   };
+  manualSec: { min: number; sec: number };
+  setManualSec: ({ min, sec }: { min: number; sec: number }) => void;
   beanInputRef: React.LegacyRef<HTMLInputElement>;
   beanWeightInputRef: React.LegacyRef<HTMLInputElement>;
   waterWeightInputRef: React.LegacyRef<HTMLInputElement>;
 }
 
 export default function RecipeForm({
+  manualSec,
+  setManualSec,
   state,
   dispatch,
   editingSec,
@@ -468,6 +473,8 @@ export default function RecipeForm({
           dispatch={dispatch}
           editingSec={editingSec}
           setEditingSec={setEditingSec}
+          manualSec={manualSec}
+          setManualSec={setManualSec}
         ></Timer>
       </div>
     </div>
