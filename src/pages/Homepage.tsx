@@ -1,40 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 import supabase from "../services/supabase";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { signOut } from "../services/apiUser";
 
 export default function Homepage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const navigate = useNavigate();
 
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault();
+    setIsLoading(true);
+
+    const email = formRef.current?.email.value;
+    const password = formRef.current?.password.value;
     const { error } = await supabase.auth.signUp({ email, password });
+    setIsLoading(false);
 
     if (error) {
-      toast.error(error.message);
+      toast.error(
+        error.message.charAt(0).toUpperCase() + error.message.slice(1),
+      );
     } else {
       setIsSignUp(false);
+      toast.success(
+        (t) => (
+          <div className="flex gap-1">
+            <span>
+              Your account has been created successfully! Please go check your
+              email and click the link to verify and activate your account!
+            </span>
+            <div className="w-fit self-center">
+              <Button type="secondary" onClick={() => toast.dismiss(t.id)}>
+                Dismiss
+              </Button>
+            </div>
+          </div>
+        ),
+        { duration: Infinity },
+      );
     }
+    formRef.current?.reset();
   }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
+
+    setIsLoading(true);
+    const email = formRef.current?.email.value;
+    const password = formRef.current?.password.value;
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    setIsLoading(false);
     if (error) {
-      toast.error(error.message);
+      toast.error(
+        error.message.charAt(0).toUpperCase() + error.message.slice(1),
+      );
     } else {
       navigate("/form");
     }
+
+    formRef.current?.reset();
+  }
+
+  function handleLogOut() {
+    signOut();
+    setHasLoggedIn(false);
+    navigate("/");
   }
 
   useEffect(() => {
@@ -55,7 +97,7 @@ export default function Homepage() {
         className="flex h-full w-full justify-center bg-cover bg-center"
       >
         <div
-          className={`relative top-20 flex h-96 w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${hasLoggedIn && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
+          className={`relative top-20 flex h-96 min-h-fit w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${hasLoggedIn && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
         >
           <div className="space-y-2 xl:space-y-6">
             <img
@@ -73,37 +115,53 @@ export default function Homepage() {
           </div>
 
           {hasLoggedIn ? (
-            <div className="mt-3 w-1/2">
-              <Button type="primary">Log out</Button>
+            <div className="mt-3 w-1/2 space-y-2">
+              <Button type="primary" onClick={() => navigate("/form")}>
+                Start Dripping
+              </Button>
+              <Button type="secondary" onClick={handleLogOut}>
+                Log out
+              </Button>
             </div>
           ) : (
-            <>
-              <form
-                onSubmit={isSignUp ? handleSignUp : handleLogin}
-                className="mt-2 flex flex-col space-y-3 p-3 font-medium md:w-[50%]"
-              >
-                <div className="flex flex-col">
-                  <label htmlFor="email">Email address</label>
-                  <input
-                    id="email"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                  />
-                </div>
+            <form
+              ref={formRef}
+              onSubmit={isSignUp ? handleSignUp : handleLogin}
+              className="mt-2 flex w-[80%] flex-col items-center space-y-3 p-3 font-medium sm:space-y-6"
+            >
+              <div className="flex flex-col sm:w-2/3">
+                <label htmlFor="email">Email address</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  defaultValue=""
+                  required
+                  className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                />
+              </div>
 
-                <div className="flex flex-col">
+              <div className="relative flex flex-col sm:w-2/3">
+                <span className="flex items-center gap-1 whitespace-nowrap">
                   <label htmlFor="password">Password</label>
+                  {isSignUp && (
+                    <p className="text-sm text-gray-600">
+                      (at least 6 characters)
+                    </p>
+                  )}
+                </span>
 
-                  <input
-                    id="password"
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                  />
-                  {/* {!isSignUp && (
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="off"
+                  defaultValue=""
+                  required
+                  className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                />
+
+                {/* {!isSignUp && (
                 <a
                   href="#"
                   className="self-end text-sm font-normal text-indigo-600 hover:text-indigo-500"
@@ -111,15 +169,10 @@ export default function Homepage() {
                   Forgot password?
                 </a>
               )} */}
-                </div>
-              </form>
+              </div>
 
-              <div className="mt-3 flex w-3/5 flex-col items-center tracking-wider">
-                <Button
-                  type="primary"
-                  to="/form"
-                  onClick={isSignUp ? handleSignUp : handleLogin}
-                >
+              <div className="flex w-full flex-col items-center pt-4 sm:w-5/6">
+                <Button type="primary" disabled={isLoading}>
                   {isSignUp ? "Sign Up" : "Start Dripping"}
                 </Button>
                 <a
@@ -133,7 +186,7 @@ export default function Homepage() {
                   {isSignUp ? "Sign in your account" : "Create an account"}
                 </a>
               </div>
-            </>
+            </form>
           )}
         </div>
       </div>

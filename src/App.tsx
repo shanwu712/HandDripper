@@ -6,7 +6,6 @@ import FormPage from "./pages/FormPage";
 import HistoryPage from "./pages/HistoryPage";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
-import Button from "./components/Button";
 import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
@@ -24,16 +23,15 @@ const router = createBrowserRouter([
       {
         path: "/form",
         element: <FormPage />,
-        handle: { navBtn: ["", <Button type="primary">Log Out</Button>] },
+        handle: {
+          navBtn: ["", "Log Out"],
+        },
       },
       {
         path: "/history",
         element: <HistoryPage />,
         handle: {
-          navBtn: [
-            <Link to="/form">Back to Dripping</Link>,
-            <Button type="primary">Log Out</Button>,
-          ],
+          navBtn: [<Link to="/form">Back to Dripping</Link>, "Log Out"],
         },
       },
     ],

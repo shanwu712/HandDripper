@@ -405,7 +405,7 @@ export default function RecipeForm({
                   <span className="absolute right-1">g</span>
                 </div>
                 {errors.waterWeightRequiredMessage && (
-                  <p className="absolute left-2 top-7 text-sm text-red-500">
+                  <p className="absolute bottom-7 left-1 text-sm text-red-500">
                     {errors.waterWeightRequiredMessage}
                   </p>
                 )}
