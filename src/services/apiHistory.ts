@@ -5,7 +5,10 @@ export async function getHistories<T>(
   columnName: string = "*",
   toRange: boolean = false,
 ): Promise<T[]> {
-  let query = supabase.from("histories").select(columnName);
+  let query = supabase
+    .from("histories")
+    .select(columnName)
+    .eq("user_id", (await supabase.auth.getUser()).data.user?.id);
 
   if (toRange)
     query = query
@@ -22,7 +25,11 @@ export async function getHistories<T>(
 }
 
 export async function deleteHistory(id: string) {
-  const { error } = await supabase.from("histories").delete().eq("id", id);
+  const { error } = await supabase
+    .from("histories")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", (await supabase.auth.getUser()).data.user?.id);
   if (error) {
     throw new Error("history could not be deleted!");
   }
@@ -35,7 +42,6 @@ export async function createAHistory(newHistory: HistoryFormData) {
     .from("histories")
     .insert([newHistory])
     .select();
-
   if (error) {
     throw new Error("histories could not be created!");
   }
@@ -48,6 +54,7 @@ export async function updateHistory(id: string, historyObj: HistoryFormData) {
     .from("histories")
     .update(historyObj)
     .eq("id", id)
+    .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
     .select()
     .single();
 

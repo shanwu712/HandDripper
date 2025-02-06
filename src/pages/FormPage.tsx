@@ -125,7 +125,7 @@ export default function FormPage() {
   const beanWeightInputRef = useRef<HTMLInputElement>(null);
   const waterWeightInputRef = useRef<HTMLInputElement>(null);
 
-  const { createHistory } = useCreateHistory();
+  const { createHistory, isCreating } = useCreateHistory();
 
   const validate = () => {
     const newErrors = {
@@ -221,7 +221,7 @@ export default function FormPage() {
           state={recipeAndRatingState}
           dispatch={dispatch}
         />
-        <HistoryPreview />
+        <HistoryPreview isCreating={isCreating} />
       </div>
     </div>
   );

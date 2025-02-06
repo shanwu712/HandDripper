@@ -3,18 +3,23 @@ import Button from "../components/Button";
 import supabase from "../services/supabase";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { signOut } from "../services/apiUser";
+import { useSignOut } from "../services/useSignOut";
+import useCheckUser from "../services/useCheckUser";
+import Loader from "../ui/Loader";
 
 export default function Homepage() {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-  const [hasLoggedIn, setHasLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // const [isUserLoaded, setIsUserLoaded] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const { user, isLoading: isCheckingUser } = useCheckUser();
 
   const navigate = useNavigate();
+
+  const signOut = useSignOut();
 
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault();
@@ -67,28 +72,19 @@ export default function Homepage() {
         error.message.charAt(0).toUpperCase() + error.message.slice(1),
       );
     } else {
+      console.log("haaa");
       navigate("/form");
     }
 
     formRef.current?.reset();
   }
 
-  function handleLogOut() {
-    signOut();
-    setHasLoggedIn(false);
-    navigate("/");
-  }
-
   useEffect(() => {
-    async function checkUser() {
-      const { data } = await supabase.auth.getUser();
-      if (data?.user) {
-        setHasLoggedIn(true);
-        setUserEmail(data.user.email || "");
-      }
+    if (!isCheckingUser && user) {
+      setUserEmail(user?.email || "");
+      // setIsUserLoaded(true);
     }
-    checkUser();
-  }, []);
+  }, [user, isCheckingUser]);
 
   return (
     <div className="h-[93vh] overflow-hidden bg-gray-300 bg-opacity-30 p-3">
@@ -96,99 +92,98 @@ export default function Homepage() {
         style={{ backgroundImage: "url(/home-bg.png)" }}
         className="flex h-full w-full justify-center bg-cover bg-center"
       >
-        <div
-          className={`relative top-20 flex h-96 min-h-fit w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${hasLoggedIn && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
-        >
-          <div className="space-y-2 xl:space-y-6">
-            <img
-              className="m-auto h-20 rounded-full"
-              src="/logo.png"
-              alt="HandDripper"
-            />
-            {hasLoggedIn ? (
-              <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">{`Log out of ${userEmail}?`}</h2>
+        {isCheckingUser ? (
+          <Loader width={100} />
+        ) : (
+          <div
+            className={`relative top-20 flex h-96 min-h-fit w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${user && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
+          >
+            <div className="space-y-2 xl:space-y-6">
+              <img
+                className="m-auto h-20 rounded-full"
+                src="/logo.png"
+                alt="HandDripper"
+              />
+              {user ? (
+                <div className="space-y-2">
+                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">{`Log out of ${userEmail}?`}</h2>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-semibold">
+                    {isSignUp ? "Create an account" : "Sign in your account"}
+                  </h2>
+                </div>
+              )}
+            </div>
+
+            {user ? (
+              <div className="mt-3 w-1/2 space-y-2">
+                <Button type="primary" onClick={() => navigate("/form")}>
+                  Start Dripping
+                </Button>
+                <Button type="secondary" onClick={signOut}>
+                  Log out
+                </Button>
+              </div>
             ) : (
-              <h2 className="text-2xl font-semibold">
-                {isSignUp ? "Create an account" : "Sign in your account"}
-              </h2>
+              <form
+                ref={formRef}
+                onSubmit={isSignUp ? handleSignUp : handleLogin}
+                className="mt-2 flex w-[80%] flex-col items-center space-y-3 p-3 font-medium sm:space-y-6"
+              >
+                <div className="flex flex-col sm:w-2/3">
+                  <label htmlFor="email">Email address</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    defaultValue=""
+                    required
+                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                  />
+                </div>
+
+                <div className="relative flex flex-col sm:w-2/3">
+                  <span className="flex items-center gap-1 whitespace-nowrap">
+                    <label htmlFor="password">Password</label>
+                    {isSignUp && (
+                      <p className="text-sm text-gray-600">
+                        (at least 6 characters)
+                      </p>
+                    )}
+                  </span>
+
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="off"
+                    defaultValue=""
+                    required
+                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                  />
+                </div>
+
+                <div className="flex w-full flex-col items-center pt-4 sm:w-5/6">
+                  <Button type="primary" disabled={isLoading}>
+                    {isSignUp ? "Sign Up" : "Start Dripping"}
+                  </Button>
+                  <a
+                    href="#"
+                    className="mt-1.5 text-sm font-normal text-indigo-600 hover:text-indigo-500 xl:mt-3"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsSignUp(!isSignUp);
+                    }}
+                  >
+                    {isSignUp ? "Sign in your account" : "Create an account"}
+                  </a>
+                </div>
+              </form>
             )}
           </div>
-
-          {hasLoggedIn ? (
-            <div className="mt-3 w-1/2 space-y-2">
-              <Button type="primary" onClick={() => navigate("/form")}>
-                Start Dripping
-              </Button>
-              <Button type="secondary" onClick={handleLogOut}>
-                Log out
-              </Button>
-            </div>
-          ) : (
-            <form
-              ref={formRef}
-              onSubmit={isSignUp ? handleSignUp : handleLogin}
-              className="mt-2 flex w-[80%] flex-col items-center space-y-3 p-3 font-medium sm:space-y-6"
-            >
-              <div className="flex flex-col sm:w-2/3">
-                <label htmlFor="email">Email address</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  defaultValue=""
-                  required
-                  className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                />
-              </div>
-
-              <div className="relative flex flex-col sm:w-2/3">
-                <span className="flex items-center gap-1 whitespace-nowrap">
-                  <label htmlFor="password">Password</label>
-                  {isSignUp && (
-                    <p className="text-sm text-gray-600">
-                      (at least 6 characters)
-                    </p>
-                  )}
-                </span>
-
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="off"
-                  defaultValue=""
-                  required
-                  className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                />
-
-                {/* {!isSignUp && (
-                <a
-                  href="#"
-                  className="self-end text-sm font-normal text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              )} */}
-              </div>
-
-              <div className="flex w-full flex-col items-center pt-4 sm:w-5/6">
-                <Button type="primary" disabled={isLoading}>
-                  {isSignUp ? "Sign Up" : "Start Dripping"}
-                </Button>
-                <a
-                  href="#"
-                  className="mt-1.5 text-sm font-normal text-indigo-600 hover:text-indigo-500 xl:mt-3"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsSignUp(!isSignUp);
-                  }}
-                >
-                  {isSignUp ? "Sign in your account" : "Create an account"}
-                </a>
-              </div>
-            </form>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

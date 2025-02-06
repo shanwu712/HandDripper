@@ -1,4 +1,9 @@
-import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Link,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Homepage from "./pages/Homepage";
@@ -7,6 +12,8 @@ import HistoryPage from "./pages/HistoryPage";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 import { Toaster } from "react-hot-toast";
+import useCheckUser from "./services/useCheckUser";
+import Loader from "./ui/Loader";
 
 const queryClient = new QueryClient();
 
@@ -17,19 +24,21 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        path: "/",
         element: <Homepage />,
         handle: { navBtn: ["How to use HandDripper"] },
       },
+
       {
         path: "/form",
-        element: <FormPage />,
+        element: <ProtectedRoute element={<FormPage />} />,
         handle: {
           navBtn: ["", "Log Out"],
         },
       },
       {
         path: "/history",
-        element: <HistoryPage />,
+        element: <ProtectedRoute element={<HistoryPage />} />,
         handle: {
           navBtn: [<Link to="/form">Back to Dripping</Link>, "Log Out"],
         },
@@ -37,6 +46,16 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+function ProtectedRoute({ element }: { element: JSX.Element }) {
+  const { user, isLoading } = useCheckUser();
+  if (isLoading) return <Loader />;
+  if (!user) {
+    return <Navigate to="/" />;
+  }
+
+  return element;
+}
 
 function App() {
   return (

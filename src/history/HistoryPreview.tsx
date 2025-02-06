@@ -4,7 +4,12 @@ import PreviewHistoryItem from "./PreviewHistoryItem";
 import { useHistories } from "../services/useHistories";
 import Loader from "../ui/Loader";
 
-export default function HistoryPreview() {
+import { HistoryFormData } from "../Type/HistoryFormData";
+interface HistoryPreviewProps {
+  isCreating: boolean;
+}
+
+export default function HistoryPreview({ isCreating }: HistoryPreviewProps) {
   const { isLoading, histories } = useHistories();
 
   return (
@@ -16,9 +21,11 @@ export default function HistoryPreview() {
         </Link>
       </div>
       <div className="flex h-[17rem] max-h-[24rem] flex-grow flex-col gap-1 overflow-y-scroll">
-        {histories?.length ? (
+        {isLoading || histories?.length === 0 || isCreating ? (
+          <Loader />
+        ) : (
           histories
-            .sort((a, b) =>
+            ?.sort((a: HistoryFormData, b: HistoryFormData) =>
               a.date !== b.date
                 ? new Date(b.date).getTime() - new Date(a.date).getTime()
                 : new Date(`1970-01-01T${b.added_time}Z`).getTime() -
@@ -30,12 +37,6 @@ export default function HistoryPreview() {
                 key={item.id}
               ></PreviewHistoryItem>
             ))
-        ) : isLoading ? (
-          <Loader />
-        ) : (
-          <p className="mt-5 flex self-center text-lg text-gray-500">
-            You haven't created any brewing history!
-          </p>
         )}
       </div>
     </div>

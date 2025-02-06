@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 export function useCreateHistory() {
   const queryClient = useQueryClient();
 
-  const { mutate: createHistory, isPending: isCreating } = useMutation({
+  const mutation = useMutation({
     mutationFn: createAHistory,
     onSuccess: () => {
       toast.success("New brewing history has been created!");
@@ -13,5 +13,9 @@ export function useCreateHistory() {
     },
     onError: (err) => console.log(err),
   });
-  return { createHistory, isCreating };
+
+  return {
+    createHistory: mutation.mutate,
+    isCreating: mutation.status === "pending",
+  };
 }

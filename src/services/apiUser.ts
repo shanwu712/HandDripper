@@ -11,5 +11,4 @@ export async function getUser() {
 
 export async function signOut() {
   await supabase.auth.signOut();
-  console.log("登出成功");
 }

@@ -16,6 +16,7 @@ import { useDeleteHistory } from "../services/useDeleteHistory";
 import { HistoryFormData } from "../Type/HistoryFormData";
 import { useUpdateHistory } from "../services/useUpdateHistory";
 import useOptions from "../services/useOptions";
+import Loader from "../ui/Loader";
 
 // const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 // const beanOptions = [
@@ -64,7 +65,7 @@ export default function HistoryItem({
   });
 
   const { deleteHistory } = useDeleteHistory();
-  const { editHistory } = useUpdateHistory();
+  const { editHistory, isUpdating } = useUpdateHistory();
 
   const { options: beanOptions } = useOptions("bean");
   const { options: roasterOptions } = useOptions("roaster");
@@ -132,78 +133,87 @@ export default function HistoryItem({
         </DisclosureButton>
 
         <DisclosurePanel className="flex w-full flex-col px-3 pb-1 text-gray-500">
-          <div className="flex flex-col justify-between gap-0 sm:flex-row sm:gap-10">
-            <div className="flex flex-col">
-              {item.roaster && (
-                <span className="text-nowrap">Roaster: {item.roaster}</span>
-              )}
-              {item.beanWeight && item.beanWeight !== "0" && (
-                <span className="text-nowrap">
-                  Bean weight: {item.beanWeight} g
-                </span>
-              )}
-              {(item.waterRatio || item.iceRatio) && (
-                <span className="text-nowrap">
-                  Ratio: 1 : {item.waterRatio}{" "}
-                  {item.iceRatio && `: ${item.iceRatio}`}
-                </span>
-              )}
-              {item.waterWeight !== 0 && (
-                <span className="text-nowrap">
-                  Water Weight: {item.waterWeight} g
-                </span>
-              )}
-              {item.iceWeight && item.iceWeight !== "0" && (
-                <span className="text-nowrap">
-                  Ice weight: {item.iceWeight} g
-                </span>
-              )}
-            </div>
+          {isUpdating ? (
+            <Loader />
+          ) : (
+            <div className="flex flex-col justify-between gap-0 sm:flex-row sm:gap-10">
+              <div className="flex flex-col">
+                {item.roaster && (
+                  <span className="text-nowrap">Roaster: {item.roaster}</span>
+                )}
+                {item.beanWeight && item.beanWeight !== "0" && (
+                  <span className="text-nowrap">
+                    Bean weight: {item.beanWeight} g
+                  </span>
+                )}
+                {(item.waterRatio || item.iceRatio) && (
+                  <span className="text-nowrap">
+                    Ratio: 1 : {item.waterRatio}{" "}
+                    {item.iceRatio && `: ${item.iceRatio}`}
+                  </span>
+                )}
+                {item.waterWeight !== 0 && (
+                  <span className="text-nowrap">
+                    Water Weight: {item.waterWeight} g
+                  </span>
+                )}
+                {item.iceWeight && item.iceWeight !== "0" && (
+                  <span className="text-nowrap">
+                    Ice weight: {item.iceWeight} g
+                  </span>
+                )}
+              </div>
 
-            <div className="flex flex-col">
-              {item.dripper && (
-                <span className="">Dripper: {item.dripper}</span>
-              )}
-              {(item.grinder || item.scale) && (
-                <span className="text-nowrap">
-                  {item.grinder && item.scale
-                    ? `Grinder: ${item.grinder} / ${item.scale}`
-                    : item.grinder
-                      ? `Grinder: ${item.grinder}`
-                      : `Grinder Scale: ${item.scale}`}
-                </span>
-              )}
-              {item.temp !== 0 && (
-                <span className="text-nowrap">Temperature: {item.temp}°C</span>
-              )}
-              {item.sec !== 0 && (
-                <span>
-                  Dripping time:{" "}
-                  {item.sec > 60 && item.sec % 60 !== 0
-                    ? `${Math.floor(item.sec / 60)}m${item.sec % 60}s`
-                    : item.sec % 60 === 0
-                      ? `${item.sec / 60}m`
-                      : `${item.sec}s`}
-                </span>
-              )}
-              {item.method && <span>Method: {item.method}</span>}
-              {item.comment && <span>Comment: {item.comment}</span>}
-            </div>
+              <div className="flex flex-col">
+                {item.dripper && (
+                  <span className="">Dripper: {item.dripper}</span>
+                )}
+                {(item.grinder || item.scale) && (
+                  <span className="text-nowrap">
+                    {item.grinder && item.scale
+                      ? `Grinder: ${item.grinder} / ${item.scale}`
+                      : item.grinder
+                        ? `Grinder: ${item.grinder}`
+                        : `Grinder Scale: ${item.scale}`}
+                  </span>
+                )}
+                {item.temp !== 0 && (
+                  <span className="text-nowrap">
+                    Temperature: {item.temp}°C
+                  </span>
+                )}
+                {item.sec !== 0 && (
+                  <span>
+                    Dripping time:{" "}
+                    {item.sec > 60 && item.sec % 60 !== 0
+                      ? `${Math.floor(item.sec / 60)}m${item.sec % 60}s`
+                      : item.sec % 60 === 0
+                        ? `${item.sec / 60}m`
+                        : `${item.sec}s`}
+                  </span>
+                )}
+                {item.method && <span>Method: {item.method}</span>}
+                {item.comment && <span>Comment: {item.comment}</span>}
+              </div>
 
-            <div className="flex w-44 flex-col justify-end gap-2 self-end pt-2">
-              <div className="flex gap-1">
-                <Button type="primary" onClick={() => setIsEditing(!isEditing)}>
-                  Edit
-                </Button>
-                <Button type="primary" onClick={() => togglePined(item.id)}>
-                  Pin
+              <div className="flex w-44 flex-col justify-end gap-2 self-end pt-2">
+                <div className="flex gap-1">
+                  <Button
+                    type="primary"
+                    onClick={() => setIsEditing(!isEditing)}
+                  >
+                    Edit
+                  </Button>
+                  <Button type="primary" onClick={() => togglePined(item.id)}>
+                    Pin
+                  </Button>
+                </div>
+                <Button type="secondary" onClick={() => setIsOpen(!isOpen)}>
+                  Delete
                 </Button>
               </div>
-              <Button type="secondary" onClick={() => setIsOpen(!isOpen)}>
-                Delete
-              </Button>
             </div>
-          </div>
+          )}
         </DisclosurePanel>
       </Disclosure>
 
