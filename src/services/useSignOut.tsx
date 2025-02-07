@@ -3,12 +3,13 @@ import Button from "../components/Button";
 import { signOut } from "./apiUser";
 import { useNavigate } from "react-router-dom";
 import useCheckUser from "./useCheckUser";
+import useUser from "../useUser";
 
 export function useSignOut() {
   const navigate = useNavigate();
+  const { setUserId } = useUser();
   const { refetch } = useCheckUser();
   return () => {
-    console.log("wut");
     toast.custom(
       (t) => (
         <div className="absolute top-2 flex flex-col items-center gap-5 rounded-lg bg-white p-5 shadow-lg">
@@ -20,6 +21,7 @@ export function useSignOut() {
                 signOut();
                 toast.remove(t.id);
                 refetch();
+                setUserId(null);
                 navigate("/");
               }}
             >

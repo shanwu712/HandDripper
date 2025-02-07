@@ -4,6 +4,7 @@ import HistoryList from "../history/HistoryList";
 import Sorting from "../history/Sorting";
 import { useHistories } from "../services/useHistories";
 import { HistoryFormData } from "../Type/HistoryFormData";
+import useUser from "../useUser";
 
 enum DateOptions {
   NEWEST = "Newest",
@@ -22,7 +23,6 @@ const beanOptions = [
 ];
 
 export default function HistoryPage() {
-  const [pinedStates, setPinedStates] = useState<Record<string, boolean>>({});
   const [sortByPin, setSortByPin] = useState(false);
 
   const [formData, setFormData] = useState<HistoryFormData[]>([]);
@@ -32,44 +32,19 @@ export default function HistoryPage() {
     DateOptions | RatingOptions | string | null
   >(DateOptions.NEWEST);
 
-  const { histories, isLoading } = useHistories();
+  const { userId } = useUser();
 
-  function togglePined(id: string) {
-    setPinedStates((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  }
+  const { histories, isLoading } = useHistories(userId ?? "");
+
   useEffect(() => {
     setFormData((histories as HistoryFormData[]) || []);
   }, [histories]);
 
   useEffect(() => {
-    const initialPinedStates = [...formData].reduce(
-      (acc, item) => {
-        acc[item.id] = false;
-        return acc;
-      },
-      {} as Record<string, boolean>,
-    );
-
-    setPinedStates(initialPinedStates);
-  }, [formData]);
-
-  useEffect(() => {
-    const pinedId = Object.entries(pinedStates).reduce((acc, [key, value]) => {
-      if (value) acc.push(key);
-      return acc;
-    }, [] as string[]);
-
     let dataToSort = [...formData];
 
     if (sortByPin) {
-      const dataSortedByPined = dataToSort.filter((item) =>
-        pinedId.includes(item.id),
-      );
-
-      dataToSort = dataSortedByPined;
+      dataToSort = dataToSort.filter((item) => item.isPined);
     }
 
     if (
@@ -121,7 +96,7 @@ export default function HistoryPage() {
       setSortedData(dataSortedByDate);
       return;
     }
-  }, [formData, sortByPin, sortingMethod, pinedStates]);
+  }, [formData, sortByPin, sortingMethod]);
 
   return (
     <div className="flex flex-col">
@@ -133,11 +108,10 @@ export default function HistoryPage() {
 
       <div className="mt-16 sm:mt-10">
         <HistoryList
+          userId={userId ?? ""}
           isLoading={isLoading}
           formData={formData}
           sortedData={sortedData}
-          pinedStates={pinedStates}
-          togglePined={togglePined}
         />
       </div>
     </div>

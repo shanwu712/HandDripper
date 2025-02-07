@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useSignOut } from "../services/useSignOut";
 import useCheckUser from "../services/useCheckUser";
 import Loader from "../ui/Loader";
+import useUser from "../useUser";
+import { getUser } from "../services/apiUser";
 
 export default function Homepage() {
   // const [email, setEmail] = useState("");
@@ -16,6 +18,7 @@ export default function Homepage() {
   // const [isUserLoaded, setIsUserLoaded] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const { user, isLoading: isCheckingUser } = useCheckUser();
+  const { userId, setUserId } = useUser();
 
   const navigate = useNavigate();
 
@@ -58,21 +61,27 @@ export default function Homepage() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-
     setIsLoading(true);
+
     const email = formRef.current?.email.value;
     const password = formRef.current?.password.value;
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
     setIsLoading(false);
+
     if (error) {
       toast.error(
         error.message.charAt(0).toUpperCase() + error.message.slice(1),
       );
     } else {
-      console.log("haaa");
+      // 更新 UserContext 中的 userId
+      const user = await getUser();
+      if (user) setUserId(user?.id);
+
       navigate("/form");
     }
 
@@ -82,7 +91,6 @@ export default function Homepage() {
   useEffect(() => {
     if (!isCheckingUser && user) {
       setUserEmail(user?.email || "");
-      // setIsUserLoaded(true);
     }
   }, [user, isCheckingUser]);
 
@@ -96,7 +104,7 @@ export default function Homepage() {
           <Loader width={100} />
         ) : (
           <div
-            className={`relative top-20 flex h-96 min-h-fit w-80 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${user && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
+            className={`relative top-20 flex h-96 min-h-fit w-80 min-w-20 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${userId && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
           >
             <div className="space-y-2 xl:space-y-6">
               <img
@@ -104,9 +112,14 @@ export default function Homepage() {
                 src="/logo.png"
                 alt="HandDripper"
               />
-              {user ? (
-                <div className="space-y-2">
-                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">{`Log out of ${userEmail}?`}</h2>
+              {userEmail !== "" ? (
+                <div className="flex flex-col items-center space-y-2">
+                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">
+                    Log out of
+                  </h2>
+                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">
+                    {userEmail}?
+                  </h2>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -117,7 +130,7 @@ export default function Homepage() {
               )}
             </div>
 
-            {user ? (
+            {userId ? (
               <div className="mt-3 w-1/2 space-y-2">
                 <Button type="primary" onClick={() => navigate("/form")}>
                   Start Dripping

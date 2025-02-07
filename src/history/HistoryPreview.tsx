@@ -5,12 +5,15 @@ import { useHistories } from "../services/useHistories";
 import Loader from "../ui/Loader";
 
 import { HistoryFormData } from "../Type/HistoryFormData";
+import useUser from "../useUser";
 interface HistoryPreviewProps {
   isCreating: boolean;
 }
 
 export default function HistoryPreview({ isCreating }: HistoryPreviewProps) {
-  const { isLoading, histories } = useHistories();
+  const { userId } = useUser();
+
+  const { isLoading, histories } = useHistories(userId ?? "");
 
   return (
     <div className="flex h-full w-screen flex-col rounded-lg bg-beige p-3 shadow-lg sm:w-full">

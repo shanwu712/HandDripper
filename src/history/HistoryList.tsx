@@ -8,18 +8,16 @@ interface HistoryListProps {
   isLoading: boolean;
   formData: HistoryFormData[];
   sortedData: HistoryFormData[];
-  pinedStates: Record<string, boolean>;
-  togglePined: (id: string) => void;
+  userId: string;
 }
 
 export default function HistoryList({
   isLoading,
   formData,
   sortedData,
-  pinedStates,
-  togglePined,
+  userId,
 }: HistoryListProps) {
-  if (isLoading) return <Loader />;
+  if (isLoading || userId === "") return <Loader />;
   if (!formData.length) {
     return (
       <div className="mx-auto flex h-screen w-fit flex-col items-center gap-3 pt-24">
@@ -44,12 +42,7 @@ export default function HistoryList({
   return (
     <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
       {sortedData.map((item) => (
-        <HistoryItem
-          item={item}
-          key={item.id}
-          pinedStates={pinedStates}
-          togglePined={togglePined}
-        />
+        <HistoryItem item={item} key={item.id} userId={userId} />
       ))}
     </div>
   );

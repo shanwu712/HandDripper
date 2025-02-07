@@ -23,4 +23,5 @@ export interface HistoryFormData {
   rating: number | string;
   method: string;
   comment: string;
+  isPined: boolean;
 }

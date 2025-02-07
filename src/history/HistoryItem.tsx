@@ -17,6 +17,7 @@ import { HistoryFormData } from "../Type/HistoryFormData";
 import { useUpdateHistory } from "../services/useUpdateHistory";
 import useOptions from "../services/useOptions";
 import Loader from "../ui/Loader";
+import { useGetPin, useUpdatePin } from "../services/usePin";
 
 // const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 // const beanOptions = [
@@ -38,8 +39,7 @@ enum HotOrIced {
 
 interface HistoryItemProp {
   item: HistoryFormData;
-  pinedStates: Record<string, boolean>;
-  togglePined: (id: string) => void;
+  userId: string;
 }
 
 const FullStar = () => (
@@ -48,11 +48,7 @@ const FullStar = () => (
   </svg>
 );
 
-export default function HistoryItem({
-  item,
-  pinedStates,
-  togglePined,
-}: HistoryItemProp) {
+export default function HistoryItem({ item, userId }: HistoryItemProp) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
@@ -66,6 +62,8 @@ export default function HistoryItem({
 
   const { deleteHistory } = useDeleteHistory();
   const { editHistory, isUpdating } = useUpdateHistory();
+  const { mutate, isPinning } = useUpdatePin(item.id, userId);
+  const { data: isPined, isLoading } = useGetPin(item.id, userId);
 
   const { options: beanOptions } = useOptions("bean");
   const { options: roasterOptions } = useOptions("roaster");
@@ -114,7 +112,7 @@ export default function HistoryItem({
             <span>{item.hotOrIced.toLocaleUpperCase()}</span>
           </div>
 
-          {pinedStates[item.id] && (
+          {!isLoading && isPined[0].isPined && (
             <div className="absolute -top-8 left-20 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
               <span>
                 <TagIcon className="h-4 w-4 text-dark-brown" />
@@ -200,11 +198,12 @@ export default function HistoryItem({
                 <div className="flex gap-1">
                   <Button
                     type="primary"
+                    disabled={isPinning}
                     onClick={() => setIsEditing(!isEditing)}
                   >
                     Edit
                   </Button>
-                  <Button type="primary" onClick={() => togglePined(item.id)}>
+                  <Button type="primary" onClick={mutate}>
                     Pin
                   </Button>
                 </div>

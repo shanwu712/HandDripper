@@ -12,8 +12,8 @@ import HistoryPage from "./pages/HistoryPage";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 import { Toaster } from "react-hot-toast";
-import useCheckUser from "./services/useCheckUser";
-import Loader from "./ui/Loader";
+import { UserProvider } from "./UserContext";
+import useUser from "./useUser";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,8 @@ const router = createBrowserRouter([
         index: true,
         path: "/",
         element: <Homepage />,
-        handle: { navBtn: ["How to use HandDripper"] },
+        handle: { navBtn: "" },
+        // handle: { navBtn: ["How to use HandDripper"] },
       },
 
       {
@@ -48,9 +49,9 @@ const router = createBrowserRouter([
 ]);
 
 function ProtectedRoute({ element }: { element: JSX.Element }) {
-  const { user, isLoading } = useCheckUser();
-  if (isLoading) return <Loader />;
-  if (!user) {
+  const { userId } = useUser();
+
+  if (!userId) {
     return <Navigate to="/" />;
   }
 
@@ -59,27 +60,29 @@ function ProtectedRoute({ element }: { element: JSX.Element }) {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}></RouterProvider>
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: { duration: 3000 },
-          error: {
-            duration: 5000,
-          },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "white",
-            color: "black",
-          },
-        }}
-      />
-    </QueryClientProvider>
+    <UserProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: { duration: 3000 },
+            error: {
+              duration: 5000,
+            },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "white",
+              color: "black",
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </UserProvider>
   );
 }
 
