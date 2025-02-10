@@ -40,6 +40,7 @@ enum HotOrIced {
 interface HistoryItemProp {
   item: HistoryFormData;
   userId: string;
+  refetch: () => void;
 }
 
 const FullStar = () => (
@@ -48,7 +49,11 @@ const FullStar = () => (
   </svg>
 );
 
-export default function HistoryItem({ item, userId }: HistoryItemProp) {
+export default function HistoryItem({
+  item,
+  userId,
+  refetch,
+}: HistoryItemProp) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingHotOrIced, setEditingHotOrIced] = useState(item.hotOrIced);
@@ -102,6 +107,10 @@ export default function HistoryItem({ item, userId }: HistoryItemProp) {
       });
     }
   }, [item.sec]);
+
+  useEffect(() => {
+    refetch();
+  }, [isPined]);
 
   return (
     <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">

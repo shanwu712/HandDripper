@@ -108,6 +108,7 @@ export default function HistoryPage() {
           isLoading={isLoading}
           formData={formData}
           sortedData={sortedData}
+          refetch={refetch}
         />
       </div>
     </div>

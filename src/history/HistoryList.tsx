@@ -9,6 +9,7 @@ interface HistoryListProps {
   formData: HistoryFormData[];
   sortedData: HistoryFormData[];
   userId: string;
+  refetch: () => void;
 }
 
 export default function HistoryList({
@@ -16,6 +17,7 @@ export default function HistoryList({
   formData,
   sortedData,
   userId,
+  refetch,
 }: HistoryListProps) {
   if (isLoading || userId === "") return <Loader />;
   if (!formData.length) {
@@ -42,7 +44,12 @@ export default function HistoryList({
   return (
     <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
       {sortedData.map((item) => (
-        <HistoryItem item={item} key={item.id} userId={userId} />
+        <HistoryItem
+          item={item}
+          key={item.id}
+          userId={userId}
+          refetch={refetch}
+        />
       ))}
     </div>
   );
