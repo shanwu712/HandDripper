@@ -7,11 +7,12 @@ export function useHistories(userId: string) {
     isLoading,
     data: histories,
     error,
+    refetch,
   } = useQuery<HistoryFormData[]>({
     queryKey: ["histories"],
     queryFn: () => getHistories(userId),
     enabled: userId !== "",
   });
 
-  return { isLoading, histories, error };
+  return { isLoading, histories, error, refetch };
 }

@@ -34,7 +34,7 @@ export default function HistoryPage() {
 
   const { userId } = useUser();
 
-  const { histories, isLoading } = useHistories(userId ?? "");
+  const { histories, isLoading, refetch } = useHistories(userId ?? "");
 
   useEffect(() => {
     setFormData((histories as HistoryFormData[]) || []);
@@ -42,43 +42,32 @@ export default function HistoryPage() {
 
   useEffect(() => {
     let dataToSort = [...formData];
-
+    // 先過濾已 pin 的項目（如果 sortByPin 為 true）
     if (sortByPin) {
       dataToSort = dataToSort.filter((item) => item.isPined);
     }
 
+    // 依照 sortingMethod 進行其它排序
     if (
       sortingMethod === RatingOptions.HIGHEST ||
       sortingMethod === RatingOptions.LOWEST
     ) {
-      const dataSortedByRating = dataToSort.sort(
-        (a: HistoryFormData, b: HistoryFormData) => {
-          return sortingMethod === RatingOptions.HIGHEST
-            ? Number(b.rating) - Number(a.rating)
-            : Number(a.rating) - Number(b.rating);
-        },
-      );
-      setSortedData(dataSortedByRating);
-      return;
-    }
-
-    if (beanOptions.includes(sortingMethod as string)) {
-      const dataSortedByBean = dataToSort.filter(
-        (item) => item.bean === sortingMethod,
-      );
-      const dataSortedByBeanAndDate = dataSortedByBean.sort(
+      dataToSort = dataToSort.sort((a: HistoryFormData, b: HistoryFormData) => {
+        return sortingMethod === RatingOptions.HIGHEST
+          ? Number(b.rating) - Number(a.rating)
+          : Number(a.rating) - Number(b.rating);
+      });
+    } else if (beanOptions.includes(sortingMethod as string)) {
+      dataToSort = dataToSort.filter((item) => item.bean === sortingMethod);
+      dataToSort = dataToSort.sort(
         (a: any, b: any) =>
           new Date(b.date).getTime() - new Date(a.date).getTime(),
       );
-      setSortedData(dataSortedByBeanAndDate);
-      return;
-    }
-
-    if (
+    } else if (
       sortingMethod === DateOptions.NEWEST ||
       sortingMethod === DateOptions.OLDEST
     ) {
-      const dataSortedByDate =
+      dataToSort =
         sortingMethod === DateOptions.NEWEST
           ? dataToSort.sort((a, b) =>
               a.date !== b.date
@@ -92,11 +81,17 @@ export default function HistoryPage() {
                 : new Date(`1970-01-01T${a.added_time}Z`).getTime() -
                   new Date(`1970-01-01T${b.added_time}Z`).getTime(),
             );
-
-      setSortedData(dataSortedByDate);
-      return;
     }
+
+    // 更新排序後的資料
+    setSortedData(dataToSort);
   }, [formData, sortByPin, sortingMethod]);
+
+  useEffect(() => {
+    if (histories) {
+      refetch();
+    }
+  }, [histories, sortByPin, userId, refetch]);
 
   return (
     <div className="flex flex-col">
