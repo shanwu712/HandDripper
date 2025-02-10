@@ -104,6 +104,7 @@ export default function HistoryPage() {
         sortByPin={sortByPin}
         setSortByPin={setSortByPin}
         setSortingMethod={setSortingMethod}
+        userId={userId}
       />
 
       <div className="mt-16 sm:mt-10">
