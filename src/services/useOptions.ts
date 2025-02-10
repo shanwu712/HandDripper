@@ -5,14 +5,15 @@ interface Option {
   [key: string]: string;
 }
 
-export default function useOptions(columnName: string) {
+export default function useOptions(userId: string, columnName: string) {
   const {
     data: options,
     error,
     isLoading,
   } = useQuery<Option[]>({
     queryKey: ["histories", columnName],
-    queryFn: () => getHistories(columnName, true),
+    queryFn: () => getHistories(userId, columnName, true),
+    enabled: userId !== "",
   });
 
   const flattenedLimitedOptions = [

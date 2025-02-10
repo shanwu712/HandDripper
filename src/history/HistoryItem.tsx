@@ -65,11 +65,11 @@ export default function HistoryItem({ item, userId }: HistoryItemProp) {
   const { mutate, isPinning } = useUpdatePin(item.id, userId);
   const { data: isPined, isLoading } = useGetPin(item.id, userId);
 
-  const { options: beanOptions } = useOptions("bean");
-  const { options: roasterOptions } = useOptions("roaster");
-  const { options: dripperOptions } = useOptions("dripper");
-  const { options: grinderOptions } = useOptions("grinder");
-  const { options: methodOptions } = useOptions("method");
+  const { options: beanOptions } = useOptions(userId, "bean");
+  const { options: roasterOptions } = useOptions(userId, "roaster");
+  const { options: dripperOptions } = useOptions(userId, "dripper");
+  const { options: grinderOptions } = useOptions(userId, "grinder");
+  const { options: methodOptions } = useOptions(userId, "method");
 
   function handleClick() {
     const editForm = document.getElementById("editForm") as HTMLFormElement;

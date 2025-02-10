@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import StarRating from "./StarRating";
 import { Dispatch, RefObject } from "react";
 import useOptions from "../services/useOptions";
+import useUser from "../useUser";
 
 // const methodOptions = ["Pulse Pouring", "Continuous Pouring", "Bloom and Pour"];
 
@@ -58,7 +59,8 @@ export default function DetailForm({
   detailFormRef,
   handleSubmitCombinedData,
 }: DetailFormProps) {
-  const { options: methodOptions } = useOptions("method");
+  const { userId } = useUser();
+  const { options: methodOptions } = useOptions(userId ?? "", "method");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

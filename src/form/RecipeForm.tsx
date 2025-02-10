@@ -2,6 +2,7 @@ import { Dispatch, useEffect } from "react";
 import { Form } from "react-router-dom";
 import Timer from "./Timer";
 import useOptions from "../services/useOptions";
+import useUser from "../useUser";
 
 // const roasterOptions = ["Dreamer Cafe", "Come True Coffee", "Starbucks"];
 // const beanOptions = [
@@ -85,10 +86,12 @@ export default function RecipeForm({
   beanWeightInputRef,
   waterWeightInputRef,
 }: RecipeFormProps) {
-  const { options: beanOptions } = useOptions("bean");
-  const { options: roasterOptions } = useOptions("roaster");
-  const { options: dripperOptions } = useOptions("dripper");
-  const { options: grinderOptions } = useOptions("grinder");
+  const { userId } = useUser();
+  // console.log("checkUserID", userId);
+  const { options: beanOptions } = useOptions(userId ?? "", "bean");
+  const { options: roasterOptions } = useOptions(userId ?? "", "roaster");
+  const { options: dripperOptions } = useOptions(userId ?? "", "dripper");
+  const { options: grinderOptions } = useOptions(userId ?? "", "grinder");
 
   useEffect(() => {
     if (state.beanWeight && state.iceRatio) {
