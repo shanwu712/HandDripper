@@ -1,5 +1,5 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
   Link,
   Navigate,
   RouterProvider,
@@ -17,7 +17,7 @@ import useUser from "./useUser";
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     element: <AppLayout />,
     errorElement: <Error />,
