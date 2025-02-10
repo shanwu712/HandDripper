@@ -1,12 +1,13 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon, TagIcon } from "@heroicons/react/24/solid";
 import { TagIcon as OutlineTagIcon } from "@heroicons/react/24/outline";
+import useOptions from "../services/useOptions";
 
-const beanOptions = [
-  "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
-  "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
-  "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
-];
+// const beanOptions = [
+//   "Panama Geisha - Hacienda La Esmeralda, Washed Process, Light Roast",
+//   "Ethiopia Yirgacheffe - Konga Cooperative, Natural Process, Medium Roast",
+//   "Colombia El Paraiso - El Paraiso Estate, Honey Process, Dark Roast",
+// ];
 
 enum DateOptions {
   NEWEST = "Newest",
@@ -21,18 +22,20 @@ enum RatingOptions {
 interface SortingProps {
   sortByPin: boolean;
   setSortByPin: (v: boolean) => void;
-
   setSortingMethod: (
     option: RatingOptions | DateOptions | string | null,
   ) => void;
+  userId: string | null;
 }
 
 export default function Sorting({
   sortByPin,
   setSortByPin,
-
   setSortingMethod,
+  userId,
 }: SortingProps) {
+  const { options: beanOptions } = useOptions(userId ?? "", "bean");
+
   return (
     <div className="fixed z-30 flex w-full flex-col items-center justify-between bg-white/95 px-3 sm:flex-row sm:py-2">
       <h2 className="text-2xl font-bold italic tracking-wide">
