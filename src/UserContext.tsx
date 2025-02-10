@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getUser } from "./services/apiUser";
+import Loader from "./ui/Loader";
 
 type UserContextType = {
   userId: string | null;
@@ -16,15 +17,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       const user = await getUser();
 
       if (user) setUserId(user.id);
-      setIsLoading(false); // 設置為 false，表示資料已經準備好
+      setIsLoading(false);
     }
 
     fetchUser();
   }, []);
 
   if (isLoading) {
-    // 可以返回 loading 畫面，或者不顯示內容
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
