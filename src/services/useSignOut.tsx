@@ -33,7 +33,7 @@ export function useSignOut() {
           </div>
         </div>
       ),
-      { duration: 30000 },
+      { duration: 15000 },
     );
   };
 }

@@ -180,7 +180,11 @@ export default function Homepage() {
 
                 <div className="flex w-full flex-col items-center pt-4 sm:w-5/6">
                   <Button type="primary" disabled={isLoading}>
-                    {isSignUp ? "Sign Up" : "Start Dripping"}
+                    {isLoading
+                      ? "Loading..."
+                      : isSignUp
+                        ? "Sign Up"
+                        : "Start Dripping"}
                   </Button>
                   <a
                     href="#"
