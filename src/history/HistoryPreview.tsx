@@ -24,8 +24,14 @@ export default function HistoryPreview({ isCreating }: HistoryPreviewProps) {
         </Link>
       </div>
       <div className="flex h-[17rem] max-h-[24rem] flex-grow flex-col gap-1 overflow-y-scroll">
-        {isLoading || histories?.length === 0 || isCreating ? (
+        {isLoading || isCreating ? (
           <Loader />
+        ) : histories?.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-lg text-gray-500">
+              You haven't created any brewing history!
+            </p>
+          </div>
         ) : (
           histories
             ?.sort((a: HistoryFormData, b: HistoryFormData) =>

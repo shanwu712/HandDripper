@@ -94,6 +94,19 @@ function StarRating({ state, dispatch }: StarRatingProps) {
     setHoverRating(index + (isHalf ? 0.5 : 1));
     setIsHalfStar(isHalf);
   };
+  const handleTouchMove = (
+    event: React.TouchEvent<HTMLDivElement>,
+    index: number,
+  ) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    const { left, width } = event.currentTarget.getBoundingClientRect();
+    const isHalf = touch.clientX - left < width / 2;
+
+    setHoverRating(index + (isHalf ? 0.5 : 1));
+    setIsHalfStar(isHalf);
+  };
 
   const renderStar = (index: number) => {
     const displayRating = hoverRating || state.rating;
@@ -118,6 +131,7 @@ function StarRating({ state, dispatch }: StarRatingProps) {
             onClick={() => handleClick(isHalfStar ? index + 0.5 : index + 1)}
             onMouseEnter={() => handleMouseEnter(index + 1)}
             onMouseMove={(event) => handleMouseMove(event, index)}
+            onTouchMove={(event) => handleTouchMove(event, index)}
           >
             {renderStar(index)}
           </div>

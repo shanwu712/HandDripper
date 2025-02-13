@@ -10,12 +10,10 @@ import useUser from "../useUser";
 import { getUser } from "../services/apiUser";
 
 export default function Homepage() {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const [isUserLoaded, setIsUserLoaded] = useState(false);
+
   const formRef = useRef<HTMLFormElement>(null);
   const { user, isLoading: isCheckingUser } = useCheckUser();
   const { userId, setUserId } = useUser();
@@ -112,7 +110,7 @@ export default function Homepage() {
                 src="/logo.png"
                 alt="HandDripper"
               />
-              {userEmail !== "" ? (
+              {userEmail !== "" && userId ? (
                 <div className="flex flex-col items-center space-y-2">
                   <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">
                     Log out of
@@ -131,7 +129,7 @@ export default function Homepage() {
             </div>
 
             {userId ? (
-              <div className="mt-3 w-1/2 space-y-2">
+              <div className="mt-3 w-2/3 space-y-2">
                 <Button type="primary" onClick={() => navigate("/form")}>
                   Start Dripping
                 </Button>
@@ -145,7 +143,7 @@ export default function Homepage() {
                 onSubmit={isSignUp ? handleSignUp : handleLogin}
                 className="mt-2 flex w-[80%] flex-col items-center space-y-3 p-3 font-medium sm:space-y-6"
               >
-                <div className="flex flex-col sm:w-2/3">
+                <div className="flex w-5/6 flex-col sm:w-2/3">
                   <label htmlFor="email">Email address</label>
                   <input
                     id="email"
@@ -157,7 +155,7 @@ export default function Homepage() {
                   />
                 </div>
 
-                <div className="relative flex flex-col sm:w-2/3">
+                <div className="relative flex w-5/6 flex-col sm:w-2/3">
                   <span className="flex items-center gap-1 whitespace-nowrap">
                     <label htmlFor="password">Password</label>
                     {isSignUp && (
