@@ -255,6 +255,7 @@ export default function RecipeForm({
                 <select
                   required
                   name="hotOrIced"
+                  value={state.hotOrIced}
                   onChange={(e) =>
                     dispatch({
                       type: "SET_HOT",

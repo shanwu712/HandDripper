@@ -37,7 +37,11 @@ export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
             </span>
             {(item.grinder || item.scale) && (
               <span className="text-nowrap">
-                Grinder: {item.grinder} {item.scale && `/ ${item.scale}`}
+                Grinder:{" "}
+                {item.grinder.length > 9
+                  ? item.grinder.slice(0, 8) + "…"
+                  : item.grinder}{" "}
+                {item.scale && `/ ${item.scale}`}
               </span>
             )}
 
