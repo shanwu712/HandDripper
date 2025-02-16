@@ -8,6 +8,7 @@ HandDripper is a platform designed for pour-over coffee enthusiasts to record an
 
 - 🔒 **User Authentication**: Implemented with Supabase Auth for user registration, login, and email verification.
 - 📱 **Responsive Design**: Optimized for both desktop and mobile use, enabling users to log their brewing process anytime, anywhere.
+- 🧊 **dynamic datalist**: Fetch the four most recent unique entries for coffee beans, drippers, roasting shops, and grinders from the database, enhancing input efficiency and avoiding duplicate suggestions.
 - 🧊 **Iced/Hot Coffee Option**: Users can select iced or hot coffee. For iced coffee, the form shows fields for ice ratio and weight.
 - 📝 **Brewing Variables Tracking**: Record essential variables such as coffee-to-water ratio, water temperature, grind size, and pouring technique.
 - 💧 **Dynamic Coffee-to-Water Ratio**: The required water amount is automatically calculated based on the coffee weight and ratio.
