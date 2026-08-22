@@ -93,43 +93,50 @@ export default function Homepage() {
   }, [user, isCheckingUser]);
 
   return (
-    <div className="h-[93vh] overflow-hidden bg-gray-300 bg-opacity-30 p-3">
+    <div className="relative h-[93vh] overflow-hidden bg-ink">
       <div
         style={{ backgroundImage: "url(/home-bg.png)" }}
-        className="flex h-full w-full justify-center bg-cover bg-center"
-      >
+        className="absolute inset-0 bg-cover bg-center opacity-80"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/70 to-ink/85" />
+
+      <div className="relative flex h-full w-full items-center justify-center p-3">
         {isCheckingUser ? (
           <Loader width={100} />
         ) : (
           <div
-            className={`relative top-20 flex h-96 min-h-fit w-80 min-w-20 max-w-3xl flex-col items-center justify-center rounded-lg bg-white bg-opacity-80 py-6 shadow-lg sm:top-24 md:h-[50vh] md:w-[45vw] lg:h-[60vh] lg:w-[35vw] lg:gap-5 ${userId && "h-fit w-fit max-w-[92vw] sm:h-fit sm:w-fit md:h-fit md:w-fit lg:h-fit lg:w-fit"}`}
+            className={`relative flex h-fit min-h-fit w-80 min-w-20 max-w-3xl flex-col items-center rounded-3xl border border-white/60 bg-white/95 px-8 py-9 shadow-2xl sm:w-[26rem] ${userId && "w-fit max-w-[92vw] px-10 sm:w-fit"}`}
           >
-            <div className="space-y-2 xl:space-y-6">
-              <img
-                className="m-auto h-20 rounded-full"
-                src="/logo.png"
-                alt="HandDripper"
-              />
+            <img
+              className="h-[4.5rem] w-[4.5rem] rounded-full object-cover shadow-md"
+              src="/logo.png"
+              alt="HandDripper"
+            />
+
+            <div className="mt-4 space-y-1 text-center">
               {userEmail !== "" && userId ? (
-                <div className="flex flex-col items-center space-y-2">
-                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">
+                <div className="flex flex-col items-center gap-1">
+                  <h2 className="text-nowrap px-6 font-serif text-xl font-semibold sm:text-2xl">
                     Log out of
                   </h2>
-                  <h2 className="text-nowrap px-6 text-xl font-semibold sm:text-2xl">
+                  <h2 className="text-nowrap px-6 font-serif text-xl font-semibold sm:text-2xl">
                     {userEmail}?
                   </h2>
                 </div>
               ) : (
-                <div className="space-y-2">
-                  <h2 className="text-2xl font-semibold">
-                    {isSignUp ? "Create an account" : "Sign in your account"}
+                <>
+                  <h2 className="font-serif text-2xl font-semibold">
+                    Welcome back
                   </h2>
-                </div>
+                  <p className="text-sm text-ink-muted">
+                    Sign in to log today's brew
+                  </p>
+                </>
               )}
             </div>
 
             {userId ? (
-              <div className="mt-3 w-2/3 space-y-2">
+              <div className="mt-6 w-2/3 space-y-2">
                 <Button type="primary" onClick={() => navigate("/form")}>
                   Start Dripping
                 </Button>
@@ -138,64 +145,91 @@ export default function Homepage() {
                 </Button>
               </div>
             ) : (
-              <form
-                ref={formRef}
-                onSubmit={isSignUp ? handleSignUp : handleLogin}
-                className="mt-2 flex w-[80%] flex-col items-center space-y-3 p-3 font-medium sm:space-y-6"
-              >
-                <div className="flex w-5/6 flex-col sm:w-2/3">
-                  <label htmlFor="email">Email address</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    defaultValue=""
-                    required
-                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                  />
-                </div>
-
-                <div className="relative flex w-5/6 flex-col sm:w-2/3">
-                  <span className="flex items-center gap-1 whitespace-nowrap">
-                    <label htmlFor="password">Password</label>
-                    {isSignUp && (
-                      <p className="text-sm text-gray-600">
-                        (at least 6 characters)
-                      </p>
-                    )}
-                  </span>
-
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="off"
-                    defaultValue=""
-                    required
-                    className="w-auto rounded focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                  />
-                </div>
-
-                <div className="flex w-full flex-col items-center pt-4 sm:w-5/6">
-                  <Button type="primary" disabled={isLoading}>
-                    {isLoading
-                      ? "Loading..."
-                      : isSignUp
-                        ? "Sign Up"
-                        : "Start Dripping"}
-                  </Button>
-                  <a
-                    href="#"
-                    className="mt-1.5 text-sm font-normal text-indigo-600 hover:text-indigo-500 xl:mt-3"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsSignUp(!isSignUp);
-                    }}
+              <>
+                <div className="mt-7 flex w-full items-center gap-6 border-b border-dark-beige">
+                  <button
+                    type="button"
+                    onClick={() => setIsSignUp(false)}
+                    className={`-mb-px border-b-2 pb-2.5 text-[15px] font-semibold transition-colors ${
+                      !isSignUp
+                        ? "border-light-brown text-light-brown"
+                        : "border-transparent text-ink-muted hover:text-ink"
+                    }`}
                   >
-                    {isSignUp ? "Sign in your account" : "Create an account"}
-                  </a>
+                    Sign in
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsSignUp(true)}
+                    className={`-mb-px border-b-2 pb-2.5 text-[15px] font-semibold transition-colors ${
+                      isSignUp
+                        ? "border-light-brown text-light-brown"
+                        : "border-transparent text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    Create account
+                  </button>
                 </div>
-              </form>
+
+                <form
+                  ref={formRef}
+                  onSubmit={isSignUp ? handleSignUp : handleLogin}
+                  className="mt-6 flex w-full flex-col items-center gap-4 font-medium"
+                >
+                  <div className="flex w-full flex-col gap-1.5">
+                    <label
+                      htmlFor="email"
+                      className="text-[13px] font-semibold uppercase tracking-wide text-ink-muted"
+                    >
+                      Email address
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      defaultValue=""
+                      required
+                      className="w-auto rounded-xl border border-dark-beige bg-light-beige px-3.5 py-2.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-light-brown/40"
+                    />
+                  </div>
+
+                  <div className="flex w-full flex-col gap-1.5">
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      <label
+                        htmlFor="password"
+                        className="text-[13px] font-semibold uppercase tracking-wide text-ink-muted"
+                      >
+                        Password
+                      </label>
+                      {isSignUp && (
+                        <p className="text-xs normal-case text-ink-muted">
+                          (at least 6 characters)
+                        </p>
+                      )}
+                    </span>
+
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="off"
+                      defaultValue=""
+                      required
+                      className="w-auto rounded-xl border border-dark-beige bg-light-beige px-3.5 py-2.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-light-brown/40"
+                    />
+                  </div>
+
+                  <div className="mt-2 flex w-full flex-col items-center">
+                    <Button type="primary" disabled={isLoading}>
+                      {isLoading
+                        ? "Loading..."
+                        : isSignUp
+                          ? "Sign Up"
+                          : "Start Dripping"}
+                    </Button>
+                  </div>
+                </form>
+              </>
             )}
           </div>
         )}
