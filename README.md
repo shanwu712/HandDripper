@@ -2,7 +2,7 @@
 
 # HandDripper ☕
 
-HandDripper is a platform designed for pour-over coffee enthusiasts to record and analyze the impact of various brewing variables on coffee flavor.
+[HandDripper](https://hand-dripper.vercel.app/) is a platform designed for pour-over coffee enthusiasts to record and analyze the impact of various brewing variables on coffee flavor.
 
 ## 🚀 Key Features
 
@@ -56,8 +56,8 @@ The application will run at `http://localhost:5173/`
 
 ## 📸 Screenshots
 
-![Demo Screenshot on brewing page(form page)](https://i.imgur.com/5Dt5G9j.png)
-![Demo Screenshot on histories page](https://i.imgur.com/rpC82vP.png)
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/2c9ef5fb-c662-4bc2-98a8-3b0484cbd486" />
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/728954e1-c30d-488c-95d2-12cc8162ab89" />
 
 ## 🌍 Live Demo
 
