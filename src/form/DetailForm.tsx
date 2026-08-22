@@ -71,16 +71,16 @@ export default function DetailForm({
   }
 
   return (
-    <div className="flex h-fit w-screen flex-col rounded-lg bg-light-beige/50 px-2 py-2 shadow-lg sm:w-full sm:min-w-[30rem]">
-      <Form className="space-y-2" ref={detailFormRef} onSubmit={handleSubmit}>
-        <div className="flex w-full gap-2">
+    <div className="flex h-fit w-screen flex-col gap-3 rounded-2xl border border-dark-beige bg-beige px-5 py-5 shadow-lg sm:w-full sm:min-w-[30rem]">
+      <Form className="space-y-4" ref={detailFormRef} onSubmit={handleSubmit}>
+        <div className="flex w-full items-center gap-2">
           <label className="text-nowrap text-lg font-medium">
             Brewing method
           </label>
           <input
             name="method"
             list="methodOptions"
-            className="grow rounded-lg px-2 py-1 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+            className="grow rounded-lg border border-dark-beige bg-white px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
           />
           <datalist id="methodOptions">
             {methodOptions.map((option) => (
@@ -93,14 +93,14 @@ export default function DetailForm({
 
         <StarRating state={state} dispatch={dispatch} />
 
-        <div className="flex flex-col space-y-2 pb-2">
+        <div className="flex flex-col space-y-2 pb-1">
           <label className="w-16 text-nowrap text-lg font-medium">
             How is today's coffee?
           </label>
           <textarea
             name="comment"
             style={{ resize: "none" }}
-            className="h-28 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+            className="h-28 rounded-lg border border-dark-beige bg-white p-3 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
           ></textarea>
         </div>
 

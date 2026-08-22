@@ -35,7 +35,7 @@ export default function AppLayout() {
             {currentMatch?.handle.navBtn[0] !== "" && (
               <li className="relative flex w-fit">
                 <button
-                  className="font-bold text-light-brown transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:text-dark-brown"
+                  className="font-semibold text-light-brown transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:text-dark-brown"
                   onClick={() => setShowManual(!showManual)}
                 >
                   {currentMatch?.handle.navBtn[0]}
@@ -59,17 +59,17 @@ export default function AppLayout() {
           onClick={() => setShowManual(false)}
         >
           <div
-            className="fixed top-16 mt-3 h-[55vh] w-[85vw] max-w-lg rounded border bg-slate-100 p-3 shadow-lg sm:right-3 sm:w-[45vw]"
+            className="fixed top-16 mt-3 h-[55vh] w-[85vw] max-w-lg rounded-2xl border border-dark-beige bg-light-beige p-3 shadow-xl sm:right-3 sm:w-[45vw]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col">
               <button
-                className="block self-start px-1 text-lg font-black"
+                className="block self-start px-1 text-lg font-black text-ink-muted hover:text-ink"
                 onClick={() => setShowManual(false)}
               >
                 &times;
               </button>
-              <p className="m-2 flex">Manual</p>
+              <p className="m-2 flex font-serif text-lg">Manual</p>
             </div>
           </div>
         </div>

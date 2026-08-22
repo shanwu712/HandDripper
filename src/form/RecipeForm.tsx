@@ -116,24 +116,24 @@ export default function RecipeForm({
   }, [state.beanWeight, state.waterRatio, dispatch]);
 
   return (
-    <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-lg shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
-      <h2 className="flex justify-center rounded-t-lg bg-light-beige/50 p-2 text-2xl font-semibold italic tracking-wider">
-        Today's recipe
-      </h2>
+    <div className="relative flex h-[85%] min-h-[40rem] w-screen flex-col overflow-x-hidden rounded-2xl border border-dark-beige shadow-lg sm:w-1/2 sm:min-w-[30rem] lg:w-[45%]">
+      <div className="flex items-center justify-between rounded-t-2xl border-b border-dark-beige bg-beige px-5 py-3">
+        <h2 className="font-serif text-xl font-semibold italic tracking-wide">
+          Today's recipe
+        </h2>
+        <input
+          name="date"
+          type="date"
+          value={state.date}
+          onChange={(e) =>
+            dispatch({ type: "SET_DATE", payload: e.target.value })
+          }
+          className="rounded-lg border border-dark-beige bg-white px-2 py-1 text-sm text-ink-muted focus:outline-none focus:ring-2 focus:ring-light-brown/40"
+        />
+      </div>
 
-      <div className="flex h-full w-auto flex-col items-center justify-center gap-2 overflow-y-auto rounded-b-lg bg-beige">
+      <div className="flex h-full w-auto flex-col items-center justify-center gap-2 overflow-y-auto rounded-b-2xl bg-beige">
         <Form className="space-y-5 sm:w-3/4 md:space-y-6">
-          <span className="absolute left-3 top-16">
-            <input
-              name="date"
-              type="date"
-              value={state.date}
-              onChange={(e) =>
-                dispatch({ type: "SET_DATE", payload: e.target.value })
-              }
-              className="rounded-lg px-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-            />
-          </span>
 
           <div className="items-start space-y-4 px-1">
             <div className="flex space-x-2">
@@ -152,7 +152,7 @@ export default function RecipeForm({
                   onChange={(e) =>
                     dispatch({ type: "SET_BEAN", payload: e.target.value })
                   }
-                  className="rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                  className="rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                 />
                 <datalist id="beanOptions">
                   {beanOptions?.map((option) => (
@@ -178,7 +178,7 @@ export default function RecipeForm({
                 onChange={(e) =>
                   dispatch({ type: "SET_ROASTER", payload: e.target.value })
                 }
-                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                className="grow rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
               />
               <datalist id="roasterOptions">
                 {roasterOptions.map((option) => (
@@ -198,7 +198,7 @@ export default function RecipeForm({
                 onChange={(e) =>
                   dispatch({ type: "SET_DRIPPER", payload: e.target.value })
                 }
-                className="grow rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                className="grow rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
               />
               <datalist id="dripperOptions">
                 {dripperOptions.map((option) => (
@@ -212,7 +212,7 @@ export default function RecipeForm({
             <div className="flex space-x-2">
               <label className="w-16 text-lg font-medium">Grinder</label>
 
-              <div className="flex grow rounded-lg focus-within:ring-2 focus-within:ring-blue-400/70">
+              <div className="flex grow rounded-lg border border-dark-beige bg-white focus-within:ring-2 focus-within:ring-light-brown/40">
                 <input
                   name="grinder"
                   list="grinderOptions"
@@ -220,7 +220,7 @@ export default function RecipeForm({
                   onChange={(e) =>
                     dispatch({ type: "SET_GRINDER", payload: e.target.value })
                   }
-                  className="flex-grow rounded-l-lg px-2 py-0.5 focus:outline-none"
+                  className="flex-grow rounded-l-lg px-2 py-1 focus:outline-none"
                 />
                 <datalist id="grinderOptions">
                   {grinderOptions.map((option) => (
@@ -237,39 +237,39 @@ export default function RecipeForm({
                     dispatch({ type: "SET_SCALE", payload: e.target.value })
                   }
                   placeholder="Scale"
-                  className="w-20 rounded-r-lg border-l px-2 py-0.5 text-center focus:outline-none"
+                  className="w-20 rounded-r-lg border-l border-dark-beige px-2 py-1 text-center focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
-          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
+          <hr className="h-0 border-t-2 border-dotted border-dark-beige bg-none" />
 
           {/* Second section */}
-          <div className="flex items-center justify-between gap-2 border-light-beige px-1">
+          <div className="flex items-center justify-between gap-2 px-1">
             <div className="space-y-2">
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <label className="text-nowrap text-lg font-semibold">
-                  Hot / Iced:
+                  Hot / Iced
                 </label>
-                <select
-                  required
-                  name="hotOrIced"
-                  value={state.hotOrIced}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "SET_HOT",
-                      payload: e.target.value as HotOrIced,
-                    })
-                  }
-                  className="rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
-                >
+                <div className="flex rounded-full border border-dark-beige bg-white p-0.5">
                   {Object.values(HotOrIced).map((option) => (
-                    <option key={option} value={option}>
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() =>
+                        dispatch({ type: "SET_HOT", payload: option })
+                      }
+                      className={`rounded-full px-3.5 py-1 text-sm font-semibold transition-colors ${
+                        state.hotOrIced === option
+                          ? "bg-light-brown text-light-beige"
+                          : "text-ink-muted hover:text-ink"
+                      }`}
+                    >
                       {option}
-                    </option>
+                    </button>
                   ))}
-                </select>
+                </div>
               </div>
 
               <div className="relative flex items-center space-x-2 text-nowrap">
@@ -284,7 +284,7 @@ export default function RecipeForm({
                     name="beanWeight"
                     ref={beanWeightInputRef}
                     maxLength={3}
-                    className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    className="w-12 rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                     value={state.beanWeight}
                     onChange={(e) =>
                       e.target.value === "" || !isNaN(Number(e.target.value))
@@ -305,29 +305,30 @@ export default function RecipeForm({
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="flex items-center space-x-1">
-                <label className="mr-1 text-lg font-semibold">Ratio: </label>
-
+            <div className="flex flex-col items-end gap-1">
+              <span className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                Ratio
+              </span>
+              <div className="flex items-center gap-1.5 rounded-xl border border-dark-beige bg-white px-3 py-1.5">
                 <div className="relative">
                   <input
                     readOnly
                     value="1"
-                    className="pointer-events-none w-10 rounded-lg px-2 py-0.5"
+                    className="pointer-events-none w-9 rounded-md bg-transparent px-1 py-0.5 text-center font-semibold"
                   />
-                  <label className="absolute bottom-5 left-0 text-sm font-medium italic text-black">
+                  <label className="absolute -bottom-4 left-0 w-full text-center text-[10px] font-medium italic text-ink-muted">
                     Bean
                   </label>
                 </div>
 
-                <span className="font-semibold">:</span>
+                <span className="font-semibold text-ink-muted">:</span>
 
                 <div className="relative">
                   <input
                     id="waterRatio"
                     maxLength={4}
                     placeholder=" "
-                    className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
+                    className="peer w-9 rounded-md bg-transparent px-1 py-0.5 text-center font-semibold outline-none focus:ring-2 focus:ring-light-brown/40"
                     step="any"
                     value={state.waterRatio}
                     onChange={(e) =>
@@ -341,7 +342,7 @@ export default function RecipeForm({
                   />
                   <label
                     htmlFor="waterRatio"
-                    className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-black"
+                    className="pointer-events-none absolute -bottom-4 left-0 w-full text-center text-[10px] font-medium italic text-ink-muted"
                   >
                     Water
                   </label>
@@ -349,13 +350,13 @@ export default function RecipeForm({
 
                 {state.hotOrIced === HotOrIced.ICED && (
                   <>
-                    <span className="font-semibold">:</span>
+                    <span className="font-semibold text-ink-muted">:</span>
                     <div className="relative">
                       <input
                         id="iceRatio"
                         maxLength={4}
                         placeholder=" "
-                        className="peer w-12 rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-blue-400/70"
+                        className="peer w-9 rounded-md bg-transparent px-1 py-0.5 text-center font-semibold outline-none focus:ring-2 focus:ring-light-brown/40"
                         value={state.iceRatio}
                         onChange={(e) =>
                           e.target.value === "" ||
@@ -369,7 +370,7 @@ export default function RecipeForm({
                       />
                       <label
                         htmlFor="iceRatio"
-                        className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-black"
+                        className="pointer-events-none absolute -bottom-4 left-0 w-full text-center text-[10px] font-medium italic text-ink-muted"
                       >
                         Ice
                       </label>
@@ -380,10 +381,10 @@ export default function RecipeForm({
             </div>
           </div>
 
-          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
+          <hr className="h-0 border-t-2 border-dotted border-dark-beige bg-none" />
 
           {/* Third section */}
-          <div className="flex items-center justify-between gap-1 border-light-beige px-1">
+          <div className="flex items-center justify-between gap-1 px-1">
             <div className="flex flex-col space-y-2">
               <div className="relative flex items-center space-x-2 text-nowrap">
                 {errors.waterWeightRequiredMessage && (
@@ -395,7 +396,7 @@ export default function RecipeForm({
                     name="waterWeight"
                     ref={waterWeightInputRef}
                     maxLength={3}
-                    className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                    className="w-12 rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                     value={state.waterWeight ?? ""}
                     onChange={(e) =>
                       e.target.value === "" || !isNaN(Number(e.target.value))
@@ -422,7 +423,7 @@ export default function RecipeForm({
                     <input
                       name="iceWeight"
                       maxLength={3}
-                      className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                      className="w-12 rounded-lg border border-dark-beige bg-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                       value={state.iceWeight ?? ""}
                       onChange={(e) =>
                         e.target.value === "" || !isNaN(Number(e.target.value))
@@ -440,15 +441,16 @@ export default function RecipeForm({
             </div>
 
             <div className="relative flex flex-col items-center">
-              <div className="flex items-center gap-2">
+              <div className="flex items-baseline gap-1.5">
                 <label htmlFor="temp" className="text-lg font-semibold">
-                  Water temp:
+                  Water temp
                 </label>
-                <span>{state.temp}</span>
-                <span>°C</span>
+                <span className="font-serif font-semibold text-light-brown">
+                  {state.temp}&deg;C
+                </span>
               </div>
 
-              <div className="flex items-center space-x-1 text-sm">
+              <div className="flex items-center space-x-2 text-xs text-ink-muted">
                 <span>80</span>
                 <input
                   id="temp"
@@ -462,14 +464,14 @@ export default function RecipeForm({
                       payload: Number(e.target.value),
                     })
                   }
-                  className="[&::-webkit-slider-thumb]: cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-slate-50 [&::-webkit-slider-thumb]:h-[1rem] [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-sage [&::-webkit-slider-thumb]:shadow-md"
+                  className="[&::-webkit-slider-thumb]: cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-dark-beige [&::-webkit-slider-thumb]:h-[1rem] [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-light-brown [&::-webkit-slider-thumb]:shadow-md"
                 />
                 <span>100</span>
               </div>
             </div>
           </div>
 
-          <hr className="h-0 border-t-[3px] border-dotted border-light-beige bg-none" />
+          <hr className="h-0 border-t-2 border-dotted border-dark-beige bg-none" />
         </Form>
 
         <Timer

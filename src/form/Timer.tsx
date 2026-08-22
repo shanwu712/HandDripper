@@ -122,7 +122,7 @@ export default function Timer({
   }
 
   return (
-    <div className="flex w-40 flex-col items-center justify-center gap-2 border-light-beige pb-2 pt-1">
+    <div className="flex w-40 flex-col items-center justify-center gap-2 pb-2 pt-1">
       <Button
         type="secondary"
         onClick={handleInterval}
@@ -140,7 +140,7 @@ export default function Timer({
             onChange={(e) =>
               setManualSec({ ...manualSec, min: Number(e.target.value) })
             }
-            className="w-5 rounded-md px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+            className="w-5 rounded-md border border-dark-beige bg-white px-1.5 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
           />
           <span>:</span>
           <input
@@ -149,11 +149,11 @@ export default function Timer({
             onChange={(e) =>
               setManualSec({ ...manualSec, sec: Number(e.target.value) })
             }
-            className="w-7 rounded-md px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+            className="w-7 rounded-md border border-dark-beige bg-white px-1.5 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
           />
         </div>
       ) : (
-        <span className="pb-2 text-lg font-medium tracking-wide">
+        <span className="pb-2 font-serif text-lg font-semibold tracking-wide text-dark-brown">
           {manualSec.min !== 0 || manualSec.sec !== 0
             ? `${manualSec.min} : ${manualSec.sec > 9 ? manualSec.sec : `0${manualSec.sec}`}`
             : formatSec(state.sec)}
