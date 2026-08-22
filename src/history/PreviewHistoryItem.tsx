@@ -6,16 +6,13 @@ interface PreviewHistoryItemProp {
 
 export default function PreviewHistoryItem({ item }: PreviewHistoryItemProp) {
   return (
-    <div className="flex min-h-16 max-w-full rounded-lg bg-sage/85 shadow-md">
-      <div className="flex w-12 flex-col items-center justify-center px-1 font-semibold">
-        <span className="text-white">
-          {item.date.slice(5).split("-").join("/")}
-        </span>
-
-        <span>{item.hotOrIced}</span>
+    <div className="flex min-h-16 max-w-full overflow-hidden rounded-xl border border-dark-beige shadow-sm">
+      <div className="flex w-12 flex-col items-center justify-center bg-sage-dark px-1 font-semibold text-light-beige">
+        <span>{item.date.slice(5).split("-").join("/")}</span>
+        <span className="text-xs">{item.hotOrIced}</span>
       </div>
 
-      <div className="relative flex min-w-0 grow flex-col rounded-r-lg bg-white px-1">
+      <div className="relative flex min-w-0 grow flex-col bg-light-beige px-2">
         <p className="overflow-hidden text-ellipsis text-nowrap font-medium italic">
           {item.bean}
         </p>

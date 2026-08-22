@@ -113,18 +113,18 @@ export default function HistoryItem({
   }, [isPined]);
 
   return (
-    <div className="flex w-full flex-col items-start rounded-sm bg-white px-2 py-2 shadow-md">
+    <div className="flex w-full flex-col items-start rounded-2xl border border-dark-beige bg-white px-2 py-2 shadow-md">
       <Disclosure>
         <DisclosureButton className="relative w-full rounded-md px-0.5 py-1 text-left md:px-2">
-          <div className="absolute -left-2 -top-8 flex w-20 justify-between rounded-t-md bg-sage px-2 py-2 text-xs font-bold text-white">
+          <div className="absolute -left-2 -top-8 flex w-20 justify-between rounded-t-lg bg-sage-dark px-2 py-2 text-xs font-bold text-light-beige">
             <span>{item.date.slice(5).split("-").join("/")}</span>
             <span>{item.hotOrIced.toLocaleUpperCase()}</span>
           </div>
 
           {!isLoading && isPined[0].isPined && (
-            <div className="absolute -top-8 left-20 flex gap-1 rounded-t-md bg-light-beige px-2 py-2 text-xs font-bold">
+            <div className="absolute -top-8 left-20 flex gap-1 rounded-t-lg bg-beige px-2 py-2 text-xs font-bold">
               <span>
-                <TagIcon className="h-4 w-4 text-dark-brown" />
+                <TagIcon className="h-4 w-4 text-light-brown" />
               </span>
             </div>
           )}
@@ -132,14 +132,14 @@ export default function HistoryItem({
             <span className="flex-1 overflow-hidden text-ellipsis lg:tracking-wider">
               {item.bean}
             </span>
-            <span className="flex items-center font-semibold">
+            <span className="flex items-center gap-0.5 font-semibold text-dark-brown">
               <p>{item.rating}</p>
               <FullStar />
             </span>
           </div>
         </DisclosureButton>
 
-        <DisclosurePanel className="flex w-full flex-col px-3 pb-1 text-gray-500">
+        <DisclosurePanel className="flex w-full flex-col px-3 pb-1 text-ink-muted">
           {isUpdating ? (
             <Loader />
           ) : (
@@ -239,13 +239,13 @@ export default function HistoryItem({
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel
               transition
-              className="max-w-lg transform space-y-4 rounded-md bg-white p-9 opacity-0 duration-500 ease-in-out data-[open]:scale-100 data-[open]:opacity-100"
+              className="max-w-lg transform space-y-4 rounded-2xl border border-dark-beige bg-white p-9 opacity-0 shadow-xl duration-500 ease-in-out data-[open]:scale-100 data-[open]:opacity-100"
             >
-              <DialogTitle className="text-lg font-bold">
+              <DialogTitle className="font-serif text-lg font-bold">
                 Delete this brewing history from{" "}
                 {item.date.slice(5).split("-").join("/")}?
               </DialogTitle>
-              <Description>
+              <Description className="text-ink-muted">
                 {item.hotOrIced} - {item.bean} from{" "}
                 {item.date.slice(5).split("-").join("/")}
               </Description>
@@ -281,7 +281,7 @@ export default function HistoryItem({
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel
               transition
-              className="z-50 w-full transform rounded-md bg-white p-7 opacity-0 duration-500 ease-in-out data-[open]:scale-100 data-[open]:opacity-100 sm:w-2/3 sm:px-12 sm:py-10 lg:px-16"
+              className="z-50 w-full transform rounded-2xl border border-dark-beige bg-white p-7 opacity-0 shadow-xl duration-500 ease-in-out data-[open]:scale-100 data-[open]:opacity-100 sm:w-2/3 sm:px-12 sm:py-10 lg:px-16"
             >
               <form id="editForm" className="space-y-1 lg:space-y-3">
                 <div className="flex justify-between">
@@ -291,7 +291,7 @@ export default function HistoryItem({
                     type="date"
                     defaultValue={item.date}
                     onBlur={() => {}}
-                    className="border-blue-400/70 font-semibold focus:border-b-[1.5px] focus:outline-none"
+                    className="border-light-brown/40 font-semibold focus:border-b-[1.5px] focus:outline-none"
                   />
                   <div className="flex gap-2">
                     <label
@@ -308,7 +308,7 @@ export default function HistoryItem({
                       onChange={(e) =>
                         setEditingHotOrIced(e.target.value as HotOrIced)
                       }
-                      className="border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                      className="border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                     >
                       {Object.values(HotOrIced).map((option) => (
                         <option key={option} value={option}>
@@ -330,7 +330,7 @@ export default function HistoryItem({
                     list="beanOptions"
                     defaultValue={item.bean}
                     onBlur={() => {}}
-                    className="grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                    className="grow border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <datalist id="beanOptions">
                     {beanOptions.map((option) => (
@@ -354,7 +354,7 @@ export default function HistoryItem({
                     list="roasterOptions"
                     defaultValue={item.roaster}
                     onBlur={() => {}}
-                    className="grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                    className="grow border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <datalist id="roasterOptions">
                     {roasterOptions.map((option) => (
@@ -378,7 +378,7 @@ export default function HistoryItem({
                     list="dripperOptions"
                     defaultValue={item.dripper}
                     onBlur={() => {}}
-                    className="grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                    className="grow border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <datalist id="dripperOptions">
                     {dripperOptions.map((option) => (
@@ -403,7 +403,7 @@ export default function HistoryItem({
                       name="grinder"
                       list="grinderOptions"
                       defaultValue={item.grinder}
-                      className="flex w-32 border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                      className="flex w-32 border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                     />
                     <datalist id="grinderOptions">
                       {grinderOptions.map((option) => (
@@ -419,7 +419,7 @@ export default function HistoryItem({
                       type="text"
                       defaultValue={item.scale}
                       placeholder="Scale"
-                      className="w-20 border-blue-400/70 px-2 text-center focus:border-b-[1.5px] focus:outline-none"
+                      className="w-20 border-light-brown/40 px-2 text-center focus:border-b-[1.5px] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -437,7 +437,7 @@ export default function HistoryItem({
                         id="beanWeight"
                         name="beanWeight"
                         maxLength={3}
-                        className="w-12 border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                        className="w-12 border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                         defaultValue={item.beanWeight || "0"}
                         onBlur={() => {}}
                       />
@@ -457,7 +457,7 @@ export default function HistoryItem({
                         id="temp"
                         name="temp"
                         maxLength={3}
-                        className="w-12 border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                        className="w-12 border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                         defaultValue={item.temp}
                         onBlur={() => {}}
                       />
@@ -490,13 +490,13 @@ export default function HistoryItem({
                           name="waterRatio"
                           maxLength={4}
                           placeholder=" "
-                          className="peer w-12 border-blue-400/70 px-2 text-center outline-none focus:border-b-[1.5px]"
+                          className="peer w-12 border-light-brown/40 px-2 text-center outline-none focus:border-b-[1.5px]"
                           step="any"
                           defaultValue={item.waterRatio}
                         />
                         <label
                           htmlFor="waterRatio"
-                          className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-black"
+                          className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-ink-muted peer-focus:top-0 peer-focus:text-ink"
                         >
                           Water
                         </label>
@@ -511,13 +511,13 @@ export default function HistoryItem({
                               name="iceRatio"
                               maxLength={4}
                               placeholder=" "
-                              className="peer w-12 border-blue-400/70 px-2 text-center outline-none focus:border-b-[1.5px]"
+                              className="peer w-12 border-light-brown/40 px-2 text-center outline-none focus:border-b-[1.5px]"
                               defaultValue={item.iceRatio}
                               onBlur={() => {}}
                             />
                             <label
                               htmlFor="iceRatio"
-                              className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-black"
+                              className="pointer-events-none absolute left-1 top-0 -translate-y-1/2 transform text-sm font-medium italic transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-ink-muted peer-focus:top-0 peer-focus:text-ink"
                             >
                               Ice
                             </label>
@@ -535,7 +535,7 @@ export default function HistoryItem({
                       name="waterWeight"
                       maxLength={3}
                       defaultValue={item.waterWeight ?? ""}
-                      className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                      className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                     />
                     <span className="absolute right-1">g</span>
                   </div>
@@ -552,7 +552,7 @@ export default function HistoryItem({
                           name="iceWeight"
                           maxLength={3}
                           defaultValue={item.iceWeight || "0"}
-                          className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/70"
+                          className="w-12 rounded-lg px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-light-brown/40"
                         />
                         <span className="absolute right-1">g</span>
                       </div>
@@ -575,7 +575,7 @@ export default function HistoryItem({
                         min: inputValue,
                       });
                     }}
-                    className="w-5 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
+                    className="w-5 border-light-brown/40 px-1.5 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <span>min</span>
                   <input
@@ -589,7 +589,7 @@ export default function HistoryItem({
                         sec: inputValue,
                       });
                     }}
-                    className="w-7 border-blue-400/70 px-1.5 focus:border-b-[1.5px] focus:outline-none"
+                    className="w-7 border-light-brown/40 px-1.5 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <span>s</span>
                 </div>
@@ -606,7 +606,7 @@ export default function HistoryItem({
                     name="method"
                     list="methodOptions"
                     defaultValue={item.method}
-                    className="grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                    className="grow border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                   />
                   <datalist id="methodOptions">
                     {methodOptions.map((option) => (
@@ -626,7 +626,7 @@ export default function HistoryItem({
                       id="rating"
                       name="rating"
                       maxLength={3}
-                      className="w-12 border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                      className="w-12 border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                       defaultValue={item.rating}
                       onBlur={() => {}}
                     />
@@ -648,7 +648,7 @@ export default function HistoryItem({
                     name="comment"
                     defaultValue={item.comment}
                     style={{ resize: "none" }}
-                    className="h-fit grow border-blue-400/70 px-2 focus:border-b-[1.5px] focus:outline-none"
+                    className="h-fit grow border-light-brown/40 px-2 focus:border-b-[1.5px] focus:outline-none"
                   ></textarea>
                 </div>
                 <div className="flex w-80 justify-self-center lg:w-96">

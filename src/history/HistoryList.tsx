@@ -36,13 +36,13 @@ export default function HistoryList({
 
   if (!sortedData.length) {
     return (
-      <h3 className="flex h-screen w-auto justify-center bg-slate-50 pt-20 text-lg font-semibold sm:text-xl">
+      <h3 className="flex h-screen w-auto justify-center bg-light-beige pt-20 text-lg font-semibold sm:text-xl">
         No brewing history matches this filter condition!
       </h3>
     );
   }
   return (
-    <div className="flex h-screen w-auto flex-col gap-3 bg-slate-50 px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
+    <div className="flex h-screen w-auto flex-col gap-3 bg-light-beige px-6 pt-8 lg:px-10 lg:pt-14 xl:px-16">
       {sortedData.map((item) => (
         <HistoryItem
           item={item}

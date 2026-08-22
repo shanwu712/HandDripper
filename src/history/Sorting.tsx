@@ -37,22 +37,24 @@ export default function Sorting({
   const { options: beanOptions } = useOptions(userId ?? "", "bean");
 
   return (
-    <div className="fixed z-30 flex w-full flex-col items-center justify-between bg-white/95 px-3 sm:flex-row sm:py-2">
-      <h2 className="text-2xl font-bold italic tracking-wide">
+    <div className="fixed z-30 flex w-full flex-col items-center justify-between border-b border-dark-beige bg-light-beige/95 px-3 sm:flex-row sm:py-2">
+      <h2 className="font-serif text-2xl font-bold italic tracking-wide">
         Brewing History
       </h2>
       <div className="flex items-center justify-end gap-2">
-        <p className="text-nowrap text-lg font-semibold italic">Sort By:</p>
+        <p className="text-nowrap text-lg font-semibold italic text-ink-muted">
+          Sort By:
+        </p>
 
         <Popover className="relative">
-          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-gray-900 hover:text-slate-500 focus:outline-none">
+          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-ink hover:text-light-brown focus:outline-none">
             <span>Date</span>
             <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
           </PopoverButton>
           <PopoverPanel
             anchor="bottom"
             transition
-            className="flex w-auto flex-col items-center divide-y rounded-md shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+            className="flex w-auto flex-col items-center divide-y divide-dark-beige rounded-lg border border-dark-beige shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
           >
             {Object.values(DateOptions).map((item) => (
               <div
@@ -65,7 +67,7 @@ export default function Sorting({
                     ) as DateOptions,
                   );
                 }}
-                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
+                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-beige"
               >
                 {item}
               </div>
@@ -74,13 +76,13 @@ export default function Sorting({
         </Popover>
 
         <Popover className="relative">
-          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-gray-900 hover:text-slate-500 focus:outline-none">
+          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-ink hover:text-light-brown focus:outline-none">
             <span>Bean</span>
             <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
           </PopoverButton>
           <PopoverPanel
             anchor="bottom"
-            className="flex w-auto flex-col items-center divide-y rounded-md shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+            className="flex w-auto flex-col items-center divide-y divide-dark-beige rounded-lg border border-dark-beige shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
           >
             {beanOptions.map((item) => (
               <div
@@ -93,7 +95,7 @@ export default function Sorting({
                     ) as string,
                   );
                 }}
-                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
+                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-beige"
               >
                 {item}
               </div>
@@ -102,13 +104,13 @@ export default function Sorting({
         </Popover>
 
         <Popover className="relative">
-          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-gray-900 hover:text-slate-500 focus:outline-none">
+          <PopoverButton className="inline-flex items-center gap-x-1 text-lg font-semibold text-ink hover:text-light-brown focus:outline-none">
             <span>Rating</span>
             <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
           </PopoverButton>
           <PopoverPanel
             anchor="bottom"
-            className="flex w-auto flex-col items-center divide-y rounded-md shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+            className="flex w-auto flex-col items-center divide-y divide-dark-beige rounded-lg border border-dark-beige shadow-md transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
           >
             {Object.values(RatingOptions).map((item) => (
               <div
@@ -121,7 +123,7 @@ export default function Sorting({
                     ) as RatingOptions,
                   );
                 }}
-                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-gray-50"
+                className="relative flex w-full cursor-pointer justify-center bg-white p-2 font-medium tracking-wide hover:bg-beige"
               >
                 {item}
               </div>
@@ -133,9 +135,9 @@ export default function Sorting({
           className="cursor-pointer"
         >
           {sortByPin ? (
-            <TagIcon className="h-6 w-6 text-dark-brown" />
+            <TagIcon className="h-6 w-6 text-light-brown" />
           ) : (
-            <OutlineTagIcon className="h-6 w-6 text-dark-brown" />
+            <OutlineTagIcon className="h-6 w-6 text-light-brown" />
           )}
         </div>
       </div>

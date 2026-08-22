@@ -6,7 +6,7 @@ export default function Loader({ width = 50 }) {
       <ThreeDots
         height="20"
         width={width}
-        color="#AAB396"
+        color="#8FA178"
         ariaLabel="three-dots-loading"
       />
     </div>
