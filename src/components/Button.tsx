@@ -10,7 +10,7 @@ interface BtnProp {
 }
 
 const baseStyle =
-  "h-fit transform rounded-3xl font-bold transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md tracking-wider shadow-sm text-nowrap";
+  "h-fit transform rounded-full font-semibold tracking-wide transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lg shadow-sm text-nowrap";
 
 export default function Button({
   children,
@@ -24,7 +24,7 @@ export default function Button({
     return (
       <Link
         to={to}
-        className={`${baseStyle} w-full min-w-16 bg-amber-100 p-1.5 px-2 text-center font-semibold text-light-brown hover:text-dark-brown`}
+        className={`${baseStyle} w-full min-w-16 bg-light-brown p-1.5 px-2 text-center text-light-beige hover:bg-dark-brown`}
       >
         {children}
       </Link>
@@ -36,13 +36,13 @@ export default function Button({
     <button
       className={`${baseStyle} ${
         type === "primary"
-          ? "w-full min-w-16 bg-amber-100 px-2 py-1 text-lg text-light-brown hover:text-dark-brown"
+          ? "w-full min-w-16 bg-light-brown px-2 py-1.5 text-lg text-light-beige hover:bg-dark-brown"
           : type === "secondary"
-            ? "w-full min-w-16 bg-sage px-2 py-1 text-light-beige hover:text-slate-50"
+            ? "w-full min-w-16 bg-sage px-2 py-1.5 text-light-beige hover:bg-sage-dark"
             : type === "small"
-              ? "absolute mt-24 bg-stone-100 px-2 py-0.5 text-stone-500 hover:text-stone-800"
+              ? "absolute mt-24 bg-light-beige px-2 py-0.5 text-ink-muted hover:text-ink"
               : ""
-      } ${disabled && "cursor-not-allowed text-gray-300"}`}
+      } ${disabled && "cursor-not-allowed bg-dark-beige text-ink-muted hover:translate-x-0 hover:translate-y-0 hover:shadow-sm"}`}
       onClick={onClick}
       disabled={disabled}
       type="submit"

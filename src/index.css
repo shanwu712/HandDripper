@@ -3,5 +3,13 @@
 @tailwind utilities;
 
 body {
-  font-family: serif;
+  font-family: theme("fontFamily.sans");
+  color: theme("colors.ink");
+  background-color: theme("colors.light-beige");
+}
+
+h1,
+h2,
+h3 {
+  font-family: theme("fontFamily.serif");
 }
