@@ -27,32 +27,6 @@
 | **Authentication**   | Supabase Auth (Email verification)                        |
 | **Deployment**       | Vercel                                                    |
 
-## 📦 Installation & Setup
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/shanwu712/HandDripper.git
-cd HandDripper
-```
-
-### 2️⃣ Install dependencies
-
-```bash
-npm install
-```
-
-### 3️⃣ Configure environment variables
-
-Create a `.env` file based on `.env.example` and fill in your Supabase API keys.
-
-### 4️⃣ Start the development server
-
-```bash
-npm run dev
-```
-
-The application will run at `http://localhost:5173/`
 
 ## 📸 Screenshots
 
